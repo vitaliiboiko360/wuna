@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
 
-export const SVG_DIMENSIONS = { width: 800, height: 600 };
+export const SVG_DIMENSIONS = { width: 800, height: 650 };
 
 export const SvgContext = createContext();
 
@@ -12,8 +12,7 @@ const Svg = (props) => {
   return (
     <svg
       ref={refSvg}
-      width={SVG_DIMENSIONS.width}
-      height={SVG_DIMENSIONS.height}
+      {...SVG_DIMENSIONS}
     >
       {props.children}
     </svg>);
