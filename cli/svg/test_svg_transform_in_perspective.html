@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Perpective distort of path in SVG</title>
+  <meta charset="utf-8" />
+  <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <style>
+    svg {
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <svg style="position: absolute; left: 0px; top: 0px; pointer-events: fill; " xmlns="http://www.w3.org/2000/svg"
+    version="1.1" width="2000" height="2000">
+    <path id="path_1"
+      style="stroke-width: 1px; stroke-opacity: 1; fill-opacity: 0.5; cursor: auto; pointer-events: fill; "
+      fill="#ffba00" stroke="#000000"
+      d="M103.7109375,406L103.7109375,153.4609375L9.375,153.4609375L9.375,119.671875L236.328125,119.671875L236.328125,153.4609375L141.6015625,153.4609375L141.6015625,406L103.7109375,406ZM275.640625,406L275.640625,119.671875L482.671875,119.671875L482.671875,153.4609375L313.53125,153.4609375L313.53125,241.15625L471.9296875,241.15625L471.9296875,274.75L313.53125,274.75L313.53125,372.2109375L489.3125,372.2109375L489.3125,406L275.640625,406ZM512.7578125,406L623.5,256.78125L525.84375,119.671875L570.9609375,119.671875L622.9140625,193.109375Q639.125,215.9609375,645.9609375,228.265625Q655.53125,212.640625,668.6171875,195.6484375L726.234375,119.671875L767.4453125,119.671875L666.859375,254.6328125L775.2578125,406L728.3828125,406L656.3125,303.8515625Q650.2578125,295.0625,643.8125,284.7109375Q634.2421875,300.3359375,630.140625,306.1953125L558.265625,406L512.7578125,406ZM881.7109375,406L881.7109375,153.4609375L787.375,153.4609375L787.375,119.671875L1014.328125,119.671875L1014.328125,153.4609375L919.6015625,153.4609375L919.6015625,406L881.7109375,406Z">
+    </path>
+  </svg>
+
+  <div id="canvas"></div>
+</body>
+<script src="./test_svg_transform_in_perspective.js"></script>
+
+</html>

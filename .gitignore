@@ -1,0 +1,5 @@
+cli/svg/xml/**
+node_modules/**
+out/**
+*.pem
+js/*.js.map

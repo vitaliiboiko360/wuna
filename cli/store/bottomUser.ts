@@ -1,0 +1,37 @@
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import { RootState } from './store';
+
+import { initialState } from './userInterface.ts';
+
+export const bottomUserSlice = createSlice({
+  name: 'bottomUser',
+  initialState,
+  reducers: {
+    updateBottomUserCardsNumber: (state, action: PayloadAction<number>) => {
+      state.cardsNumber = action.payload;
+    },
+    incrementBottomUserCardsNumber: (state, action: PayloadAction<void>) => {
+      state.cardsNumber++;
+    },
+    updateBottomUserAvatarId: (state, action: PayloadAction<number>) => {
+      state.avatarId = action.payload;
+    },
+    updateBottomUserSeatNumber: (state, action: PayloadAction<number>) => {
+      state.seatNumber = action.payload;
+    },
+    default: (state) => {
+      return state;
+    }
+  }
+});
+
+export const { updateBottomUserCardsNumber, incrementBottomUserCardsNumber, updateBottomUserAvatarId, updateBottomUserSeatNumber } = bottomUserSlice.actions
+
+// Other code such as selectors can use the imported `RootState` type
+export const selectBottomUserCardsNumber = (state: RootState) => state.bottomUser.cardsNumber;
+export const selectBottomUserAvatarId = (state: RootState) => state.bottomUser.avatarId;
+export const selectBottomUserSeatNumber = (state: RootState) => state.bottomUser.seatNumber;
+
+export default bottomUserSlice.reducer;
