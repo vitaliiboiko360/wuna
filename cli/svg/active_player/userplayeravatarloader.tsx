@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { USER_PLACE } from '../svg_userplaceholder';
 
@@ -29,18 +29,47 @@ export default function UserPlayerAvatarLoader(props) {
       break;
   }
 
+  useEffect(() => {
+    if (avatarId > 0)
+      props.setAvatarLoaded(true);
+  }, [avatarId]);
+
+  const key = `avatar${avatarId}.svg`;
   const { data, isSuccess } = useQuery({
-    queryKey: [`avatar${avatarId}`],
+    queryKey: [key],
     queryFn: () => {
       if (!avatarId)
-        return Promise.resolve('');
-      return fetch(`/avatar/${avatarId}`)
-        .then((response) => response.text());
+        throw Error('avatarId is not ready');
+      return fetch(`/data/${key}`)
+        .then((response) => response.url);
     },
   });
 
+  if (isSuccess) {
+    const svgObject = document.createElement('object');
+    svgObject.type = "image/svg+xml";
+    svgObject.data = data ?? '';
+
+    svgObject.width = '120';
+    svgObject.height = '120';
+    for (const child of svgObject.childNodes) {
+      console.log(child);
+    }
+    // console.log(svgObject.data)
+  }
+
 
   return (
-    <>{isSuccess ? data : ''}</>
+    <>{avatarId > 0
+      ?
+      <image xlinkHref={isSuccess
+        ?
+        data
+        :
+        '/data/' + key} />
+      :
+      <image />
+    }
+    </>
   );
 }
