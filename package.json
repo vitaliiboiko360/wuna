@@ -7,7 +7,7 @@
     "watch": "webpack --progress --watch",
     "prepare": "npm run build && npm run build:d.ts",
     "start": "webpack-dev-server --progress",
-    "ws": "./startWebSockertServer.sh"
+    "startGameServer": "./startGameServer.sh"
   },
   "dependencies": {
     "@gsap/react": "^2.1.1",
