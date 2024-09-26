@@ -8,4 +8,10 @@ export default [
   {languageOptions: { globals: {...globals.browser, ...globals.node} }},
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
+  ...{
+    name: "myoverrides",
+    rules: {
+      "no-unused-vars": "warn"
+    }
+  },
 ];
