@@ -2,16 +2,19 @@ import https from 'node:https';
 import fs from 'node:fs';
 import WebSocket, { WebSocketServer } from 'ws';
 
+import app from './App';
 import registerPlayerConnection, { wsArray } from './PlayerWsConnection';
 
 const PORT = 8008;
 
-const server = https.createServer({
-  key: fs.readFileSync('./key.pem'),
-  cert: fs.readFileSync('./cert.pem'),
-  ca: fs.readFileSync('./cert.pem'),
-  rejectUnauthorized: false
-}).listen(PORT);
+const server = https
+  .createServer({
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem'),
+    ca: fs.readFileSync('./cert.pem'),
+    rejectUnauthorized: false
+  }, app)
+  .listen(PORT);
 
 const wss = new WebSocketServer({
   noServer: true,
