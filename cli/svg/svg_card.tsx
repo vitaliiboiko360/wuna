@@ -22,9 +22,9 @@ import { getGaussianRandom as getRandom } from './animation/get_random.ts';
 gsap.registerPlugin(MotionPathPlugin);
 
 const CARD_HALF_WIDTH = 32;
-const CARD_HALF_HEIGHT = 48 + 20;
+const CARD_HALF_HEIGHT = 48 + 20; // we need to take up the whole thing (card stack) 
 const deltaFromCenter = 25;
-const deltaAngle = 20;
+const deltaAngle = 25;
 
 const Card = (props) => {
   const refSvg = useSvgContext();
@@ -59,7 +59,6 @@ const Card = (props) => {
   const randomAngle = getRandom(-deltaAngle, deltaAngle);
 
   element.setAttribute('transform', `translate(${xCenter - x},${yCenter - y})`);
-
 
   refCard.current = element;
   element.innerHTML = renderToString(getCard(lastPlayerCardId));
