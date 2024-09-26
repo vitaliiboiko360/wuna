@@ -3,10 +3,10 @@ import React, { useContext, useCallback, useEffect } from 'react';
 import { WebSocketContext } from './websocketprovider.tsx';
 import { useAppDispatch, AppDispatch } from './store/hooks.ts';
 import { insertActiveCardsByArray, updateActiveCardsByArray } from './store/activeCards.ts';
-import { updateBottomUserCardsNumber } from './store/bottomUser.ts';
-import { updateLeftUserCardsNumber, decrementLeftUserCardsNumber, incrementLeftUserCardsByNumber } from './store/leftUser.ts';
-import { updateTopUserCardsNumber, decrementTopUserCardsNumber, incrementTopUserCardsByNumber } from './store/topUser.ts';
-import { updateRightUserCardsNumber, decrementRightUserCardsNumber, incrementRightUserCardsByNumber } from './store/rightUser.ts';
+import { updateBottomUserAvatarId, updateBottomUserCardsNumber } from './store/bottomUser.ts';
+import { updateLeftUserCardsNumber, decrementLeftUserCardsNumber, incrementLeftUserCardsByNumber, updateLeftUserAvatarId } from './store/leftUser.ts';
+import { updateTopUserCardsNumber, decrementTopUserCardsNumber, incrementTopUserCardsByNumber, updateTopUserAvatarId } from './store/topUser.ts';
+import { updateRightUserCardsNumber, decrementRightUserCardsNumber, incrementRightUserCardsByNumber, updateRightUserAvatarId } from './store/rightUser.ts';
 import { updateActiveMove, updateActiveMoveCard, updateActiveMoveLastPlayer, updateActiveMoveLastPlayerCard, updateActiveMoveWildCardColor } from './store/activeMove.ts';
 import { updateActivePlayerSeatNumber } from './store/activePlayerSeatNumber.ts';
 
@@ -167,9 +167,30 @@ function processPlayerMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
   return insertToActiveCards(inputArray, dispatch);
 }
 
+const AVATAR_IDS = [1, 2, 3, 4, 5, 6, 9, 10, 15];
+let uniqueIds = new Set();
+const getRandAvatarId = () => {
+  const getRandId = () => { return AVATAR_IDS[Math.floor(Math.random() * AVATAR_IDS.length)] };
+  let retValue = getRandId();
+  let deadLockLimit = 10;
+  while (uniqueIds.has(retValue)) {
+    retValue = getRandId();
+    if (uniqueIds.size > AVATAR_IDS.length - 1 || deadLockLimit-- < 0) {
+      uniqueIds.clear();
+      break;
+    }
+  }
+  uniqueIds.add(retValue)
+  return retValue;
+};
+
 function processSeatRequestMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
   console.log('SEAT REQ srv responded with=', inputArray[0]);
   dispatch(updateActivePlayerSeatNumber(inputArray[0]));
+  dispatch(updateBottomUserAvatarId(getRandAvatarId()));
+  dispatch(updateLeftUserAvatarId(getRandAvatarId()));
+  dispatch(updateTopUserAvatarId(getRandAvatarId()));
+  dispatch(updateRightUserAvatarId(getRandAvatarId()));
 }
 
 function readMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
