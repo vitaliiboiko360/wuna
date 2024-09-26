@@ -48,9 +48,9 @@ const Card = (props) => {
     return;
   }
 
-  let element = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  const element = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 
-  let r = Math.floor(Math.random() * deltaFromCenter) + 1;
+  const r = Math.floor(Math.random() * deltaFromCenter) + 1;
   const alpha = Math.random() * (2 * Math.PI);
   const x = xCenter + (Math.cos(alpha) * r) - CARD_HALF_WIDTH;
   const y = yCenter + (Math.sin(alpha) * r) - CARD_HALF_HEIGHT;
