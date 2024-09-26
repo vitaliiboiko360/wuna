@@ -155,7 +155,7 @@ function processSeatRequest(data: Uint8Array, webSocket: AppWebSocketInterface) 
 }
 
 import { isValidCard, isWildCard } from './Cards';
-import { game } from './WebSocketGameServer';
+import { game } from './WSGameServer';
 import processMove, { handleWin } from './ProcessMove';
 
 function processPlayerInputConnection(data: Uint8Array, id: number) {

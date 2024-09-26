@@ -5,6 +5,8 @@ import WebSocket, { WebSocketServer } from 'ws';
 import app from './App';
 import registerPlayerConnection, { wsArray } from './PlayerWsConnection';
 
+import { Game } from './Game';
+
 const PORT = 8008;
 
 const server = https
@@ -53,10 +55,6 @@ const intervalCheckingClients = setInterval(() => {
     lastSize = wsArray.length;
     console.log('wss.clients.size=', wss.clients.size, ' wsArray.length=', wsArray.length);
   }
-  // counter1++;
-  // if (counter1 > 10) {
-  //   clearInterval(intervalCheckingClients);
-  // }
 }, 10000);
 
 server.on('upgrade', (request, socket, head) => {
@@ -67,8 +65,6 @@ server.on('upgrade', (request, socket, head) => {
 
   wss.handleUpgrade(request, socket, head, afterDoneUpgrade);
 });
-
-import { Game } from './Game';
 
 export var game = new Game();
 
