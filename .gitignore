@@ -3,3 +3,5 @@ node_modules/**
 out/**
 *.pem
 js/*.js.map
+js/bundle.js
+package-lock.json
