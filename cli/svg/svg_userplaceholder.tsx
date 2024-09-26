@@ -36,7 +36,7 @@ export const USER_INFO = [
   {
     position: USER_PLACE.BOTTOM_USER,
     xPosition: 330,
-    yPosition: 465,
+    yPosition: 485,
     id: 'ubo'
   },
   {
@@ -48,12 +48,12 @@ export const USER_INFO = [
   {
     position: USER_PLACE.TOP_USER,
     xPosition: 400,
-    yPosition: 55,
+    yPosition: 5,
     id: 'uto'
   },
   {
     position: USER_PLACE.RIGHT_USER,
-    xPosition: 715,
+    xPosition: 670,
     yPosition: 270,
     id: 'uri'
   }

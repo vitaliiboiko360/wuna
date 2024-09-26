@@ -7,13 +7,13 @@ import UserCards from './svg_usercards.tsx';
 function getTransformString(position: number) {
   let retString = '';
   if (position == USER_PLACE.LEFT_USER) {
-    retString = `matrix(0,-1,1,0,65,370)`;
+    retString = `matrix(0,-1,1,0,105,370)`;
   }
   if (position == USER_PLACE.TOP_USER) {
-    retString = `matrix(1,0,0,1,360,90)`;
+    retString = `matrix(1,0,0,1,360,100)`;
   }
   if (position == USER_PLACE.RIGHT_USER) {
-    retString = `matrix(0,1,-1,0,740,220)`;
+    retString = `matrix(0,1,-1,0,688,220)`;
   }
   if (position == USER_PLACE.BOTTOM_USER) {
     // for guest edit and enable this string

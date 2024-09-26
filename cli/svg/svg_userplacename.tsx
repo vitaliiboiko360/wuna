@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useRef } from 'react';
 
 //import { useAppSelector } from '../store/hooks.ts';
 
-import { USERPLACEHOLDER_DIMS } from './svg_userclickavatar.tsx';
+import { USERPLACEHOLDER_DIMS } from './svg_userplayeravatar.tsx';
 
 import { useAppSelector } from '../store/hooks.ts';
 import { selectActivePlayerSeatNumber } from '../store/activePlayerSeatNumber.ts';
