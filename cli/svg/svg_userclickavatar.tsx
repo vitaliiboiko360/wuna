@@ -7,8 +7,6 @@ import { selectPlayerSeatRequested, updatePlayerSeatRequested } from '../store/p
 
 import UserPlayerAvatar from './svg_userplayeravatar.tsx';
 
-export const USERPLACEHOLDER_DIMS = { width: 80, height: 80 };
-
 const UserClickAvatar = React.forwardRef((props, ref) => {
   const refRect = useRef(null);
 
