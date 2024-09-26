@@ -13,5 +13,5 @@ Skip
 Reverse
 Plus2
 
-UniversalPlus4
-Universal
+WildPlus4
+Wild
