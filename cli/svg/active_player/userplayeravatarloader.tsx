@@ -2,12 +2,12 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { USER_PLACE } from '../svg_userplaceholder';
 
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../store/hooks.ts';
 
-import { selectBottomUserAvatarId } from '../../store/bottomUser';
-import { selectLeftUserAvatarId } from '../../store/leftUser'
-import { selectTopUserAvatarId } from '../../store/topUser'
-import { selectRightUserAvatarId } from '../../store/rightUser'
+import { selectBottomUserAvatarId } from '../../store/bottomUser.ts';
+import { selectLeftUserAvatarId } from '../../store/leftUser.ts'
+import { selectTopUserAvatarId } from '../../store/topUser.ts'
+import { selectRightUserAvatarId } from '../../store/rightUser.ts'
 
 export default function UserPlayerAvatarLoader(props) {
   const position = props.position;
