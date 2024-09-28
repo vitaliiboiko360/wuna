@@ -1,13 +1,22 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { USER_PLACE } from '../svg_userplaceholder';
 
 import { useAppSelector } from '../../store/hooks.ts';
 
 import { selectBottomUserAvatarId } from '../../store/bottomUser.ts';
-import { selectLeftUserAvatarId } from '../../store/leftUser.ts'
-import { selectTopUserAvatarId } from '../../store/topUser.ts'
-import { selectRightUserAvatarId } from '../../store/rightUser.ts'
+import { selectLeftUserAvatarId } from '../../store/leftUser.ts';
+import { selectTopUserAvatarId } from '../../store/topUser.ts';
+import { selectRightUserAvatarId } from '../../store/rightUser.ts';
+
+
+const addObjectToDocument = (svgUrl, funcRunOnObjectElement) => {
+  let objectElement = document.createElement('object');
+  objectElement.setAttribute('type', 'image/svg+xml');
+  objectElement.setAttribute('data', svgUrl);
+  document.body.appendChild(objectElement);
+  funcRunOnObjectElement(objectElement);
+};
 
 export default function UserPlayerAvatarLoader(props) {
   const position = props.position;
@@ -29,10 +38,12 @@ export default function UserPlayerAvatarLoader(props) {
       break;
   }
 
+  const [objectElement, setObjectElement] = useState(undefined);
+
   const refObject = useRef();
 
   useEffect(() => {
-    if (avatarId > 0)
+    if (avatarId)
       props.setAvatarLoaded(true);
 
     refObject
@@ -46,43 +57,23 @@ export default function UserPlayerAvatarLoader(props) {
       });
   }, [avatarId]);
 
-  const key = `avatar${avatarId}.svg`;
-  const { data, isSuccess } = useQuery({
-    queryKey: [key],
-    queryFn: () => {
-      if (!avatarId)
-        throw Error('avatarId is not ready');
-      return fetch(`/data/${key}`)
-        .then((response) => response.url);
-    },
-  });
+  const svgUrl = `/data/avatar${avatarId}.svg`;
 
-  if (isSuccess) {
-    const svgObject = document.createElement('object');
-    svgObject.type = "image/svg+xml";
-    svgObject.data = data ?? '';
-
-    svgObject.width = '120';
-    svgObject.height = '120';
-    for (const child of svgObject.childNodes) {
-      console.log(child);
-    }
-    // console.log(svgObject.data)
+  if (avatarId && !objectElement) {
+    addObjectToDocument(svgUrl, setObjectElement);
   }
 
-
   return (
-    <><object ref={refObject} data={'/data/' + key} type="image/svg+xml"></object>
-      {avatarId > 0
+    <>{avatarId > 0
+      ?
+      <image xlinkHref={false
         ?
-        <image xlinkHref={isSuccess
-          ?
-          data
-          :
-          '/data/' + key} />
+        svgUrl
         :
-        <image />
-      }
+        svgUrl} />
+      :
+      <image />
+    }
     </>
   );
 }
