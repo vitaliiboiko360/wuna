@@ -36,8 +36,9 @@ export default function UserPlayerAvatarLoader(props) {
       props.setAvatarLoaded(true);
 
     refObject
-      .current?.querySelector('rect')
+      .current?.querySelectorAll('rect')
       .forEach((element) => {
+        console.log(element);
         if (element.hasAttribute('fill')) {
           console.log(element.fill);
           console.log('fill')
@@ -71,7 +72,7 @@ export default function UserPlayerAvatarLoader(props) {
 
 
   return (
-    <><object ref={refObject} data={'/data' + key} type="image/svg+xml"></object>
+    <><object ref={refObject} data={'/data/' + key} type="image/svg+xml"></object>
       {avatarId > 0
         ?
         <image xlinkHref={isSuccess
