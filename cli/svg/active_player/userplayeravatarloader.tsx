@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { USER_PLACE } from '../svg_userplaceholder';
 
@@ -29,9 +29,20 @@ export default function UserPlayerAvatarLoader(props) {
       break;
   }
 
+  const refObject = useRef();
+
   useEffect(() => {
     if (avatarId > 0)
       props.setAvatarLoaded(true);
+
+    refObject
+      .current?.querySelector('rect')
+      .forEach((element) => {
+        if (element.hasAttribute('fill')) {
+          console.log(element.fill);
+          console.log('fill')
+        }
+      });
   }, [avatarId]);
 
   const key = `avatar${avatarId}.svg`;
@@ -60,16 +71,17 @@ export default function UserPlayerAvatarLoader(props) {
 
 
   return (
-    <>{avatarId > 0
-      ?
-      <image xlinkHref={isSuccess
+    <><object ref={refObject} data={'/data' + key} type="image/svg+xml"></object>
+      {avatarId > 0
         ?
-        data
+        <image xlinkHref={isSuccess
+          ?
+          data
+          :
+          '/data/' + key} />
         :
-        '/data/' + key} />
-      :
-      <image />
-    }
+        <image />
+      }
     </>
   );
 }
