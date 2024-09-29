@@ -29,117 +29,37 @@ export default function UserPlayerAvatarLoader(props) {
     default:
       break;
   }
-
-  const [objectElement, setObjectElement] = useState(undefined);
-
   const svgUrl = `/data/avatar${avatarId}.svg`;
 
-  const addObjectToDocument = (svgUrl, funcRunOnObjectElement) => {
-    let objectElement = document.createElement('object');
-    objectElement.setAttribute('type', 'image/svg+xml');
-    objectElement.setAttribute('data', svgUrl);
-    objectElement.setAttribute('display', 'none');
-    objectElement.addEventListener('load', (event) => {
-      funcRunOnObjectElement((event.currentTarget as HTMLObjectElement).contentDocument);
-    });
-    document.body.appendChild(objectElement);
-  };
-
-  const refObjectElement = useRef();
-
-  useEffect(() => {
-    if (avatarId)
-      props.setAvatarLoaded(true);
-
-    if (!objectElement && !avatarId)
-      return;
-
-    if (avatarId && !objectElement) {
-      // addObjectToDocument(svgUrl, setObjectElement);
-    }
-
-    // let elements = Array
-    //   .from(document.body.childNodes)
-    //   .map((node) => {
-    //     if (node.nodeType == Node.ELEMENT_NODE) {
-    //       return node as HTMLElement;
-    //     }
-    //   });
-
-    // Array
-    //   .from(elements)
-    //   .forEach((element) => {
-    //     if (element && element.tagName !== 'OBJECT') {
-    //       console.log(`skiping ${element.tagName}`);
-    //       return;
-    //     }
-    //     let objectElement = element as HTMLObjectElement;
-    //     objectElement
-    //       ?.contentDocument
-    //       ?.querySelectorAll('rect')
-    //       .forEach((rect) => {
-    //         console.log(rect);
-    //       });
-    //   });
-
-    // console.log(objectElement?.contentDocument ?? 'no object ready');
-    // objectElement
-    //   ?.contentDocument
-    //   ?.querySelectorAll('rect')
-    //   .forEach((rect) => {
-    //     if (rect.hasAttribute('fill') && rect.getAttribute('fill') === '#B190B6') {
-    //       rect.setAttribute('fill', getRandomUserBackgrounColor());
-    //       console.log(rect.getAttribute('fill'));
-    //     }
-    //   });
-    // const svgElement = objectElement
-    //   ?.contentDocument
-    //   ?.querySelector('svg');
-    // svgElement?.setAttribute('width', 120);
-    // svgElement?.setAttribute('height', 120);
-  }, [avatarId, objectElement]);
-
   const onLoad = (event) => {
-    setObjectElement((event.currentTarget as SVGForeignObjectElement));
-  }
+    let objectElement = (event.currentTarget as HTMLObjectElement);
+    objectElement
+      ?.contentDocument
+      ?.querySelectorAll('rect')
+      .forEach((rect) => {
+        if (rect.hasAttribute('fill') && rect.getAttribute('fill') === '#B190B6') {
+          rect.setAttribute('fill', getRandomUserBackgrounColor());
+        }
+      });
+    const svgElement = objectElement
+      ?.contentDocument
+      ?.querySelector('svg');
+    svgElement?.setAttribute('width', '120');
+    svgElement?.setAttribute('height', '120');
+    svgElement?.setAttribute('clip-path', 'url(#clipForRect)');
+  };
 
   return (
     <>{avatarId > 0
       ?
       <foreignObject
         width={120}
-        height={120}
-        onLoad={(event) => {
-          // console.log('onLoad foreightObject');
-          // console.log((event.currentTarget as Node).nodeType);
-          // onLoad(event);
-        }}>
+        height={120}>
         <object
           xmlns="http://www.w3.org/1999/xhtml"
-          ref={refObjectElement}
           type="image/svg+xml"
           data={svgUrl}
-          onLoad={(event) => {
-            console.log('onLoad object');
-            console.log((event.currentTarget as HTMLObjectElement));
-            // setObjectElement((event.currentTarget as HTMLObjectElement));
-            let objectElement = (event.currentTarget as HTMLObjectElement);
-            objectElement
-              ?.contentDocument
-              ?.querySelectorAll('rect')
-              .forEach((rect) => {
-                if (rect.hasAttribute('fill') && rect.getAttribute('fill') === '#B190B6') {
-                  rect.setAttribute('fill', getRandomUserBackgrounColor());
-                  console.log(rect.getAttribute('fill'));
-                }
-              });
-            const svgElement = objectElement
-              ?.contentDocument
-              ?.querySelector('svg');
-            svgElement?.setAttribute('width', '120');
-            svgElement?.setAttribute('height', '120');
-            svgElement?.setAttribute('clip-path', 'url(#clipForRect)');
-          }}
+          onLoad={onLoad}
         />
       </foreignObject >
       :

@@ -4,8 +4,6 @@ import UserPlayerAvatarLoader from './active_players/userplayeravatarloader';
 
 export const USERPLACEHOLDER_DIMS = { width: 120, height: 120 };
 
-// clipPath={`url(#${clipForRect})`}
-
 const UserPlayerAvatar = React.forwardRef((props, ref) => {
   const transformString = `translate(${props.xPosition},${props.yPosition})`;
   const [isAvatarLoaded, setAvatarLoaded] = useState(false);
