@@ -14,7 +14,7 @@ const UserPlayerAvatar = React.forwardRef((props, ref) => {
         <pattern
           id={patternId}
           {...USERPLACEHOLDER_DIMS}
-          patternTransform='scale(0.1171875)'
+          patternTransform='scale(0.1171875)' // 0.1171875
         >
           <rect
             {...USERPLACEHOLDER_DIMS}

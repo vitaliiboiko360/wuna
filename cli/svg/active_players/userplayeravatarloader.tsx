@@ -109,14 +109,16 @@ export default function UserPlayerAvatarLoader(props) {
           console.log((event.currentTarget as Node).nodeType);
           onLoad(event);
         }}>
-        <object
-          ref={refObjectElement}
-          type="image/svg+xml"
-          data={svgUrl}
-          onLoad={(event) => {
-            console.log((event.currentTarget as Node).nodeType);
-          }}
-        ></object>
+        <div xmlns="http://www.w3.org/1999/xhtml">
+          <object
+            ref={refObjectElement}
+            type="image/svg+xml"
+            data={svgUrl}
+            onLoad={(event) => {
+              console.log((event.currentTarget as Node).nodeType);
+            }}
+          />
+        </div>
       </foreignObject >
       :
       <image />
