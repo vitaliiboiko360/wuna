@@ -83,14 +83,20 @@ export default function UserPlayerAvatarLoader(props) {
     //   });
 
     // console.log(objectElement?.contentDocument ?? 'no object ready');
-    objectElement
-      ?.querySelectorAll('rect')
-      .forEach((rect) => {
-        if (rect.hasAttribute('fill') && rect.getAttribute('fill') === '#B190B6') {
-          rect.setAttribute('fill', getRandomUserBackgrounColor());
-          console.log(rect.getAttribute('fill'));
-        }
-      });
+    // objectElement
+    //   ?.contentDocument
+    //   ?.querySelectorAll('rect')
+    //   .forEach((rect) => {
+    //     if (rect.hasAttribute('fill') && rect.getAttribute('fill') === '#B190B6') {
+    //       rect.setAttribute('fill', getRandomUserBackgrounColor());
+    //       console.log(rect.getAttribute('fill'));
+    //     }
+    //   });
+    // const svgElement = objectElement
+    //   ?.contentDocument
+    //   ?.querySelector('svg');
+    // svgElement?.setAttribute('width', 120);
+    // svgElement?.setAttribute('height', 120);
   }, [avatarId, objectElement]);
 
   const onLoad = (event) => {
@@ -101,24 +107,40 @@ export default function UserPlayerAvatarLoader(props) {
     <>{avatarId > 0
       ?
       <foreignObject
-        x={0}
-        y={0}
         width={120}
         height={120}
         onLoad={(event) => {
-          console.log((event.currentTarget as Node).nodeType);
-          onLoad(event);
+          // console.log('onLoad foreightObject');
+          // console.log((event.currentTarget as Node).nodeType);
+          // onLoad(event);
         }}>
-        <div xmlns="http://www.w3.org/1999/xhtml">
-          <object
-            ref={refObjectElement}
-            type="image/svg+xml"
-            data={svgUrl}
-            onLoad={(event) => {
-              console.log((event.currentTarget as Node).nodeType);
-            }}
-          />
-        </div>
+        <object
+          xmlns="http://www.w3.org/1999/xhtml"
+          ref={refObjectElement}
+          type="image/svg+xml"
+          data={svgUrl}
+          onLoad={(event) => {
+            console.log('onLoad object');
+            console.log((event.currentTarget as HTMLObjectElement));
+            // setObjectElement((event.currentTarget as HTMLObjectElement));
+            let objectElement = (event.currentTarget as HTMLObjectElement);
+            objectElement
+              ?.contentDocument
+              ?.querySelectorAll('rect')
+              .forEach((rect) => {
+                if (rect.hasAttribute('fill') && rect.getAttribute('fill') === '#B190B6') {
+                  rect.setAttribute('fill', getRandomUserBackgrounColor());
+                  console.log(rect.getAttribute('fill'));
+                }
+              });
+            const svgElement = objectElement
+              ?.contentDocument
+              ?.querySelector('svg');
+            svgElement?.setAttribute('width', '120');
+            svgElement?.setAttribute('height', '120');
+            svgElement?.setAttribute('clip-path', 'url(#clipForRect)');
+          }}
+        />
       </foreignObject >
       :
       <image />
