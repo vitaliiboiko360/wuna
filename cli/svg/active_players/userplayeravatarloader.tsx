@@ -46,7 +46,6 @@ export default function UserPlayerAvatarLoader(props) {
       ?.querySelector('svg');
     svgElement?.setAttribute('width', '120');
     svgElement?.setAttribute('height', '120');
-    svgElement?.setAttribute('clip-path', 'url(#clipForRect)');
   };
 
   return (
