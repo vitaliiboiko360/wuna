@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 
 import { getCard, isCardPlayable, isCardSameColor, getCardColor } from './svg_getcard';
-import getOnClickForCard from './active_player/getonlickforcards.ts';
+import getOnClickForCard from './active_players/getonlickforcards.ts';
 
 import { WebSocketContext } from '../websocketprovider.tsx';
 import { useAppSelector, useAppDispatch } from '../store/hooks.ts';

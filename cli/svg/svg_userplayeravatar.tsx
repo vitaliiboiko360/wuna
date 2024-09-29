@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import UserPlayerAvatarLoader from './active_player/userplayeravatarloader';
+import UserPlayerAvatarLoader from './active_players/userplayeravatarloader';
 
 export const USERPLACEHOLDER_DIMS = { width: 120, height: 120 };
 

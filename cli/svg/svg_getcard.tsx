@@ -71,7 +71,7 @@ function getColorHexString(color: number) {
 
 import { GREEN, RED, BLUE, YELLOW, WILD, getCardColor } from '../../src/Cards.ts';
 
-export { getCardColor } from '../../src/Cards.ts';
+export { getCardColor };
 
 export function isReverseCard(idOfCard: number) {
   if (idOfCard == RED._Reverse) {
