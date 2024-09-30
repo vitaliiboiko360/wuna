@@ -44,7 +44,8 @@ export default function SvgActivePlayerCards(props) {
       .cardArray
       .map((card, index) => {
         let transformString = '';
-        const isPlayable = props.isOurTurn && (isCardPlayable(card, props.activeCard) || isCardSameColor(card, activeWildCardColorToPlay));
+        const isPlayable = props.isOurTurn
+          && (isCardPlayable(card, props.activeCard) || isCardSameColor(card, activeWildCardColorToPlay));
         if (isPlayable) {
           playableCardCounter++;
           transformString = `translate(${(index * 15) - 10},${-40})`;
