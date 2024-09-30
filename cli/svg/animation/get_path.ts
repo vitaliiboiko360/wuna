@@ -27,23 +27,25 @@ export default function getPath(userPosition: number, svgElement, x: number, y: 
   }
 
   let bBox = userCardGroup.getBBox();
+  const height = Math.floor(bBox.height);
+  const width = Math.floor(bBox.width);
   // console.log('bBox of userCardGroup pos', userPosition, ' ', (bBox));
   let point = new DOMPoint(bBox.x, bBox.y);
 
   let matrix = userCardGroup.getScreenCTM();
   let localCoordinates = point.matrixTransform(matrix);
-  let startX = localCoordinates.x;
-  let startY = localCoordinates.y;
+  let startX = Math.floor(localCoordinates.x);
+  let startY = Math.floor(localCoordinates.y);
 
   switch (userPosition) {
     case 2:
-      path = `M${startX},${startY - bBox.height} C${startX},${startY - bBox.height} 300,260 ${x},${y}`;
+      path = `M${startX},${startY - height} C${startX},${startY - height} 300,260 ${x},${y}`;
       break;
     case 3:
-      path = `M${startX + bBox.width},${startY} C${startX + bBox.width},${startY} 380,230 ${x},${y}`;
+      path = `M${startX + width},${startY} C${startX + width},${startY} 380,230 ${x},${y}`;
       break;
     case 4:
-      path = `M${startX},${startY + bBox.height} C${startX},${startY + bBox.height} 530,260 ${x},${y}`;
+      path = `M${startX},${startY + height} C${startX},${startY + height} 530,260 ${x},${y}`;
       break;
     default:
       return `M400,300 L${x},${y}`;

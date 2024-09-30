@@ -19,10 +19,13 @@ import { usePlayCardInfoContext } from './svg_playcardprovider.tsx';
 
 import { getGaussianRandom as getRandom } from './animation/get_random.ts';
 
+import { HandleWildCard } from './svg_handlewildcard.tsx';
+import { isWildCard } from '../../src/Cards.ts';
+
 gsap.registerPlugin(MotionPathPlugin);
 
 const CARD_HALF_WIDTH = 32;
-const CARD_HALF_HEIGHT = 48 + 25; // we need to take up the whole thing (card stack) 
+const CARD_HALF_HEIGHT = 48 + 30; // we need to take up the whole thing (card stack) 
 const deltaFromCenter = 25;
 const deltaAngle = 25;
 
@@ -30,7 +33,7 @@ const Card = (props) => {
   const refSvg = useSvgContext();
   const lastPlayerCardId = useAppSelector(selectActiveMoveLastPlayerCard);
   const lastPlayerId = useAppSelector(selectActiveMoveLastPlayer);
-  const refCard = useRef(null);
+
   const playCardInfo = usePlayCardInfoContext();
 
   if (lastPlayerCardId == 0 && lastPlayerId != USER_1 && !(playCardInfo.x && playCardInfo.y)) {
@@ -44,11 +47,11 @@ const Card = (props) => {
   }
 
   if (!refSvg.current) {
-    console.log('SKIP CARD RENDER');
+    console.log('SKIP CARD RENDER no ref');
     return;
   }
 
-  const run = (playerId) => {
+  const runCardAnimation = (playerId) => {
     if (playerId == 0) {
       console.log('SKIP CARD RENDER Animation but lastPlayerId=', playerId);
       return;
@@ -66,28 +69,36 @@ const Card = (props) => {
 
     element.setAttribute('transform', `translate(${xCenter - x},${yCenter - y})`);
 
-    refCard.current = element;
     element.innerHTML = renderToString(getCard(lastPlayerCardId));
 
     const userXStart = playCardInfo.x;
     const userYStart = playCardInfo.y;
 
-    refSvg?.current.append(element);
+    const path = getPath(playerId, refSvg.current, x, y, userXStart, userYStart);
+    const extractStartPoint = /[Mm](\d+),\s*(\d+)/;
 
+    // console.log(`CARD PATH=${path}`);
+    refSvg?.current.append(element);
     gsap.to(element, {
       motionPath: {
-        path: getPath(playerId, refSvg.current, x, y, userXStart, userYStart),
+        path: path,
         alignOrigin: [0.5, 0.5]
       },
       duration: 1.5,
       rotation: 360 + randomAngle,
       ease: "slow",
       repeat: 0,
-      transformOrigin: "50% 50%"
+      // startAt: { x: 0, y: 0 },
+      transformOrigin: "50% 50%",
     });
   };
 
-  run(lastPlayerId);
+  runCardAnimation(lastPlayerId);
+
+  if (playCardInfo.isWildCard || isWildCard(lastPlayerCardId)) {
+    return (<HandleWildCard />);
+  }
+
   return (<></>);
 };
 

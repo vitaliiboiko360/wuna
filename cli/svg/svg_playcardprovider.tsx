@@ -1,8 +1,8 @@
 import React, { createContext, useState, useContext } from 'react';
 
-export type PlayCardInfo = { x: number, y: number };
+export type PlayCardInfo = { x: number, y: number, isWildCard: boolean };
 
-const initialValue: PlayCardInfo = { x: 0, y: 0 };
+const initialValue: PlayCardInfo = { x: 0, y: 0, isWildCard: false };
 export const PlayCardInfoContext = createContext(initialValue);
 
 export default function PlayCardInfoProvider(props) {

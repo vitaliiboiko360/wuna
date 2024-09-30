@@ -26,7 +26,7 @@ export function getRandomUserBackgrounColor() {
       break;
     }
   }
-  uniqueColorIds.add(retValue)
+  uniqueColorIds.add(retValue);
   return retValue;
 }
 
