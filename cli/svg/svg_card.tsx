@@ -22,7 +22,7 @@ import { getGaussianRandom as getRandom } from './animation/get_random.ts';
 gsap.registerPlugin(MotionPathPlugin);
 
 const CARD_HALF_WIDTH = 32;
-const CARD_HALF_HEIGHT = 48 + 20; // we need to take up the whole thing (card stack) 
+const CARD_HALF_HEIGHT = 48 + 25; // we need to take up the whole thing (card stack) 
 const deltaFromCenter = 25;
 const deltaAngle = 25;
 
@@ -33,44 +33,46 @@ const Card = (props) => {
   const refCard = useRef(null);
   const playCardInfo = usePlayCardInfoContext();
 
-  if (lastPlayerCardId == 0 && lastPlayerId != USER_1) {
+  if (lastPlayerCardId == 0 && lastPlayerId != USER_1 && !(playCardInfo.x && playCardInfo.y)) {
     console.log('SKIP CARD RENDER lastPlayerCardId= ', lastPlayerCardId);
     return;
   }
 
   if (!isValidCard(lastPlayerCardId)) {
-    console.log('!isValidCard(lastPlayerCardId== ', lastPlayerCardId, ' )==false');
+    console.log('SKIP CARD RENDER !isValidCard(lastPlayerCardId== ', lastPlayerCardId, ' )==false');
     return;
   }
 
   if (!refSvg.current) {
+    console.log('SKIP CARD RENDER');
     return;
   }
 
-  const element = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-
-  const r = Math.floor(Math.random() * deltaFromCenter) + 1;
-  const alpha = Math.random() * (2 * Math.PI);
-  const x = xCenter + (Math.cos(alpha) * r) - CARD_HALF_WIDTH;
-  const y = yCenter + (Math.sin(alpha) * r) - CARD_HALF_HEIGHT;
-  // console.log(`r=${r}\talpha=${alpha}\tx=${x}\ty=${y}`);
-
-  const randomAngle = getRandom(-deltaAngle, deltaAngle);
-
-  element.setAttribute('transform', `translate(${xCenter - x},${yCenter - y})`);
-
-  refCard.current = element;
-  element.innerHTML = renderToString(getCard(lastPlayerCardId));
-
-  refSvg?.current.append(element);
-
-  const run = (element, playerId) => {
+  const run = (playerId) => {
     if (playerId == 0) {
-      console.log('Animation but lastPlayerId=', playerId);
+      console.log('SKIP CARD RENDER Animation but lastPlayerId=', playerId);
       return;
     }
+
+    const element = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+    const r = Math.floor(Math.random() * deltaFromCenter) + 1;
+    const alpha = Math.random() * (2 * Math.PI);
+    const x = xCenter + (Math.cos(alpha) * r) - CARD_HALF_WIDTH;
+    const y = yCenter + (Math.sin(alpha) * r) - CARD_HALF_HEIGHT;
+    // console.log(`r=${r}\talpha=${alpha}\tx=${x}\ty=${y}`);
+
+    const randomAngle = getRandom(-deltaAngle, deltaAngle);
+
+    element.setAttribute('transform', `translate(${xCenter - x},${yCenter - y})`);
+
+    refCard.current = element;
+    element.innerHTML = renderToString(getCard(lastPlayerCardId));
+
     const userXStart = playCardInfo.x;
     const userYStart = playCardInfo.y;
+
+    refSvg?.current.append(element);
 
     gsap.to(element, {
       motionPath: {
@@ -84,7 +86,8 @@ const Card = (props) => {
       transformOrigin: "50% 50%"
     });
   };
-  run(element, lastPlayerId);
+
+  run(lastPlayerId);
   return (<></>);
 };
 

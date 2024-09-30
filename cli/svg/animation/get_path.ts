@@ -27,7 +27,7 @@ export default function getPath(userPosition: number, svgElement, x: number, y: 
   }
 
   let bBox = userCardGroup.getBBox();
-  console.log('bBox of userCardGroup pos', userPosition, ' ', JSON.stringify(bBox));
+  // console.log('bBox of userCardGroup pos', userPosition, ' ', (bBox));
   let point = new DOMPoint(bBox.x, bBox.y);
 
   let matrix = userCardGroup.getScreenCTM();
