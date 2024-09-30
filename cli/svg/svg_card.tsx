@@ -96,7 +96,7 @@ const Card = (props) => {
   runCardAnimation(lastPlayerId);
 
   if (playCardInfo.isWildCard || isWildCard(lastPlayerCardId)) {
-    return (<HandleWildCard />);
+    return (<HandleWildCard lastPlayerId={lastPlayerId} />);
   }
 
   return (<></>);
