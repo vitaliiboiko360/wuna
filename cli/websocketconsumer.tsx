@@ -12,6 +12,8 @@ import { updateActivePlayerSeatNumber } from './store/activePlayerSeatNumber.ts'
 
 import { COLOR_OFFSETS, COLOR, isReverseCard } from './svg/svg_getcard.tsx';
 
+import { getRandAvatarId } from './svg/active_players/userutils.ts';
+
 import { isWildCard } from '../src/Cards.ts';
 
 export function isValidCard(idOfCard: number) {
@@ -166,23 +168,6 @@ function processPlayerMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
 
   return insertToActiveCards(inputArray, dispatch);
 }
-
-const AVATAR_IDS = [1, 2, 3, 4, 5, 6, 9, 10, 15];
-let uniqueIds = new Set();
-const getRandAvatarId = () => {
-  const getRandId = () => { return AVATAR_IDS[Math.floor(Math.random() * AVATAR_IDS.length)] };
-  let retValue = getRandId();
-  let deadLockLimit = 10;
-  while (uniqueIds.has(retValue)) {
-    retValue = getRandId();
-    if (uniqueIds.size > AVATAR_IDS.length - 1 || deadLockLimit-- < 0) {
-      uniqueIds.clear();
-      break;
-    }
-  }
-  uniqueIds.add(retValue)
-  return retValue;
-};
 
 function processSeatRequestMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
   console.log('SEAT REQ srv responded with=', inputArray[0]);

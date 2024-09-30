@@ -8,7 +8,7 @@ import { selectLeftUserAvatarId } from '../../store/leftUser.ts';
 import { selectTopUserAvatarId } from '../../store/topUser.ts';
 import { selectRightUserAvatarId } from '../../store/rightUser.ts';
 
-import { getRandomUserBackgrounColor } from './userbgcolors.ts';
+import { getRandomUserBackgrounColor } from './userutils.ts';
 
 export default function UserPlayerAvatarLoader(props) {
   const position = props.position;
