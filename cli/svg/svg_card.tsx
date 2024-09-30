@@ -34,7 +34,7 @@ const Card = (props) => {
   const playCardInfo = usePlayCardInfoContext();
 
   if (lastPlayerCardId == 0 && lastPlayerId != USER_1) {
-    console.log('lastPlayerCardId= ', lastPlayerCardId);
+    console.log('SKIP CARD RENDER lastPlayerCardId= ', lastPlayerCardId);
     return;
   }
 
@@ -44,7 +44,6 @@ const Card = (props) => {
   }
 
   if (!refSvg.current) {
-    console.log('!!!REF isnt ready');
     return;
   }
 

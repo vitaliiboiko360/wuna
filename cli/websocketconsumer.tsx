@@ -198,7 +198,7 @@ export default function WebSocketConsumer(props) {
 
   const onMessage = useCallback((event) => {
     let arBuf = new Uint8Array(event.data);
-    console.log('RECV: buf= ', arBuf.join(' '));
+    // console.log('RECV: buf= ', arBuf.join(' '));
     readMessage(arBuf, dispatch);
   }, [dispatch]);
 
