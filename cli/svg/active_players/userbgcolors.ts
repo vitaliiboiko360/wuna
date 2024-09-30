@@ -4,6 +4,14 @@ export const USER_BACKGROUND_COLORS = [
   '#b190b6',
   '#b6b190',
   '#95b690',
+  '#9e90b6',
+  '#b69095',
+  '#90b6b1',
+  '#b69e90',
+  '#b690a8',
+  '#b69e90',
+  '#a8b690',
+  '#90b69e',
 ];
 
 let uniqueIds = new Set();
