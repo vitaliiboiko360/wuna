@@ -2,6 +2,8 @@
 
 Web UNO game based on websocket and svg
 
+![DEMO](https://github.com/vitaliiboiko360/wuna/blob/main/demo.gif)
+
 To run locally:  
 `./generateLocalDevOnlyCertificates.sh` to generate certs files `./key.pem` and `./cert.pem`  
 `./startGameServer.sh` to start server  
