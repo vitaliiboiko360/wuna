@@ -5,11 +5,6 @@ import { createPortal } from 'react-dom';
 import { useSvgContext } from './svg_container';
 import gsap from 'gsap';
 
-const DIMS = {
-  width: 85,
-  height: 85,
-};
-
 const COLORS = [
   { fill: '#ff5555', stroke: '#d74a49' },
   { fill: '#5555ff', stroke: '#4b49d6' },
@@ -22,25 +17,25 @@ const GROUP_POSITION = {
   y: 190,
 };
 
-const LEFT_TOP_POSITIONS = {
+const LEFT_TOP_ATTRIBUTES = {
   x: 0,
   y: 0,
   ...COLORS[0],
 };
 
-const LEFT_BOTTOM_POSITIONS = {
+const LEFT_BOTTOM_ATTRIBUTES = {
   x: 0,
   y: 105,
   ...COLORS[3],
 };
 
-const RIGHT_TOP_POSITIONS = {
+const RIGHT_TOP_ATTRIBUTES = {
   x: 105,
   y: 0,
   ...COLORS[1],
 };
 
-const RIGHT_BOTTOM_POSITIONS = {
+const RIGHT_BOTTOM_ATTRIBUTES = {
   x: 105,
   y: 105,
   ...COLORS[2],
@@ -49,7 +44,10 @@ const RIGHT_BOTTOM_POSITIONS = {
 const RECT_ATTRIBUTES = {
   rx: 7,
   ry: 7,
+  width: 85,
+  height: 85,
   strokeWidth: '0.2em',
+  onClick: onclick,
 };
 
 export function HandleWildCard(props) {
@@ -81,6 +79,16 @@ export function HandleWildCard(props) {
     gsap.to(refRect4.current, animateObject);
   });
 
+  const onClick = (event) => {
+    [refRect1, refRect2, refRect3, refRect4].forEach((ref) => {
+      if (ref.current.isSameNode(event.currentTarget)) {
+        // console.log(`you've clicked on ${ref.current.fill}`);
+      } else {
+        ref.current.remove();
+      }
+    });
+  };
+
   return (
     <>
       {createPortal(
@@ -91,27 +99,27 @@ export function HandleWildCard(props) {
           >
             <rect
               ref={refRect1}
-              {...DIMS}
-              {...LEFT_TOP_POSITIONS}
+              {...LEFT_TOP_ATTRIBUTES}
               {...RECT_ATTRIBUTES}
+              onClick={onClick}
             />
             <rect
               ref={refRect2}
-              {...DIMS}
-              {...LEFT_BOTTOM_POSITIONS}
+              {...LEFT_BOTTOM_ATTRIBUTES}
               {...RECT_ATTRIBUTES}
+              onClick={onClick}
             />
             <rect
               ref={refRect3}
-              {...DIMS}
-              {...RIGHT_TOP_POSITIONS}
+              {...RIGHT_TOP_ATTRIBUTES}
               {...RECT_ATTRIBUTES}
+              onClick={onClick}
             />
             <rect
               ref={refRect4}
-              {...DIMS}
-              {...RIGHT_BOTTOM_POSITIONS}
+              {...RIGHT_BOTTOM_ATTRIBUTES}
               {...RECT_ATTRIBUTES}
+              onClick={onClick}
             />
           </g>
         </>,
