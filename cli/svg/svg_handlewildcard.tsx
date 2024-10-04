@@ -79,14 +79,35 @@ export function HandleWildCard(props) {
     gsap.to(refRect4.current, animateObject);
   });
 
-  const onClick = (event) => {
+  let onClick = (event) => {
     [refRect1, refRect2, refRect3, refRect4].forEach((ref) => {
-      if (ref.current.isSameNode(event.currentTarget)) {
-        // console.log(`you've clicked on ${ref.current.fill}`);
-      } else {
+      if (!ref.current.isSameNode(event.currentTarget)) {
         ref.current.remove();
       }
     });
+    const wildCard = refGroup.current.previousElementSibling;
+    console.log(`wildCard=${wildCard}`);
+    console.log(`wildCard=${wildCard.children}`);
+    if (!wildCard) {
+      console.log(`wildCard=${wildCard}`);
+      return;
+    }
+
+    let currentElement = wildCard.children.item(0);
+    let traverseArray: Element[] = [];
+    while (currentElement) {
+      if (currentElement.children.length) {
+        traverseArray.push(currentElement.children.item(0));
+      }
+      if (
+        currentElement.tagName == 'path' ||
+        currentElement.tagName == 'PATH'
+      ) {
+        console.log(currentElement.style.fill);
+      }
+      currentElement =
+        currentElement.nextElementSibling ?? traverseArray.shift();
+    }
   };
 
   return (
