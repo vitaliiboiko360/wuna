@@ -141,6 +141,9 @@ export function HandleWildCard(props) {
           opacity: 0,
           duration: 0.3,
           ease: 'power4.in',
+          onComplete: () => {
+            refGroup.current.remove();
+          },
         });
       });
     }
