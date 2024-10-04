@@ -1,6 +1,5 @@
 import WebSocket from 'ws';
 
-
 function getRandomNumber(min: number, max: number) {
   const minCeiled = Math.ceil(min);
   const maxFloored = Math.floor(max);
@@ -10,7 +9,7 @@ function getRandomNumber(min: number, max: number) {
 enum NUBMER_OF_CARDS {
   COLOR = 54,
   BLACK = 2,
-  ALL = 56
+  ALL = 56,
 }
 
 enum COLOR_OFFSET {
@@ -26,22 +25,21 @@ enum COLOR_NUMBERS {
   RED = 15,
   GREEN = 28,
   BLUE = 41,
-  YELLOW = 54
+  YELLOW = 54,
 }
 
 let index = -1;
 function getConsequtiveCardId() {
   index++;
-  if (index < COLOR_NUMBERS.BLACK)
-    return index + COLOR_OFFSET.BLACK;
+  if (index < COLOR_NUMBERS.BLACK) return index + COLOR_OFFSET.BLACK;
   else if (index < COLOR_NUMBERS.RED)
-    return (index - COLOR_NUMBERS.BLACK) + COLOR_OFFSET.RED;
+    return index - COLOR_NUMBERS.BLACK + COLOR_OFFSET.RED;
   else if (index < COLOR_NUMBERS.GREEN)
-    return (index - COLOR_NUMBERS.RED) + COLOR_OFFSET.GREEN;
+    return index - COLOR_NUMBERS.RED + COLOR_OFFSET.GREEN;
   else if (index < COLOR_NUMBERS.BLUE)
-    return (index - COLOR_NUMBERS.GREEN) + COLOR_OFFSET.BLUE;
+    return index - COLOR_NUMBERS.GREEN + COLOR_OFFSET.BLUE;
   else if (index < COLOR_NUMBERS.YELLOW)
-    return (index - COLOR_NUMBERS.BLUE) + COLOR_OFFSET.YELLOW;
+    return index - COLOR_NUMBERS.BLUE + COLOR_OFFSET.YELLOW;
   else {
     index = index % NUBMER_OF_CARDS.ALL;
     return getConsequtiveCardId();
@@ -50,16 +48,15 @@ function getConsequtiveCardId() {
 
 export function getRandomCardId() {
   let index = Math.floor(Math.random() * 54);
-  if (index < COLOR_NUMBERS.BLACK)
-    return index + COLOR_OFFSET.BLACK;
+  if (index < COLOR_NUMBERS.BLACK) return index + COLOR_OFFSET.BLACK;
   else if (index < COLOR_NUMBERS.RED)
-    return (index - COLOR_NUMBERS.BLACK) + COLOR_OFFSET.RED;
+    return index - COLOR_NUMBERS.BLACK + COLOR_OFFSET.RED;
   else if (index < COLOR_NUMBERS.GREEN)
-    return (index - COLOR_NUMBERS.RED) + COLOR_OFFSET.GREEN;
+    return index - COLOR_NUMBERS.RED + COLOR_OFFSET.GREEN;
   else if (index < COLOR_NUMBERS.BLUE)
-    return (index - COLOR_NUMBERS.GREEN) + COLOR_OFFSET.BLUE;
+    return index - COLOR_NUMBERS.GREEN + COLOR_OFFSET.BLUE;
   else if (index < COLOR_NUMBERS.YELLOW)
-    return (index - COLOR_NUMBERS.BLUE) + COLOR_OFFSET.YELLOW;
+    return index - COLOR_NUMBERS.BLUE + COLOR_OFFSET.YELLOW;
   else {
     return getRandomCardId();
   }
@@ -68,7 +65,7 @@ export function getRandomCardId() {
 import { AppWebSocketInterface, wsArray } from './PlayerWsConnection';
 
 export declare interface ConnectionAndMeta extends AppWebSocketInterface {
-  seatNumber: number
+  seatNumber: number;
 }
 
 const playerAllotedSeatsNumber = 4;
@@ -78,7 +75,10 @@ export let playerConnections = new Map<number, ConnectionAndMeta>();
 
 export function cleanupPlayerId(websocketId: number) {
   let foundSeatNumber;
-  if (undefined != (foundSeatNumber = playerConnections.get(websocketId)?.seatNumber)) {
+  if (
+    undefined !=
+    (foundSeatNumber = playerConnections.get(websocketId)?.seatNumber)
+  ) {
     playerAllotedSeats.delete(foundSeatNumber);
   }
 
@@ -86,10 +86,17 @@ export function cleanupPlayerId(websocketId: number) {
   playerConnectionsIds.delete(websocketId);
 }
 
-function processSeatRequest(data: Uint8Array, webSocket: AppWebSocketInterface) {
+function processSeatRequest(
+  data: Uint8Array,
+  webSocket: AppWebSocketInterface
+) {
   const id = webSocket.id;
   if (id in playerConnectionsIds) {
-    console.log('the player with webSocket id=', id, ' trying to connect more than one time!');
+    console.log(
+      'the player with webSocket id=',
+      id,
+      ' trying to connect more than one time!'
+    );
     return;
   }
 
@@ -106,7 +113,9 @@ function processSeatRequest(data: Uint8Array, webSocket: AppWebSocketInterface) 
         }
       }
       if (index == seatNumberRequested) {
-        console.log('someone requested seat that\'s already taken and there\'s no avaialable seats left');
+        console.log(
+          "someone requested seat that's already taken and there's no avaialable seats left"
+        );
         return;
       }
       break;
@@ -118,12 +127,11 @@ function processSeatRequest(data: Uint8Array, webSocket: AppWebSocketInterface) 
   playerAllotedSeats.add(player.seatNumber);
   let arrayToSend = new Uint8Array(1);
   arrayToSend[0] = player.seatNumber + 5;
-  player.send(arrayToSend);  // client get the seat number + 5 as confirmation to seat request
+  player.send(arrayToSend); // client get the seat number + 5 as confirmation to seat request
   console.log('SEND SEAT REQ [', arrayToSend[0], '] to client ID=', player.id);
 
-
   setTimeout(() => {
-    console.log('start game')
+    console.log('start game');
     game.startNewGame();
     game.initAllPlayerStartingHands();
     game.initRandomProperStartTopCard();
@@ -148,13 +156,14 @@ function processSeatRequest(data: Uint8Array, webSocket: AppWebSocketInterface) 
       console.log('first move from 4th player');
       let arrayToSend = new Uint8Array(3);
       arrayToSend[0] = 4;
-      arrayToSend[1] = game.topCard;
+      arrayToSend[1] = WILD.Wild;
+      arrayToSend[2] = COLOR.RED;
       webSocket.send(arrayToSend);
     }, 500);
   }, 3000);
 }
 
-import { isValidCard, isWildCard } from './Cards';
+import { COLOR, isValidCard, isWildCard, WILD } from './Cards';
 import { game } from './WSGameServer';
 import processMove, { handleWin } from './ProcessMove';
 
@@ -164,7 +173,12 @@ function processPlayerInputConnection(data: Uint8Array, id: number) {
   let player = playerConnections.get(id);
 
   if (firstByte != player!.seatNumber + 5) {
-    console.log('client with seatNumber=', player!.seatNumber, ' recive msg with firstByte=', firstByte);
+    console.log(
+      'client with seatNumber=',
+      player!.seatNumber,
+      ' recive msg with firstByte=',
+      firstByte
+    );
     return;
   }
 
@@ -175,7 +189,11 @@ function processPlayerInputConnection(data: Uint8Array, id: number) {
     if (isWildCard(idOfCard)) {
       color = data[3];
     }
-    let remainedCardsCount = game.removeCardUserAndSetItTopCard(idOfCard, seatNumber, color);
+    let remainedCardsCount = game.removeCardUserAndSetItTopCard(
+      idOfCard,
+      seatNumber,
+      color
+    );
     if (remainedCardsCount == 0) {
       return handleWin(player!, seatNumber);
     }
@@ -196,12 +214,17 @@ function processPlayerInputConnection(data: Uint8Array, id: number) {
       // need to calculate which opponent's seat number have just dropped a card on the table
       let differenceInSeats = playerConnection.seatNumber - player!.seatNumber;
       if (differenceInSeats < 0) differenceInSeats = 4 + differenceInSeats;
-      playerConnection.send([differenceInSeats + 1, idOfCard], { binary: true });
+      playerConnection.send([differenceInSeats + 1, idOfCard], {
+        binary: true,
+      });
     }
   }
 }
 
-export function dispatchClientMessage(data: Uint8Array, webSocket: AppWebSocketInterface) {
+export function dispatchClientMessage(
+  data: Uint8Array,
+  webSocket: AppWebSocketInterface
+) {
   const id = webSocket.id;
   console.log(`CLIENT = `, id, ' message: ', data.join(' '));
 
@@ -222,8 +245,7 @@ export function dispatchClientMessage(data: Uint8Array, webSocket: AppWebSocketI
 
 function isTwoArrayEqual(arrayOne: Uint8Array, arrayTwo: Uint8Array) {
   for (let i = 0; i < arrayOne.length; ++i) {
-    if (arrayOne[i] !== arrayTwo[i])
-      return false;
+    if (arrayOne[i] !== arrayTwo[i]) return false;
   }
   return true;
 }
@@ -232,7 +254,6 @@ export var previousArraySent: Uint8Array;
 
 export async function serveGame() {
   setInterval(() => {
-
     let arrayToSend = new Uint8Array(6);
     arrayToSend[0] = 0;
     arrayToSend[1] = 0;

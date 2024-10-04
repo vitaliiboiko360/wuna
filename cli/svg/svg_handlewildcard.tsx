@@ -1,9 +1,13 @@
 import React, { useRef, useEffect } from 'react';
 
 import { createPortal } from 'react-dom';
-
+import { useAppDispatch, useAppSelector } from '../store/hooks.ts';
+import { useWebSocketContext } from '../websocketprovider.tsx';
+import { selectActivePlayerSeatNumber } from '../store/activePlayerSeatNumber.ts';
+import { updateActiveMoveWildCardColor } from '../store/activeMove.ts';
 import { useSvgContext } from './svg_container';
 import gsap from 'gsap';
+import { USER_1 } from '../websocketconsumer';
 
 const COLOR_ATTRIBUTES = [
   { fill: '#ff5555', stroke: '#d74a49' },
@@ -18,7 +22,7 @@ const enum COLOR_INDEX {
   BLUE,
   YELLOW,
 }
-const COLORS = ['#ff5555', '#00aa00', '#ffaa00', '#5555ff'];
+export const COLORS = ['#ff5555', '#00aa00', '#ffaa00', '#5555ff'];
 
 type ElementType = Element | SVGElement | null | undefined;
 
@@ -57,11 +61,40 @@ const RECT_ATTRIBUTES = {
   width: 85,
   height: 85,
   strokeWidth: '0.2em',
-  onClick: onclick,
 };
+
+export function updateColorOnWildCard(
+  wildCardElement: SVGElement,
+  hexColorToChangeTo: string,
+  onEndFunction: Function = () => {}
+) {
+  let currentElement: Element | null = wildCardElement.children.item(0);
+  let traverseArray: ElementType[] = [];
+  while (currentElement) {
+    if (currentElement.children.length) {
+      traverseArray.push(currentElement.children.item(0));
+    }
+    if (currentElement.tagName == 'rect' || currentElement.tagName == 'RECT') {
+      if (
+        currentElement.style.fill === '#000000' ||
+        currentElement.style.fill === 'rgb(0, 0, 0)'
+      ) {
+        currentElement.style.fill = hexColorToChangeTo;
+        typeof onEndFunction === 'function' && onEndFunction();
+      }
+    }
+
+    currentElement =
+      (currentElement.nextElementSibling as SVGElement) ??
+      traverseArray.shift();
+  }
+}
 
 export function HandleWildCard(props) {
   const refSvg = useSvgContext();
+  const activePlayerSeatNumber = useAppSelector(selectActivePlayerSeatNumber);
+
+  const wsContext = useWebSocketContext();
 
   const refRect1 = useRef();
   const refRect2 = useRef();
@@ -70,8 +103,12 @@ export function HandleWildCard(props) {
 
   const refGroup = useRef();
 
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    // gsap.set(refGroup.current, { rotation: -180, transformOrigin: '50% 50%' });
+    if (props.lastPlayerId !== USER_1) {
+      return;
+    }
     const randomAngle = Math.floor(Math.random() * 90);
     gsap.to(refGroup.current, {
       rotation: 360 - randomAngle,
@@ -89,41 +126,7 @@ export function HandleWildCard(props) {
     gsap.to(refRect4.current, animateObject);
   });
 
-  const updateColorOnWildCard = function (
-    wildCardElement: SVGElement,
-    hexColorToChangeTo: string,
-    onEndFunction: Function
-  ) {
-    console.log(this);
-    let currentElement: HTMLElement = wildCardElement.children.item(
-      0
-    ) as HTMLElement;
-    let traverseArray: ElementType[] = [];
-    while (currentElement) {
-      if (currentElement.children.length) {
-        traverseArray.push(currentElement.children.item(0));
-      }
-      if (
-        currentElement.tagName == 'rect' ||
-        currentElement.tagName == 'RECT'
-      ) {
-        if (
-          currentElement.style.fill === '#000000' ||
-          currentElement.style.fill === 'rgb(0, 0, 0)'
-        ) {
-          currentElement.style.fill = hexColorToChangeTo;
-          onEndFunction();
-        }
-      }
-
-      currentElement =
-        (currentElement.nextElementSibling as HTMLElement) ??
-        traverseArray.shift();
-    }
-  };
-
   const onClick = (event) => {
-    console.log(this);
     let colorToChangeTo = '';
     let lastButtonToRemove;
     [refRect1, refRect2, refRect3, refRect4].forEach((ref) => {
@@ -142,7 +145,14 @@ export function HandleWildCard(props) {
           duration: 0.3,
           ease: 'power4.in',
           onComplete: () => {
-            refGroup.current.remove();
+            lastButtonToRemove.remove();
+            const colorId = COLORS.indexOf(colorToChangeTo);
+            dispatch(updateActiveMoveWildCardColor(colorId));
+            let arrayToSend: Uint8Array = new Uint8Array(3);
+            arrayToSend[0] = activePlayerSeatNumber;
+            arrayToSend[1] = props.lastCardId;
+            arrayToSend[2] = colorId;
+            wsContext.send(arrayToSend);
           },
         });
       });

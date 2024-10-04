@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useContext } from 'react';
 
 const ws = new WebSocket(`wss://${location.host}/wss`);
 ws.binaryType = 'arraybuffer';
@@ -12,3 +12,5 @@ export default function WebSocketContextProvider(props) {
     </WebSocketContext.Provider>
   );
 }
+
+export const useWebSocketContext = () => useContext(WebSocketContext);
