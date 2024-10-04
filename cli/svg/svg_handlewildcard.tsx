@@ -91,10 +91,13 @@ export function HandleWildCard(props) {
 
   const updateColorOnWildCard = function (
     wildCardElement: SVGElement,
-    hexColorToChangeTo: string
+    hexColorToChangeTo: string,
+    onEndFunction: Function
   ) {
     console.log(this);
-    let currentElement: ElementType = wildCardElement.children.item(0);
+    let currentElement: HTMLElement = wildCardElement.children.item(
+      0
+    ) as HTMLElement;
     let traverseArray: ElementType[] = [];
     while (currentElement) {
       if (currentElement.children.length) {
@@ -105,32 +108,41 @@ export function HandleWildCard(props) {
         currentElement.tagName == 'RECT'
       ) {
         if (
-          currentElement.style.fill == '#000000' ||
-          currentElement.style.fill == 'rgb(0, 0, 0)'
+          currentElement.style.fill === '#000000' ||
+          currentElement.style.fill === 'rgb(0, 0, 0)'
         ) {
           currentElement.style.fill = hexColorToChangeTo;
+          onEndFunction();
         }
-        console.log(currentElement);
       }
 
       currentElement =
-        currentElement.nextElementSibling ?? traverseArray.shift();
+        (currentElement.nextElementSibling as HTMLElement) ??
+        traverseArray.shift();
     }
   };
 
   const onClick = (event) => {
     console.log(this);
     let colorToChangeTo = '';
+    let lastButtonToRemove;
     [refRect1, refRect2, refRect3, refRect4].forEach((ref) => {
       if (!ref.current.isSameNode(event.currentTarget)) {
         ref.current.remove();
       } else {
-        colorToChangeTo = ref.current.fill;
+        colorToChangeTo = ref.current.getAttribute('fill');
+        lastButtonToRemove = ref.current;
       }
     });
     const wildCard = refGroup.current.previousElementSibling;
     if (wildCard) {
-      updateColorOnWildCard(wildCard, colorToChangeTo);
+      updateColorOnWildCard(wildCard, colorToChangeTo, () => {
+        gsap.to(lastButtonToRemove, {
+          opacity: 0,
+          duration: 0.3,
+          ease: 'power4.in',
+        });
+      });
     }
   };
 
