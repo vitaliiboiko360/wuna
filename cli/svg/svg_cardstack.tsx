@@ -9,21 +9,28 @@ const blackBackCardId = 0;
 export function SvgCardStack(props) {
   return (
     <>
-      <g>
-        <g transform={`matrix(0.6,0.8,-0.905,0.3,276,150)`}>
-          {getCard(blackBackCardId)}
-        </g>
-        <g transform={`matrix(0.6,0.8,-0.905,0.3,277,145)`}>
-          {getCard(blackBackCardId)}
-        </g>
-        <g transform={`matrix(0.6,0.8,-0.905,0.3,278,140)`}>
-          {getCard(blackBackCardId)}
-        </g>
-        <g transform={`matrix(0.6,0.8,-0.905,0.3,279,135)`}>
-          {getCard(blackBackCardId)}
-        </g>
-        <g transform={`matrix(0.6,0.8,-0.905,0.3,280,130)`}>
-          {getCard(blackBackCardId)}
+      <g transform='scale(0.9)'>
+        <g transform='translate(-10,85)'>
+          <g transform='rotate(-15)'>
+            <g transform={`matrix(0.5,0.8,-0.905,0.2,275,150)`}>
+              {getCard(blackBackCardId)}
+            </g>
+            <g transform={`matrix(0.5,0.8,-0.905,0.2,276,146)`}>
+              {getCard(blackBackCardId)}
+            </g>
+            <g transform={`matrix(0.5,0.8,-0.905,0.2,277,142)`}>
+              {getCard(blackBackCardId)}
+            </g>
+            <g transform={`matrix(0.5,0.8,-0.905,0.2,278,138)`}>
+              {getCard(blackBackCardId)}
+            </g>
+            <g transform={`matrix(0.5,0.8,-0.905,0.2,279,134)`}>
+              {getCard(blackBackCardId)}
+            </g>
+            <g transform={`matrix(0.5,0.8,-0.905,0.2,280,130)`}>
+              {getCard(blackBackCardId)}
+            </g>
+          </g>
         </g>
       </g>
     </>
