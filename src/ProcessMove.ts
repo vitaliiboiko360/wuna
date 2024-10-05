@@ -135,16 +135,17 @@ export default function processMove(
         return;
       }
 
-      const getNextPlayer = () => {
-        if (game.leftDirection) {
-          return (userSeat + 1) % USERS;
-        } else {
-          return userSeat - 1 == -1 ? USERS - 1 : userSeat - 1;
-        }
-      };
+      // const getNextPlayer = () => {
+      //   if (game.leftDirection) {
+      //     return (userSeat + 1) % USERS;
+      //   } else {
+      //     return userSeat - 1 == -1 ? USERS - 1 : userSeat - 1;
+      //   }
+      // };
 
       // drawing cards and/or skiping move
       //
+
       let howMuchToDraw: typeof DRAW2 | typeof DRAW4 | typeof DRAW1 = DRAW1;
       if (
         (DRAW1 != (howMuchToDraw = getDrawCardNumber(game.topCard)) ||
@@ -153,7 +154,7 @@ export default function processMove(
       ) {
         if (howMuchToDraw > DRAW1) game.drawUserCard(userSeat, howMuchToDraw);
 
-        let nextPlayer: number = getNextPlayer();
+        let nextPlayer: number = getNextPlayer(userSeat, game.leftDirection);
         let arrayToSend: Uint8Array = new Uint8Array(3);
         arrayToSend[0] = userSeat + 1;
         arrayToSend[1] = 0;
@@ -161,13 +162,12 @@ export default function processMove(
         player.send(arrayToSend);
         isNextSkip = false;
         console.log(
-          '\nPROCESS_MOVE: ',
-          userSeat,
-          '# player had draw or skip card\n so next player is ',
-          nextPlayer
+          `\n\t:::userSeat=${userSeat} nextPlayer=${nextPlayer}`,
+          `\tplayer :#${userSeat} has drew howMuchToDraw= ${howMuchToDraw} NEW length= ${
+            game.getPlayerHand(userSeat)?.length
+          }`
         );
         if (nextPlayer == 0) {
-          console.log('next player is ==', nextPlayer);
           return;
         }
         return getUserMoveAndSendIt(nextPlayer);
@@ -175,6 +175,12 @@ export default function processMove(
       // normal flow
       //
       // console.log('\tcolorToPlay == ', colorToPlay, ' game.topColor=', game.topColor, ' game.topCard=', game.topCard, '\n move we get playing hand userSeat=', userSeat);
+      console.log(
+        '\t::: Get playable cards for userSeat=',
+        userSeat,
+        '\t call getPlayableCard with',
+        `\t game.topColor=${game.topColor} \tcolorToPlay=${colorToPlay}`
+      );
       let move = getPlayableCard(
         game.getPlayerHand(userSeat),
         game.topCard,
@@ -182,8 +188,15 @@ export default function processMove(
       );
       if (move == 0) {
         let lastDrawedCard = game.drawUserCard(userSeat, DRAW1);
-        console.log('move == 0 getPlayableCard userSeat=', userSeat);
         move = getPlayableCard([lastDrawedCard], game.topCard, colorToPlay);
+        console.log(
+          '\t::: No playable cards for userSeat=',
+          userSeat,
+          `\t drew card: ${lastDrawedCard} ASK again`,
+          `\t THE move= ${move} NEW length= ${
+            game.getPlayerHand(userSeat)?.length
+          }`
+        );
       }
 
       let arrayToSend: Uint8Array = new Uint8Array(3);
@@ -203,7 +216,12 @@ export default function processMove(
             game.UserColorBuckets.getChooseColorToPlayForUser(userSeat);
           arrayToSend[2] = colorToPlay;
           game.topColor = colorToPlay;
-          console.log('userSeat=', userSeat, ' picking color = ', colorToPlay);
+          console.log(
+            '\n\t\t ::::: IsWildCard ::: USER userSeat= ',
+            userSeat,
+            ' PICKS colorToPlay= ',
+            colorToPlay
+          );
         }
         if (isSkipOrDrawCard(move!)) {
           isNextSkip = true;
@@ -214,11 +232,11 @@ export default function processMove(
           colorToPlay
         );
         console.log(
-          '\nAFTER game.remove... getPlayerHand(userSeat=',
+          '\n\t ::: VAAALIID MOOVE :: userSeat=',
           userSeat,
-          ').length=',
+          '\t LEFT cards length= ',
           game.getPlayerHand(userSeat)?.length,
-          'playerCardRemained=',
+          '\t RETURNED playerCardRemained=',
           playerCardRemained
         );
 
@@ -228,51 +246,59 @@ export default function processMove(
           return;
         }
 
-        let nextPlayer: number = getNextPlayer();
+        let nextPlayer: number = getNextPlayer(userSeat, game.leftDirection);
 
         console.log(
-          'PROCESS_MOVE: ',
+          '\n\t ::: VAAALIID MOOVE :: userSeat=',
           userSeat,
-          '# player moved\n',
-          'move= ',
+          ' \t move= ',
           move,
-          '\n',
-          'color= ',
+          '\t game.topColor= ',
           game.topColor,
-          'next player is ',
+          '\t nextPlayer= ',
           nextPlayer
         );
 
         if (nextPlayer == 0) {
-          console.log('next USER == nextPlayer= ', nextPlayer);
+          console.log('\n\t\t :::: NEXT USER nextPlayer= ', nextPlayer);
           player.send(arrayToSend);
 
           if (isSkipOrDrawCard(move!)) {
-            console.log('next card skip card:');
-            return getUserMoveAndSendIt(getNextPlayer());
+            console.log('::: SKIP card would be NEXT :');
+            return getUserMoveAndSendIt(
+              getNextPlayer(userSeat, game.leftDirection)
+            );
           }
-          console.log('nextPlayer==0 getPlayableCard nextPlayer=', nextPlayer);
           if (0 == getPlayableCard(game.getPlayerHand(0), move!, colorToPlay)) {
             let arrayToSend: Uint8Array = new Uint8Array(3);
             arrayToSend[0] = USER._1 + 1; // client has player numbering from 1..4
             arrayToSend[1] = game.drawUserCard(USER._1, DRAW1);
             arrayToSend[2] = 111;
             player.send(arrayToSend);
-            console.log('we found USER 0 has no moves');
+            console.log(
+              `\t:Pre-check :#1: nextPlayer=${nextPlayer}\t has found no moves:!:!:!:`
+            );
             return;
           }
 
           return;
         }
+
+        console.log('::::::');
         player.send(arrayToSend);
         return getUserMoveAndSendIt(nextPlayer);
       }
 
-      let nextPlayer = getNextPlayer();
+      let nextPlayer = getNextPlayer(userSeat, game.leftDirection);
       // console.log('PROCESS_MOVE: ', userSeat, '# player moved\n',
       //   'move= ', move, '\n',
       //   'color= ', game.topColor,
       //   'next player is ', nextPlayer);
+      console.log(
+        '\n\t::::END:::: nextPlayer=',
+        nextPlayer,
+        '\tsending move arrayToSend...\n'
+      );
       if (nextPlayer == 0) {
         player.send(arrayToSend);
         if (
@@ -282,10 +308,11 @@ export default function processMove(
           arrayToSend[0] = USER._1 + 1; // client has player numbering from 1..4
           arrayToSend[1] = game.drawUserCard(USER._1, DRAW1);
           player.send(arrayToSend);
-          console.log('2222we found USER 0 has no moves');
+          console.log(
+            `\t:Pre-check :#2: nextPlayer=${nextPlayer}\t has found no moves:!:!:!:`
+          );
           return;
         }
-        console.log('2222next USER == nextPlayer= ', nextPlayer);
         return;
       }
       player.send(arrayToSend);
