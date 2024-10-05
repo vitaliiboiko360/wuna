@@ -187,8 +187,14 @@ function processPlayerInputConnection(data: Uint8Array, id: number) {
     let seatNumber = player!.seatNumber;
     let color = -1;
     if (isWildCard(idOfCard)) {
-      color = data[3];
+      color = data[2];
+      // console.log(
+      //   `\tcolor=${color}\n\t idOfCard=${idOfCard} \n\tplayer!.seatNumber=${
+      //     player!.seatNumber
+      //   }`
+      // );
     }
+
     let remainedCardsCount = game.removeCardUserAndSetItTopCard(
       idOfCard,
       seatNumber,
