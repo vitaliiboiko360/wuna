@@ -273,7 +273,7 @@ export default function processMove(
             let arrayToSend: Uint8Array = new Uint8Array(3);
             arrayToSend[0] = USER._1 + 1; // client has player numbering from 1..4
             arrayToSend[1] = game.drawUserCard(USER._1, DRAW1);
-            arrayToSend[2] = 111;
+            arrayToSend[2] = DRAW1;
             player.send(arrayToSend);
             console.log(
               `\t:Pre-check :#1: nextPlayer=${nextPlayer}\t has found no moves:!:!:!:`
@@ -307,6 +307,7 @@ export default function processMove(
           let arrayToSend: Uint8Array = new Uint8Array(3);
           arrayToSend[0] = USER._1 + 1; // client has player numbering from 1..4
           arrayToSend[1] = game.drawUserCard(USER._1, DRAW1);
+          arrayToSend[2] = DRAW1;
           player.send(arrayToSend);
           console.log(
             `\t:Pre-check :#2: nextPlayer=${nextPlayer}\t has found no moves:!:!:!:`
