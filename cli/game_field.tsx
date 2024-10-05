@@ -2,10 +2,14 @@ import React from 'react';
 
 import SvgContainer from './svg/svg_container';
 import SvgEllipseTable from './svg/svg_ellipse_table';
-import SvgUserPlaceHolder, { USER_INFO, USER_PLACE } from './svg/svg_userplaceholder';
-import SvgCardStack from './svg/svg_cardsstack';
+import SvgUserPlaceHolder, {
+  USER_INFO,
+  USER_PLACE,
+} from './svg/svg_userplaceholder';
+import SvgCardPile from './svg/svg_cardpile';
 import SvgActivePlayerCardHolder from './svg/svg_activeplayercardholder';
 import PlayCardInfoProvider from './svg/svg_playcardprovider';
+import { SvgCardStack } from './svg/svg_cardstack';
 
 export default function GameField(props) {
   return (
@@ -15,8 +19,9 @@ export default function GameField(props) {
       <SvgUserPlaceHolder {...USER_INFO[USER_PLACE.TOP_USER]} />
       <SvgUserPlaceHolder {...USER_INFO[USER_PLACE.RIGHT_USER]} />
       <SvgUserPlaceHolder {...USER_INFO[USER_PLACE.BOTTOM_USER]} />
+      <SvgCardStack />
       <PlayCardInfoProvider>
-        <SvgCardStack />
+        <SvgCardPile />
         <SvgActivePlayerCardHolder />
       </PlayCardInfoProvider>
     </SvgContainer>

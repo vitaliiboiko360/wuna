@@ -1,10 +1,4 @@
-import React, {
-  forwardRef,
-  useRef,
-  useEffect,
-  useCallback,
-  useLayoutEffect,
-} from 'react';
+import React from 'react';
 import { getCard } from './svg_getcard';
 
 import {
@@ -18,7 +12,7 @@ import { useAppSelector } from '../store/hooks.ts';
 
 import { renderToString } from 'react-dom/server';
 
-import { IDPATH, PATHDATA, xCenter, yCenter } from './svg_cardsstack.tsx';
+import { IDPATH, PATHDATA, xCenter, yCenter } from './svg_cardpile.tsx';
 
 import {
   isValidCard,
