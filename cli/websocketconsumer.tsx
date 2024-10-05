@@ -76,7 +76,7 @@ const enum commands {
 export const USER_1 = 1;
 export const USER_2 = 2;
 export const USER_3 = 3;
-export const USER_4 = 5;
+export const USER_4 = 4;
 
 enum USER {
   BOTTOM = 1,
