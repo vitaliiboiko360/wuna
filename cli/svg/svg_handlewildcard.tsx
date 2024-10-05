@@ -22,7 +22,7 @@ const enum COLOR_INDEX {
   BLUE,
   YELLOW,
 }
-export const COLORS = ['#ff5555', '#00aa00', '#ffaa00', '#5555ff'];
+export const COLORS = ['#000', '#ff5555', '#00aa00', '#5555ff', '#ffaa00'];
 
 type ElementType = Element | SVGElement | null | undefined;
 
@@ -147,10 +147,10 @@ export function HandleWildCard(props) {
           onComplete: () => {
             lastButtonToRemove.remove();
             const colorId = COLORS.indexOf(colorToChangeTo);
-            dispatch(updateActiveMoveWildCardColor(colorId));
+            // dispatch(updateActiveMoveWildCardColor(colorId));
             let arrayToSend: Uint8Array = new Uint8Array(3);
             arrayToSend[0] = activePlayerSeatNumber;
-            arrayToSend[1] = props.lastCardId;
+            arrayToSend[1] = props.lastPlayerCardId;
             arrayToSend[2] = colorId;
             wsContext.send(arrayToSend);
           },
