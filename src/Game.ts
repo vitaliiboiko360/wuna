@@ -1,6 +1,18 @@
-
-
-import { getCardColor, isReverseCard, COLOR, NUMBER_OF_COLOR_CARDS, NUMBER_OF_BLACK_CARDS, NUBMER_OF_CARDS, NUBMER_OF_DECKS, RED, GREEN, BLUE, YELLOW, WILD, isValidStartCard } from './Cards';
+import {
+  getCardColor,
+  isReverseCard,
+  COLOR,
+  NUMBER_OF_COLOR_CARDS,
+  NUMBER_OF_BLACK_CARDS,
+  NUBMER_OF_CARDS,
+  NUBMER_OF_DECKS,
+  RED,
+  GREEN,
+  BLUE,
+  YELLOW,
+  WILD,
+  isValidStartCard,
+} from './Cards';
 
 function shuffleArray(arrayToShuffle: number[]) {
   for (let i = arrayToShuffle.length - 1; i > 0; --i) {
@@ -16,36 +28,36 @@ function shuffleArray(arrayToShuffle: number[]) {
 function initCardArray(): number[] {
   let retArray = new Array(NUBMER_OF_CARDS * NUBMER_OF_DECKS);
   for (let i = 0; i < NUMBER_OF_COLOR_CARDS; ++i) {
-    retArray[i]
-      = retArray[i + (NUBMER_OF_CARDS)]
-      = retArray[i + (NUBMER_OF_CARDS * 2)]
-      = retArray[i + (NUBMER_OF_CARDS * 3)]
-      = RED._0 + i;
+    retArray[i] =
+      retArray[i + NUBMER_OF_CARDS] =
+      retArray[i + NUBMER_OF_CARDS * 2] =
+      retArray[i + NUBMER_OF_CARDS * 3] =
+        RED._0 + i;
     let j = i + NUMBER_OF_COLOR_CARDS;
-    retArray[j]
-      = retArray[j + (NUBMER_OF_CARDS)]
-      = retArray[j + (NUBMER_OF_CARDS * 2)]
-      = retArray[j + (NUBMER_OF_CARDS * 3)]
-      = GREEN._0 + i;
+    retArray[j] =
+      retArray[j + NUBMER_OF_CARDS] =
+      retArray[j + NUBMER_OF_CARDS * 2] =
+      retArray[j + NUBMER_OF_CARDS * 3] =
+        GREEN._0 + i;
     let k = j + NUMBER_OF_COLOR_CARDS;
-    retArray[k]
-      = retArray[k + (NUBMER_OF_CARDS)]
-      = retArray[k + (NUBMER_OF_CARDS * 2)]
-      = retArray[k + (NUBMER_OF_CARDS * 3)]
-      = BLUE._0 + i;
+    retArray[k] =
+      retArray[k + NUBMER_OF_CARDS] =
+      retArray[k + NUBMER_OF_CARDS * 2] =
+      retArray[k + NUBMER_OF_CARDS * 3] =
+        BLUE._0 + i;
     let l = k + NUMBER_OF_COLOR_CARDS;
-    retArray[l]
-      = retArray[l + (NUBMER_OF_CARDS)]
-      = retArray[l + (NUBMER_OF_CARDS * 2)]
-      = retArray[l + (NUBMER_OF_CARDS * 3)]
-      = YELLOW._0 + i;
+    retArray[l] =
+      retArray[l + NUBMER_OF_CARDS] =
+      retArray[l + NUBMER_OF_CARDS * 2] =
+      retArray[l + NUBMER_OF_CARDS * 3] =
+        YELLOW._0 + i;
     if (i < 2) {
       let m = l + NUMBER_OF_COLOR_CARDS;
-      retArray[m]
-        = retArray[m + (NUBMER_OF_CARDS)]
-        = retArray[m + (NUBMER_OF_CARDS * 2)]
-        = retArray[m + (NUBMER_OF_CARDS * 3)]
-        = WILD.Wild + i;
+      retArray[m] =
+        retArray[m + NUBMER_OF_CARDS] =
+        retArray[m + NUBMER_OF_CARDS * 2] =
+        retArray[m + NUBMER_OF_CARDS * 3] =
+          WILD.Wild + i;
     }
   }
   shuffleArray(retArray);
@@ -55,25 +67,17 @@ function initCardArray(): number[] {
 export const compare = (A_card: number, B_card: number) => {
   const A_color: number = getCardColor(A_card);
   const B_color: number = getCardColor(B_card);
-  if (A_color > B_color)
-    return 1;
-  if (A_color < B_color)
-    return -1;
+  if (A_color > B_color) return 1;
+  if (A_color < B_color) return -1;
   if (A_color == B_color) {
     if (A_color == COLOR.BLACK) {
-      if (A_card < B_card)
-        return -1;
-      if (A_card > B_card)
-        return 1;
-      if (A_card == B_card)
-        return 0;
+      if (A_card < B_card) return -1;
+      if (A_card > B_card) return 1;
+      if (A_card == B_card) return 0;
     } else {
-      if (A_card < B_card)
-        return 1;
-      if (A_card > B_card)
-        return -1;
-      if (A_card == B_card)
-        return 0;
+      if (A_card < B_card) return 1;
+      if (A_card > B_card) return -1;
+      if (A_card == B_card) return 0;
     }
   }
   return 0;
@@ -92,10 +96,18 @@ export class Game {
   }
 
   private removeCard(idOfCard: number, userSeat: number) {
-    const removeFromCardArray = (cardArray: number[], idOfCard: number, userTag: string) => {
+    const removeFromCardArray = (
+      cardArray: number[],
+      idOfCard: number,
+      userTag: string
+    ) => {
       const index = cardArray.indexOf(idOfCard);
       if (index == -1) {
-        console.log('\n!!!requested remove card=', idOfCard, ` from ${userTag} user!\n`);
+        console.log(
+          '\n!!!requested remove card=',
+          idOfCard,
+          ` from ${userTag} user!\n`
+        );
         return;
       }
       cardArray.splice(index, 1);
@@ -124,7 +136,11 @@ export class Game {
     this.D_UserCards = [];
   }
 
-  removeCardUserAndSetItTopCard(idOfCard: number, userSeat: number, color: number = -1) {
+  removeCardUserAndSetItTopCard(
+    idOfCard: number,
+    userSeat: number,
+    color: number = -1
+  ) {
     this.removeCard(idOfCard, userSeat);
     this.UserColorBuckets.removeCard(userSeat, idOfCard);
     this.topCard = idOfCard;
@@ -133,7 +149,9 @@ export class Game {
       this.leftDirection = !this.leftDirection;
     }
     if (color != -1) {
+      console.log(`>>>>COLOR color=${color}`);
       this.topColor = color;
+      console.log(`>>>>COLOR this.topColor=${this.topColor}`);
     }
     if (this.getPlayerHand(userSeat)?.length == 0) {
       return 0;
@@ -141,7 +159,10 @@ export class Game {
     return this.getPlayerHand(userSeat)?.length;
   }
 
-  drawUserCard(userSeat: number, howMuchToDraw: typeof DRAW2 | typeof DRAW4 | typeof DRAW1) {
+  drawUserCard(
+    userSeat: number,
+    howMuchToDraw: typeof DRAW2 | typeof DRAW4 | typeof DRAW1
+  ) {
     if (this.CardArray.length < howMuchToDraw) {
       const remainedCards = this.CardArray;
       this.CardArray = initCardArray();
@@ -153,12 +174,12 @@ export class Game {
     const drawCards = (cardHand: number[]) => {
       //this.CardArray.splice(-howMuchToDraw);
       for (let i = 0; i < howMuchToDraw; ++i) {
-        let drawCard = this.CardArray.pop()!
+        let drawCard = this.CardArray.pop()!;
         cardHand.push(drawCard);
         lastDrawedCard = drawCard;
         this.UserColorBuckets.addCard(userSeat, drawCard);
       }
-    }
+    };
 
     switch (userSeat) {
       case USER._1:
@@ -202,7 +223,6 @@ export class Game {
     }
   }
 
-
   // call it only at the beginning of the game, when CardArray is full
   initAllPlayerStartingHands() {
     const firstHandsCards = numberTotalPlayers * numberStartHandCards;
@@ -232,10 +252,8 @@ export class Game {
         this.topCard = this.CardArray.splice(index, 1)[0];
         break;
       }
-      if (++counter > 100)
-        break;
-    }
-    while (true);
+      if (++counter > 100) break;
+    } while (true);
   }
 
   topCard: number = -1;
@@ -248,15 +266,16 @@ export class Game {
 
   CardArray: number[] = [];
 
-  public UserColorBuckets: ColorBucketTotalValues = new ColorBucketTotalValues();
+  public UserColorBuckets: ColorBucketTotalValues =
+    new ColorBucketTotalValues();
 }
 
 enum USER {
   _1 = 0,
   _2,
   _3,
-  _4
-};
+  _4,
+}
 
 export const COLOR_BLACK = 0;
 export const COLOR_RED = 1;
@@ -264,13 +283,11 @@ export const COLOR_GREEN = 2;
 export const COLOR_BLUE = 3;
 export const COLOR_YELLOW = 4;
 
-
 // array corresponds to face value number cards and three special ones
 // [0 .. 9, Reverse, Skip, Draw2]
 export const CARD_VALUES = [1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 20, 20, 20];
 
 class ColorBucketTotalValues {
-
   private runFunctionOnUserArray(userSeat: number, callback: Function) {
     if (userSeat == USER._1) {
       callback(this.A_colorBucks);
@@ -305,7 +322,6 @@ class ColorBucketTotalValues {
         default:
           return;
       }
-
     };
     this.runFunctionOnUserArray(userSeat, addCard);
   }
@@ -335,7 +351,9 @@ class ColorBucketTotalValues {
   getChooseColorToPlayForUser(userSeat: number) {
     const getChooseColor = (inputArray: number[]) => {
       let sortedArray = inputArray
-        .map((value, indexColor) => { return [value, indexColor] })
+        .map((value, indexColor) => {
+          return [value, indexColor];
+        })
         .sort((a: number[], b: number[]) => {
           if (a[0] < b[0]) return -1;
           if (a[0] > b[0]) return 1;
@@ -344,8 +362,16 @@ class ColorBucketTotalValues {
 
       let [value, color] = sortedArray[0];
 
-      console.log('COLOR BUCKETS userSeat=', userSeat, ' = ', inputArray.join(' '),
-        'color=', color, 'sorted array=', sortedArray.join(' '));
+      console.log(
+        'COLOR BUCKETS userSeat=',
+        userSeat,
+        ' = ',
+        inputArray.join(' '),
+        'color=',
+        color,
+        'sorted array=',
+        sortedArray.join(' ')
+      );
       if (value == 0 || Number.isNaN(value)) {
         console.log('value==0', ' or isNan=', Number.isNaN(value));
         return Math.floor(Math.random() * 3) + 1; // 0,1,2,3 colors but frontend use 1,2,3,4

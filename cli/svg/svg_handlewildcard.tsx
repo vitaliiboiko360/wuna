@@ -149,6 +149,9 @@ export function HandleWildCard(props) {
             const colorId = COLORS.indexOf(colorToChangeTo);
             // dispatch(updateActiveMoveWildCardColor(colorId));
             let arrayToSend: Uint8Array = new Uint8Array(3);
+            console.log(
+              `activePlayerSeatNumber=${activePlayerSeatNumber} props.lastCardId=${props.lastPlayerCardId} colorId=${colorId}`
+            );
             arrayToSend[0] = activePlayerSeatNumber;
             arrayToSend[1] = props.lastPlayerCardId;
             arrayToSend[2] = colorId;
