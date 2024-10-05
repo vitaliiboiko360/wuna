@@ -2,12 +2,39 @@ import React, { useContext, useCallback, useEffect } from 'react';
 
 import { WebSocketContext } from './websocketprovider.tsx';
 import { useAppDispatch, AppDispatch } from './store/hooks.ts';
-import { insertActiveCardsByArray, updateActiveCardsByArray } from './store/activeCards.ts';
-import { updateBottomUserAvatarId, updateBottomUserCardsNumber } from './store/bottomUser.ts';
-import { updateLeftUserCardsNumber, decrementLeftUserCardsNumber, incrementLeftUserCardsByNumber, updateLeftUserAvatarId } from './store/leftUser.ts';
-import { updateTopUserCardsNumber, decrementTopUserCardsNumber, incrementTopUserCardsByNumber, updateTopUserAvatarId } from './store/topUser.ts';
-import { updateRightUserCardsNumber, decrementRightUserCardsNumber, incrementRightUserCardsByNumber, updateRightUserAvatarId } from './store/rightUser.ts';
-import { updateActiveMove, updateActiveMoveCard, updateActiveMoveLastPlayer, updateActiveMoveLastPlayerCard, updateActiveMoveWildCardColor } from './store/activeMove.ts';
+import {
+  insertActiveCardsByArray,
+  updateActiveCardsByArray,
+} from './store/activeCards.ts';
+import {
+  updateBottomUserAvatarId,
+  updateBottomUserCardsNumber,
+} from './store/bottomUser.ts';
+import {
+  updateLeftUserCardsNumber,
+  decrementLeftUserCardsNumber,
+  incrementLeftUserCardsByNumber,
+  updateLeftUserAvatarId,
+} from './store/leftUser.ts';
+import {
+  updateTopUserCardsNumber,
+  decrementTopUserCardsNumber,
+  incrementTopUserCardsByNumber,
+  updateTopUserAvatarId,
+} from './store/topUser.ts';
+import {
+  updateRightUserCardsNumber,
+  decrementRightUserCardsNumber,
+  incrementRightUserCardsByNumber,
+  updateRightUserAvatarId,
+} from './store/rightUser.ts';
+import {
+  updateActiveMove,
+  updateActiveMoveCard,
+  updateActiveMoveLastPlayer,
+  updateActiveMoveLastPlayerCard,
+  updateActiveMoveWildCardColor,
+} from './store/activeMove.ts';
 import { updateActivePlayerSeatNumber } from './store/activePlayerSeatNumber.ts';
 
 import { COLOR_OFFSETS, COLOR, isReverseCard } from './svg/svg_getcard.tsx';
@@ -20,24 +47,34 @@ export function isValidCard(idOfCard: number) {
   const NUMBER_OF_VALUES = 13;
   const BLACK_NUMBER_OF_VALUES = 1;
 
-  if (idOfCard >= COLOR_OFFSETS.YELLOW_OFFSET
-    && idOfCard <= COLOR_OFFSETS.YELLOW_OFFSET + NUMBER_OF_VALUES) {
+  if (
+    idOfCard >= COLOR_OFFSETS.YELLOW_OFFSET &&
+    idOfCard <= COLOR_OFFSETS.YELLOW_OFFSET + NUMBER_OF_VALUES
+  ) {
     return true;
   }
-  if (idOfCard >= COLOR_OFFSETS.BLUE_OFFSET
-    && idOfCard <= COLOR_OFFSETS.BLUE_OFFSET + NUMBER_OF_VALUES) {
+  if (
+    idOfCard >= COLOR_OFFSETS.BLUE_OFFSET &&
+    idOfCard <= COLOR_OFFSETS.BLUE_OFFSET + NUMBER_OF_VALUES
+  ) {
     return true;
   }
-  if (idOfCard >= COLOR_OFFSETS.GREEN_OFFSET
-    && idOfCard <= COLOR_OFFSETS.GREEN_OFFSET + NUMBER_OF_VALUES) {
+  if (
+    idOfCard >= COLOR_OFFSETS.GREEN_OFFSET &&
+    idOfCard <= COLOR_OFFSETS.GREEN_OFFSET + NUMBER_OF_VALUES
+  ) {
     return true;
   }
-  if (idOfCard >= COLOR_OFFSETS.RED_OFFSET
-    && idOfCard <= COLOR_OFFSETS.RED_OFFSET + NUMBER_OF_VALUES) {
+  if (
+    idOfCard >= COLOR_OFFSETS.RED_OFFSET &&
+    idOfCard <= COLOR_OFFSETS.RED_OFFSET + NUMBER_OF_VALUES
+  ) {
     return true;
   }
-  if (idOfCard >= COLOR_OFFSETS.BLACK_OFFSET
-    && idOfCard <= COLOR_OFFSETS.BLACK_OFFSET + BLACK_NUMBER_OF_VALUES) {
+  if (
+    idOfCard >= COLOR_OFFSETS.BLACK_OFFSET &&
+    idOfCard <= COLOR_OFFSETS.BLACK_OFFSET + BLACK_NUMBER_OF_VALUES
+  ) {
     return true;
   }
   return false;
@@ -71,7 +108,7 @@ const enum commands {
   SEAT_2,
   SEAT_3,
   SEAT_4,
-};
+}
 
 export const USER_1 = 1;
 export const USER_2 = 2;
@@ -82,7 +119,7 @@ enum USER {
   BOTTOM = 1,
   LEFT,
   TOP,
-  RIGHT
+  RIGHT,
 }
 
 function getCommand(inputNumber: number) {
@@ -113,8 +150,7 @@ function insertToActiveCards(inputArray: Uint8Array, dispatch: AppDispatch) {
   let cardArray = inputArray.slice(1);
   let arrayToInsert: number[] = [];
   for (let i = 0; i < cardArray.length; ++i) {
-    if (isValidCard(cardArray[i]))
-      arrayToInsert.push(cardArray[i]);
+    if (isValidCard(cardArray[i])) arrayToInsert.push(cardArray[i]);
   }
   console.log('we dispatched insert array,', arrayToInsert.join(' '));
   dispatch(insertActiveCardsByArray(arrayToInsert));
@@ -123,7 +159,6 @@ function insertToActiveCards(inputArray: Uint8Array, dispatch: AppDispatch) {
 function processPlayerMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
   let userSeat = inputArray[0];
   let move = inputArray[1];
-
 
   if (userSeat != USER_1) {
     if (move == 0) {
@@ -169,7 +204,10 @@ function processPlayerMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
   return insertToActiveCards(inputArray, dispatch);
 }
 
-function processSeatRequestMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
+function processSeatRequestMessage(
+  inputArray: Uint8Array,
+  dispatch: AppDispatch
+) {
   console.log('SEAT REQ srv responded with=', inputArray[0]);
   dispatch(updateActivePlayerSeatNumber(inputArray[0]));
   dispatch(updateBottomUserAvatarId(getRandAvatarId()));
@@ -196,21 +234,22 @@ export default function WebSocketConsumer(props) {
   const webSocket = useContext(WebSocketContext);
   const dispatch = useAppDispatch();
 
-  const onMessage = useCallback((event) => {
-    let arBuf = new Uint8Array(event.data);
-    // console.log('RECV: buf= ', arBuf.join(' '));
-    readMessage(arBuf, dispatch);
-  }, [dispatch]);
+  const onMessage = useCallback(
+    (event) => {
+      let arBuf = new Uint8Array(event.data);
+      // console.log('RECV: buf= ', arBuf.join(' '));
+      readMessage(arBuf, dispatch);
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
-    webSocket
-      .addEventListener("message", onMessage);
+    webSocket.addEventListener('message', onMessage);
 
     return () => {
-      webSocket
-        .removeEventListener("message", onMessage);
-    }
+      webSocket.removeEventListener('message', onMessage);
+    };
   }, []);
 
-  return (<></>);
+  return <></>;
 }
