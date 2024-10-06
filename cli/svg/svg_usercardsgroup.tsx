@@ -23,16 +23,23 @@ function getTransformString(position: number) {
 }
 
 const UserCardsGroup = React.forwardRef((props, refAvatarBox) => {
-
   if (props.position == USER_PLACE.BOTTOM_USER) {
-    return (<></>);
+    return <></>;
   }
 
   let refToGroup = useRef(null);
 
-  return (<><g id={props.id} ref={refToGroup} transform={getTransformString(props.position)}>
-    <UserCards refToGroup={refToGroup} position={props.position} />
-  </g></>);
+  return (
+    <>
+      <g
+        id={props.id}
+        ref={refToGroup}
+        transform={getTransformString(props.position)}
+      >
+        <UserCards refToGroup={refToGroup} position={props.position} />
+      </g>
+    </>
+  );
 });
 
 export default UserCardsGroup;

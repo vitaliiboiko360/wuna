@@ -3,7 +3,11 @@ import SvgActivePlayerCards from './svg_activeplayercards';
 
 import { useAppSelector } from '../store/hooks.ts';
 import { selectActiveCards } from '../store/activeCards.ts';
-import { selectActiveMoveCard, selectActiveMoveDirection, selectActiveMoveLastPlayer } from '../store/activeMove.ts';
+import {
+  selectActiveMoveCard,
+  selectActiveMoveDirection,
+  selectActiveMoveLastPlayer,
+} from '../store/activeMove.ts';
 
 function isOurTurn(isDirectionClockwize: boolean, lastPlayerId: number) {
   if (isDirectionClockwize && lastPlayerId == 4) {
