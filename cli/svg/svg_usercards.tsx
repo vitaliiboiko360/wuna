@@ -1,4 +1,3 @@
-
 import React, { forwardRef } from 'react';
 
 import { USER_PLACE } from './svg_userplaceholder.tsx';
@@ -26,27 +25,31 @@ const UserCards = forwardRef((props, refToGroup) => {
   let cardElements = Array.apply(null, { length: userCardsNumber })
     .map(Number.call, Number)
     .map((index) => {
-      if (isNaN(index))
-        return;
+      if (isNaN(index)) return;
 
       let transformString = '';
-      if (props.position == USER_PLACE.LEFT_USER
-        || props.position == USER_PLACE.RIGHT_USER
+      if (
+        props.position == USER_PLACE.LEFT_USER ||
+        props.position == USER_PLACE.RIGHT_USER
       ) {
         transformString = `translate(${index * 10})`;
-      } else if (props.position == USER_PLACE.TOP_USER
-        || props.position == USER_PLACE.BOTTOM_USER
+      } else if (
+        props.position == USER_PLACE.TOP_USER ||
+        props.position == USER_PLACE.BOTTOM_USER
       ) {
         transformString = `translate(${index * 10})`;
       }
 
-      return (<g key={index + ((props.position >= 0 ? props.position + 1 : 1) * 25)} transform={transformString}>
-        {getCard(blackBackCardId)}
-      </g>);
-    })
-  return (<>
-    {cardElements}
-  </>);
+      return (
+        <g
+          key={index + (props.position >= 0 ? props.position + 1 : 1) * 25}
+          transform={transformString}
+        >
+          {getBlankBacksideCard()}
+        </g>
+      );
+    });
+  return <>{cardElements}</>;
 });
 
 export default UserCards;
