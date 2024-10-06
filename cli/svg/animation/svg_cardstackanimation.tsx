@@ -5,20 +5,48 @@ import {
   selectActiveMoveLastPlayerCard,
   selectActiveMoveLastPlayer,
 } from '../../store/activeMove.ts';
+import { USER_1 } from '../../websocketconsumer.tsx';
+import { useSvgContext } from '../svg_container.tsx';
+import { USER_INFO } from '../svg_userplaceholder.tsx';
 
 export function SvgCardStackAnimation(props) {
   const refTopCard = useRef();
   const lastPlayerCardId = useAppSelector(selectActiveMoveLastPlayerCard);
   const lastPlayerId = useAppSelector(selectActiveMoveLastPlayer);
+  const refSvg = useSvgContext();
 
   let pathToDraw;
-  if (!lastPlayerCardId && lastPlayerId) {
+  //   console.log(
+  //     `>>props.parentGroup=${props.parentGroup}\n !lastPlayerCardId=${lastPlayerCardId} lastPlayerId=${lastPlayerId}`
+  //   );
+
+  const getUserCardHandPosition = (playerId) => {
+    const userHand = refSvg.current?.querySelector(USER_INFO[playerId - 1].id);
+    const { x, y } = userHand?.getBoundingClientRect() || { x: 400, y: 325 };
+    return { x: x, y: y };
+  };
+
+  if (props.parentGroup && !lastPlayerCardId && lastPlayerId) {
+    // console.log(JSON.stringify(props.parentGroup.getBoundingClientRect()));
+    const { x, y } = props.parentGroup.getBoundingClientRect();
+    const endPosition = getUserCardHandPosition(lastPlayerId);
     pathToDraw = (
       <>
-        <path d='' fill='none' stroke='red' />
+        <path
+          d={`M ${x},${y} L ${endPosition.x},${endPosition.y}`}
+          fill='none'
+          stroke='red'
+          strokeWidth='0.1em'
+        />
       </>
     );
   }
+
+  //   console.log(`>RENDER< parentGroup=${props.parentGroup.}`);
+
+  //   useEffect(() => {
+  //     console.log(`>USEFFECT< parentGroup=${props.parentGroup}`);
+  //   });
 
   return (
     <>

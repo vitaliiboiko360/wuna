@@ -121,7 +121,7 @@ const Card = (props) => {
           };
 
     // console.log(`CARD PATH=${path}`);
-    refSvg?.current.append(element);
+    refSvg.current?.append(element);
     gsap.to(element, {
       motionPath: {
         path: path,

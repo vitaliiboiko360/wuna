@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { getBlankBacksideCard } from './svg_getcard';
 import { useAppSelector } from '../store/hooks.ts';
 import { selectActivePlayerSeatNumber } from '../store/activePlayerSeatNumber.ts';
@@ -10,6 +10,11 @@ import { SvgCardStackAnimation } from './animation/svg_cardstackanimation.tsx';
 
 export function SvgCardStack(props) {
   const activePlayerSeatNumber = useAppSelector(selectActivePlayerSeatNumber);
+  const refToGroup = useRef();
+  const [parentGroup, setParentGroup] = useState();
+  useEffect(() => {
+    if (refToGroup.current) setParentGroup(refToGroup.current);
+  });
   return (
     <>
       {activePlayerSeatNumber ? (
@@ -31,10 +36,13 @@ export function SvgCardStack(props) {
               <g transform={`matrix(0.5,0.8,-0.905,0.2,279,134)`}>
                 {getBlankBacksideCard()}
               </g>
-              <g transform={`matrix(0.5,0.8,-0.905,0.2,280,130)`}>
+              <g
+                ref={refToGroup}
+                transform={`matrix(0.5,0.8,-0.905,0.2,280,130)`}
+              >
                 {getBlankBacksideCard()}
               </g>
-              {<SvgCardStackAnimation />}
+              {<SvgCardStackAnimation parentGroup={parentGroup} />}
             </g>
           </g>
         </g>
