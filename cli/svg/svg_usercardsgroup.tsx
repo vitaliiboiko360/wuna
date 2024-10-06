@@ -10,10 +10,10 @@ function getTransformString(position: number) {
     retString = `matrix(0,-1,1,0,105,370)`;
   }
   if (position == USER_PLACE.TOP_USER) {
-    retString = `matrix(1,0,0,1,360,100)`;
+    retString = `matrix(1,0,0,1,390,100)`;
   }
   if (position == USER_PLACE.RIGHT_USER) {
-    retString = `matrix(0,1,-1,0,688,220)`;
+    retString = `matrix(0,1,-1,0,680,250)`;
   }
   if (position == USER_PLACE.BOTTOM_USER) {
     // for guest edit and enable this string

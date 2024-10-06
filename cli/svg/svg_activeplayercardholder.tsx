@@ -22,13 +22,16 @@ export default function SvgActivePlayerCardHolder(props) {
   const activeDirection = useAppSelector(selectActiveMoveDirection);
   const activeLastPlayer = useAppSelector(selectActiveMoveLastPlayer);
 
-  return (<>
-    <g transform="translate(270,400)">
-      <SvgActivePlayerCards
-        setPlayCardInfo={props.setPlayCardInfo}
-        isOurTurn={isOurTurn(activeDirection, activeLastPlayer)}
-        activeCard={activeCard}
-        cardArray={cardArray} />
-    </g>
-  </>);
+  return (
+    <>
+      <g transform='translate(290,400)'>
+        <SvgActivePlayerCards
+          setPlayCardInfo={props.setPlayCardInfo}
+          isOurTurn={isOurTurn(activeDirection, activeLastPlayer)}
+          activeCard={activeCard}
+          cardArray={cardArray}
+        />
+      </g>
+    </>
+  );
 }
