@@ -1,5 +1,7 @@
 import React from 'react';
 
+export const BACK_SIDE_CARD = 0;
+
 export const enum COLOR {
   BLACK = 0,
   RED,
