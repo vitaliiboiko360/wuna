@@ -32,6 +32,8 @@ const valueSorted = [
   RED._0,
 ];
 
+const SKIP_CARD_0_DRAW = 0;
+
 export function getDrawCardNumber(idOfCard: number) {
   if (
     idOfCard == RED._Draw2 ||
@@ -158,7 +160,9 @@ export default function processMove(
         let arrayToSend: Uint8Array = new Uint8Array(3);
         arrayToSend[0] = userSeat + 1;
         arrayToSend[1] = 0;
-        arrayToSend[2] = isSkipCard(game.topCard) ? 0 : howMuchToDraw;
+        arrayToSend[2] = isSkipCard(game.topCard)
+          ? SKIP_CARD_0_DRAW
+          : howMuchToDraw;
         player.send(arrayToSend);
         isNextSkip = false;
         console.log(
@@ -186,9 +190,16 @@ export default function processMove(
         game.topCard,
         colorToPlay
       );
+      let arrayToSend: Uint8Array = new Uint8Array(5);
       if (move == 0) {
         let lastDrawedCard = game.drawUserCard(userSeat, DRAW1);
+
+        arrayToSend[0] = userSeat + 1;
+        arrayToSend[1] = 0;
+        arrayToSend[2] = DRAW1;
+        arrayToSend[3] = 0;
         move = getPlayableCard([lastDrawedCard], game.topCard, colorToPlay);
+
         console.log(
           '\t::: No playable cards for userSeat=',
           userSeat,
@@ -197,14 +208,19 @@ export default function processMove(
             game.getPlayerHand(userSeat)?.length
           }`
         );
+
+        if (move == 0) {
+          let nextPlayer: number = getNextPlayer(userSeat, game.leftDirection);
+          player.send(arrayToSend);
+          return getUserMoveAndSendIt(nextPlayer);
+        }
       }
 
-      let arrayToSend: Uint8Array = new Uint8Array(3);
-      arrayToSend[0] = userSeat + 1;
-      arrayToSend[1] = move!;
-
-      if (move == 0) {
-        arrayToSend[2] = DRAW1;
+      if (arrayToSend[2] == DRAW1) {
+        arrayToSend[3] = move!;
+      } else {
+        arrayToSend[0] = userSeat + 1;
+        arrayToSend[1] = move!;
       }
 
       if (move != 0) {
@@ -214,7 +230,9 @@ export default function processMove(
         if (isWildCard(move!)) {
           colorToPlay =
             game.UserColorBuckets.getChooseColorToPlayForUser(userSeat);
-          arrayToSend[2] = colorToPlay;
+          arrayToSend[2] == DRAW1
+            ? (arrayToSend[4] = colorToPlay)
+            : (arrayToSend[2] = colorToPlay);
           game.topColor = colorToPlay;
           console.log(
             '\n\t\t ::::: IsWildCard ::: USER userSeat= ',
@@ -270,10 +288,11 @@ export default function processMove(
             );
           }
           if (0 == getPlayableCard(game.getPlayerHand(0), move!, colorToPlay)) {
-            let arrayToSend: Uint8Array = new Uint8Array(3);
+            let arrayToSend: Uint8Array = new Uint8Array(4);
             arrayToSend[0] = USER._1 + 1; // client has player numbering from 1..4
-            arrayToSend[1] = game.drawUserCard(USER._1, DRAW1);
+            arrayToSend[1] = 0;
             arrayToSend[2] = DRAW1;
+            arrayToSend[3] = game.drawUserCard(USER._1, DRAW1);
             player.send(arrayToSend);
             console.log(
               `\t:Pre-check :#1: nextPlayer=${nextPlayer}\t has found no moves:!:!:!:`
