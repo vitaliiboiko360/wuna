@@ -20,8 +20,8 @@ export function SvgCardStackAnimation(props) {
   //     `>>props.parentGroup=${props.parentGroup}\n !lastPlayerCardId=${lastPlayerCardId} lastPlayerId=${lastPlayerId}`
   //   );
 
-  const getUserCardHandPosition = (playerId) => {
-    const userHand = refSvg.current?.querySelector(USER_INFO[playerId - 1].id);
+  const getUserCardHandPosition = (playerId, svgDoc) => {
+    const userHand = svgDoc?.querySelector(`#${USER_INFO[playerId - 1].id}`);
     const { x, y } = userHand?.getBoundingClientRect() || { x: 400, y: 325 };
     return { x: x, y: y };
   };
@@ -29,7 +29,7 @@ export function SvgCardStackAnimation(props) {
   if (props.parentGroup && !lastPlayerCardId && lastPlayerId) {
     // console.log(JSON.stringify(props.parentGroup.getBoundingClientRect()));
     const { x, y } = props.parentGroup.getBoundingClientRect();
-    const endPosition = getUserCardHandPosition(lastPlayerId);
+    const endPosition = getUserCardHandPosition(lastPlayerId, refSvg.current);
     pathToDraw = (
       <>
         <path
