@@ -32,6 +32,7 @@ import {
   updateActiveMove,
   updateActiveMoveCard,
   updateActiveMoveLastPlayer,
+  updateActiveMoveLastPlayerAndCard,
   updateActiveMoveLastPlayerCard,
   updateActiveMoveWildCardColor,
 } from './store/activeMove.ts';
@@ -163,8 +164,28 @@ function processPlayerMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
   if (userSeat != USER_1) {
     if (move == 0) {
       let numberOfDrawedCards = inputArray[2];
-      dispatch(updateActiveMoveLastPlayer(userSeat));
-      dispatch(updateActiveMoveLastPlayerCard(move));
+      if (numberOfDrawedCards == 0) {
+        dispatch(updateActiveMoveLastPlayerAndCard(userSeat, 1));
+        console.log(`\n\tWe recive SKIP card`);
+        return; // we have recieved a Skip card
+      }
+      dispatch(updateActiveMoveLastPlayerAndCard(userSeat, move));
+      if (numberOfDrawedCards == 1) {
+        console.log(`\tinputArray.at(3)=${inputArray.at(3)}`);
+        move = inputArray.at(3) ?? 0;
+        console.log(`\n\tTIMEOUT move= ${move}`);
+        if (move != 0) {
+          setTimeout(()=>{
+            if (isWildCard(move)) {
+              let colorToPlay = inputArray[4];
+              dispatch(updateActiveMoveWildCardColor(colorToPlay));
+            }
+            dispatch(updateActiveMoveLastPlayerCard(move));
+            dispatch(updateActiveMove(move, userSeat));
+          }, 100);
+        }
+      }
+
       switch (userSeat) {
         case USER_2:
           dispatch(incrementLeftUserCardsByNumber(numberOfDrawedCards));

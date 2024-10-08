@@ -21,6 +21,11 @@ const initialState: ActiveMoveInterface = {
   wildCardColor: 0
 };
 
+interface PlayerIdAndCard {
+  lastPlayer: number,
+  lastPlayerCard: number,
+}
+
 export const activeMoveSlice = createSlice({
   name: 'activeMove',
   initialState,
@@ -45,6 +50,18 @@ export const activeMoveSlice = createSlice({
         }
       }
     },
+    updateActiveMoveLastPlayerAndCard: {
+      reducer: (state, action: {payload: PlayerIdAndCard}) => {
+        state.lastPlayer = action.payload.lastPlayer;
+        state.lastPlayerCard = action.payload.lastPlayerCard;
+      },
+      prepare: (player: number, card: number):  {payload: PlayerIdAndCard}=>{
+        return {payload: {
+          lastPlayer: player,
+          lastPlayerCard: card,
+        }}
+      }
+    } ,
     updateActiveMoveCard: (state, action: PayloadAction<number>) => {
       state.card = action.payload;
       if (isReverseCard(action.payload)) {
@@ -66,7 +83,7 @@ export const activeMoveSlice = createSlice({
   }
 });
 
-export const { updateActiveMove, updateActiveMoveCard, updateActiveMoveLastPlayer, updateActiveMoveLastPlayerCard, updateActiveMoveWildCardColor } = activeMoveSlice.actions;
+export const { updateActiveMove, updateActiveMoveCard, updateActiveMoveLastPlayerAndCard, updateActiveMoveLastPlayer, updateActiveMoveLastPlayerCard, updateActiveMoveWildCardColor } = activeMoveSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectActiveMoveCard = (state: RootState) => state.activeMove.card;
