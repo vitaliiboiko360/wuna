@@ -35,7 +35,7 @@ export default function SvgActivePlayerCards(props) {
   useEffect(() => {
     if (playableCardCounter == 0 && props.isOurTurn) {
       console.log(
-        'props.isOurTurn =',
+        '\tUSE EFFECT ACTIVEPLAYERCARDS props.isOurTurn =',
         props.isOurTurn,
         ' playableCardCounter=',
         playableCardCounter
@@ -78,17 +78,18 @@ export default function SvgActivePlayerCards(props) {
               1500
             );
         }
-        if (props.isOurTurn && isCardSameColor(card, activeWildCardColorToPlay))
-          console.log(
-            'card=',
-            card,
-            ' activeWildCardColorToPlay=',
-            activeWildCardColorToPlay,
-            'getCardColor(card)=',
-            getCardColor(card),
-            ' isCardSameColor= ',
-            isCardSameColor(card, activeWildCardColorToPlay)
-          );
+        if (props.isOurTurn && isCardSameColor(card, activeWildCardColorToPlay)){
+          // console.log(
+          //   'card=',
+          //   card,
+          //   ' activeWildCardColorToPlay=',
+          //   activeWildCardColorToPlay,
+          //   'getCardColor(card)=',
+          //   getCardColor(card),
+          //   ' isCardSameColor= ',
+          //   isCardSameColor(card, activeWildCardColorToPlay)
+          // );
+        }
         return (
           <Fragment key={index}>
             <g

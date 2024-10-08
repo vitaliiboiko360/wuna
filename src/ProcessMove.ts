@@ -136,25 +136,19 @@ export default function processMove(
         console.log('SOMEONE SPILLED NEXT MOVE TO 0');
         return;
       }
-
-      // const getNextPlayer = () => {
-      //   if (game.leftDirection) {
-      //     return (userSeat + 1) % USERS;
-      //   } else {
-      //     return userSeat - 1 == -1 ? USERS - 1 : userSeat - 1;
-      //   }
-      // };
-
+      //
       // drawing cards and/or skiping move
       //
 
       let howMuchToDraw: typeof DRAW2 | typeof DRAW4 | typeof DRAW1 = DRAW1;
       if (
-        (DRAW1 != (howMuchToDraw = getDrawCardNumber(game.topCard)) ||
-          isSkipCard(game.topCard)) &&
-        isNextSkip
+        ((DRAW1 != (howMuchToDraw = getDrawCardNumber(game.topCard)) ||
+         isSkipCard(game.topCard)) && isNextSkip)
       ) {
-        if (howMuchToDraw > DRAW1) game.drawUserCard(userSeat, howMuchToDraw);
+        console.log(`\n\t::::CHECK:::: isSkipCard(game.topCard)=${isSkipCard(game.topCard)}`);
+        if (howMuchToDraw > DRAW1 && !isSkipCard(game.topCard)) {
+          game.drawUserCard(userSeat, howMuchToDraw);
+        }
 
         let nextPlayer: number = getNextPlayer(userSeat, game.leftDirection);
         let arrayToSend: Uint8Array = new Uint8Array(3);
@@ -169,13 +163,15 @@ export default function processMove(
           `\n\t:::userSeat=${userSeat} nextPlayer=${nextPlayer}`,
           `\tplayer :#${userSeat} has drew howMuchToDraw= ${howMuchToDraw} NEW length= ${
             game.getPlayerHand(userSeat)?.length
-          }`
+          }`,
+          `\n\tarrayToSend= ${arrayToSend.join(' ')}`
         );
         if (nextPlayer == 0) {
           return;
         }
         return getUserMoveAndSendIt(nextPlayer);
       }
+      //
       // normal flow
       //
       // console.log('\tcolorToPlay == ', colorToPlay, ' game.topColor=', game.topColor, ' game.topCard=', game.topCard, '\n move we get playing hand userSeat=', userSeat);
@@ -254,6 +250,7 @@ export default function processMove(
           userSeat,
           '\t LEFT cards length= ',
           game.getPlayerHand(userSeat)?.length,
+          `\n\t\tisNextSkip= ${isNextSkip}`,
           '\t RETURNED playerCardRemained=',
           playerCardRemained
         );
