@@ -120,6 +120,13 @@ export const getNextPlayer = (userSeat: number, isLeftDirection: boolean) => {
     return userSeat - 1 == -1 ? USERS - 1 : userSeat - 1;
   }
 };
+const getPrevPlayer = (userSeat: number, isLeftDirection: boolean) => {
+  if (!isLeftDirection) {
+    return (userSeat + 1) % USERS;
+  } else {
+    return userSeat - 1 == -1 ? USERS - 1 : userSeat - 1;
+  }
+};
 
 export default function processMove(
   player: ConnectionAndMeta,
@@ -142,10 +149,13 @@ export default function processMove(
 
       let howMuchToDraw: typeof DRAW2 | typeof DRAW4 | typeof DRAW1 = DRAW1;
       if (
-        ((DRAW1 != (howMuchToDraw = getDrawCardNumber(game.topCard)) ||
-         isSkipCard(game.topCard)) && isNextSkip)
+        ((DRAW1 != (howMuchToDraw = getDrawCardNumber(game.topCard))
+          ||
+         isSkipCard(game.topCard))
+          &&
+         (isNextSkip && getPrevPlayer(userSeat, game.leftDirection) != 0))
       ) {
-        console.log(`\n\t::::CHECK:::: isSkipCard(game.topCard)=${isSkipCard(game.topCard)}`);
+        // console.log(`\n\t::::CHECK:::: isSkipCard(game.topCard)=${isSkipCard(game.topCard)}`);
         if (howMuchToDraw > DRAW1 && !isSkipCard(game.topCard)) {
           game.drawUserCard(userSeat, howMuchToDraw);
         }
