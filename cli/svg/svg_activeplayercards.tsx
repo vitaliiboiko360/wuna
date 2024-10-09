@@ -55,7 +55,7 @@ export default function SvgActivePlayerCards(props) {
   return (
     <>
       {(props.cardArray.length
-        ? props.cardArray.with(0, WILD.Wild).with(1, WILD.Draw4)
+        ? props.cardArray //.with(0, WILD.Wild).with(1, WILD.Draw4)
         : props.cardArray
       ).map((card, index) => {
         let transformString = '';
