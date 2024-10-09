@@ -174,10 +174,11 @@ function processPlayerMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
         console.log(`\tinputArray.at(3)=${inputArray.at(3)}`);
         move = inputArray.at(3) ?? 0;
         console.log(`\n\tTIMEOUT move= ${move}`);
+        let colorToPlay = inputArray[4];
+        console.log(`colorToPlay= ${colorToPlay}`);
         if (move != 0) {
-          setTimeout(()=>{
+          setTimeout(() => {
             if (isWildCard(move)) {
-              let colorToPlay = inputArray[4];
               dispatch(updateActiveMoveWildCardColor(colorToPlay));
             }
             dispatch(updateActiveMoveLastPlayerCard(move));

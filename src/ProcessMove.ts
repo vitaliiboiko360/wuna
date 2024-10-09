@@ -149,11 +149,10 @@ export default function processMove(
 
       let howMuchToDraw: typeof DRAW2 | typeof DRAW4 | typeof DRAW1 = DRAW1;
       if (
-        ((DRAW1 != (howMuchToDraw = getDrawCardNumber(game.topCard))
-          ||
-         isSkipCard(game.topCard))
-          &&
-         (isNextSkip && getPrevPlayer(userSeat, game.leftDirection) != 0))
+        (DRAW1 != (howMuchToDraw = getDrawCardNumber(game.topCard)) ||
+          isSkipCard(game.topCard)) &&
+        isNextSkip &&
+        getPrevPlayer(userSeat, game.leftDirection) != 0
       ) {
         // console.log(`\n\t::::CHECK:::: isSkipCard(game.topCard)=${isSkipCard(game.topCard)}`);
         if (howMuchToDraw > DRAW1 && !isSkipCard(game.topCard)) {
