@@ -156,8 +156,8 @@ function processSeatRequest(
       console.log('first move from 4th player');
       let arrayToSend = new Uint8Array(3);
       arrayToSend[0] = 4;
-      arrayToSend[1] = WILD.Wild;
-      arrayToSend[2] = COLOR.RED;
+      arrayToSend[1] = game.topCard;
+      arrayToSend[2] = 0;
       webSocket.send(arrayToSend);
     }, 500);
   }, 3000);
