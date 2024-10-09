@@ -182,7 +182,7 @@ function processPlayerMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
             }
             dispatch(updateActiveMoveLastPlayerCard(move));
             dispatch(updateActiveMove(move, userSeat));
-          }, 100);
+          }, 10);
         }
       }
 
