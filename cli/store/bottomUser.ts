@@ -31,15 +31,23 @@ export const bottomUserSlice = createSlice({
     },
     default: (state) => {
       return state;
-    }
-  }
+    },
+  },
 });
 
-export const { updateBottomUserCardsNumber, incrementBottomUserCardsNumber, updateBottomUserAvatarId, updateBottomUserSeatNumber } = bottomUserSlice.actions
+export const {
+  updateBottomUserCardsNumber,
+  incrementBottomUserCardsNumber,
+  updateBottomUserAvatarId,
+  updateBottomUserSeatNumber,
+} = bottomUserSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectBottomUserCardsNumber = (state: RootState) => state.bottomUser.cardsNumber;
-export const selectBottomUserAvatarId = (state: RootState) => state.bottomUser.avatarId;
-export const selectBottomUserSeatNumber = (state: RootState) => state.bottomUser.seatNumber;
+export const selectBottomUserCardsNumber = (state: RootState) =>
+  state.bottomUser.cardsNumber;
+export const selectBottomUserAvatarId = (state: RootState) =>
+  state.bottomUser.avatarId;
+export const selectBottomUserSeatNumber = (state: RootState) =>
+  state.bottomUser.seatNumber;
 
 export default bottomUserSlice.reducer;

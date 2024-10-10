@@ -32,15 +32,25 @@ export const topUserSlice = createSlice({
     },
     default: (state) => {
       return state;
-    }
-  }
+    },
+  },
 });
 
-export const { updateTopUserCardsNumber, incrementTopUserCardsNumber, decrementTopUserCardsNumber, incrementTopUserCardsByNumber, updateTopUserAvatarId, updateTopUserSeatNumber } = topUserSlice.actions
+export const {
+  updateTopUserCardsNumber,
+  incrementTopUserCardsNumber,
+  decrementTopUserCardsNumber,
+  incrementTopUserCardsByNumber,
+  updateTopUserAvatarId,
+  updateTopUserSeatNumber,
+} = topUserSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectTopUserCardsNumber = (state: RootState) => state.topUser.cardsNumber;
-export const selectTopUserAvatarId = (state: RootState) => state.topUser.avatarId;
-export const selectTopUserSeatNumber = (state: RootState) => state.topUser.seatNumber;
+export const selectTopUserCardsNumber = (state: RootState) =>
+  state.topUser.cardsNumber;
+export const selectTopUserAvatarId = (state: RootState) =>
+  state.topUser.avatarId;
+export const selectTopUserSeatNumber = (state: RootState) =>
+  state.topUser.seatNumber;
 
 export default topUserSlice.reducer;

@@ -38,15 +38,25 @@ export const rightUserSlice = createSlice({
     },
     default: (state) => {
       return state;
-    }
-  }
+    },
+  },
 });
 
-export const { updateRightUserCardsNumber, incrementRightUserCardsNumber, decrementRightUserCardsNumber, incrementRightUserCardsByNumber, updateRightUserAvatarId, updateRightUserSeatNumber } = rightUserSlice.actions
+export const {
+  updateRightUserCardsNumber,
+  incrementRightUserCardsNumber,
+  decrementRightUserCardsNumber,
+  incrementRightUserCardsByNumber,
+  updateRightUserAvatarId,
+  updateRightUserSeatNumber,
+} = rightUserSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectRightUserCardsNumber = (state: RootState) => state.rightUser.cardsNumber;
-export const selectRightUserAvatarId = (state: RootState) => state.rightUser.avatarId;
-export const selectRightUserSeatNumber = (state: RootState) => state.rightUser.seatNumber;
+export const selectRightUserCardsNumber = (state: RootState) =>
+  state.rightUser.cardsNumber;
+export const selectRightUserAvatarId = (state: RootState) =>
+  state.rightUser.avatarId;
+export const selectRightUserSeatNumber = (state: RootState) =>
+  state.rightUser.seatNumber;
 
 export default rightUserSlice.reducer;
