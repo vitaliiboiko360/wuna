@@ -18,33 +18,26 @@ export function SvgCardStack(props) {
   return (
     <>
       {activePlayerSeatNumber ? (
-        <g transform='scale(0.9)'>
-          <g transform='translate(-10,85)'>
-            <g transform='rotate(-15)'>
-              <g transform={`matrix(0.5,0.8,-0.905,0.2,275,150)`}>
-                {getBlankBacksideCard()}
-              </g>
-              <g transform={`matrix(0.5,0.8,-0.905,0.2,276,146)`}>
-                {getBlankBacksideCard()}
-              </g>
-              <g transform={`matrix(0.5,0.8,-0.905,0.2,277,142)`}>
-                {getBlankBacksideCard()}
-              </g>
-              <g transform={`matrix(0.5,0.8,-0.905,0.2,278,138)`}>
-                {getBlankBacksideCard()}
-              </g>
-              <g transform={`matrix(0.5,0.8,-0.905,0.2,279,134)`}>
-                {getBlankBacksideCard()}
-              </g>
-              <g
-                ref={refToGroup}
-                transform={`matrix(0.5,0.8,-0.905,0.2,280,130)`}
-              >
-                {getBlankBacksideCard()}
-              </g>
-              {<SvgCardStackAnimation parentGroup={parentGroup} />}
-            </g>
+        <g transform='scale(0.9) translate(-10,85) rotate(-15)'>
+          <g transform={`matrix(0.5,0.8,-0.905,0.2,275,150)`}>
+            {getBlankBacksideCard()}
           </g>
+          <g transform={`matrix(0.5,0.8,-0.905,0.2,276,146)`}>
+            {getBlankBacksideCard()}
+          </g>
+          <g transform={`matrix(0.5,0.8,-0.905,0.2,277,142)`}>
+            {getBlankBacksideCard()}
+          </g>
+          <g transform={`matrix(0.5,0.8,-0.905,0.2,278,138)`}>
+            {getBlankBacksideCard()}
+          </g>
+          <g transform={`matrix(0.5,0.8,-0.905,0.2,279,134)`}>
+            {getBlankBacksideCard()}
+          </g>
+          <g ref={refToGroup} transform={`matrix(0.5,0.8,-0.905,0.2,280,130)`}>
+            {getBlankBacksideCard()}
+          </g>
+          {<SvgCardStackAnimation parentGroup={parentGroup} />}
         </g>
       ) : (
         <></>

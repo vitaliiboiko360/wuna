@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { getBlankBacksideCard } from '../svg_getcard.tsx';
 import { useAppSelector } from '../../store/hooks.ts';
 import {
@@ -65,7 +66,7 @@ export function SvgCardStackAnimation(props) {
       <g ref={refTopCard} transform={`matrix(0.5,0.8,-0.905,0.2,280,130)`}>
         {getBlankBacksideCard()}
       </g>
-      {pathToDraw}
+      {createPortal(<>{pathToDraw}</>, refSvg.current)}
     </>
   );
 }
