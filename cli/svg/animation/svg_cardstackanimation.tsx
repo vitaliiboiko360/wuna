@@ -10,6 +10,10 @@ import { USER_1 } from '../../websocketconsumer.tsx';
 import { useSvgContext } from '../svg_container.tsx';
 import { USER_INFO } from '../svg_userplaceholder.tsx';
 
+function AnimatePath(props) {
+  return <></>;
+}
+
 export function SvgCardStackAnimation(props) {
   const refTopCard = useRef();
   const lastPlayerCardId = useAppSelector(selectActiveMoveLastPlayerCard);
