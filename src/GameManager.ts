@@ -227,7 +227,7 @@ function processPlayerInputConnection(data: Uint8Array, id: number) {
   }
 }
 
-export function dispatchClientMessage(
+export function recieveClientMessage(
   data: Uint8Array,
   webSocket: AppWebSocketInterface
 ) {

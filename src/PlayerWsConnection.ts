@@ -3,12 +3,12 @@ import WebSocket from 'ws';
 let webSocketId: number = 0;
 
 export declare interface AppWebSocketInterface extends WebSocket {
-  id: number
+  id: number;
 }
 
 export let wsArray: AppWebSocketInterface[] = [];
 
-import { cleanupPlayerId, dispatchClientMessage } from './GameManager';
+import { cleanupPlayerId, recieveClientMessage } from './GameManager';
 
 function initializeWebSocket(webSocket: AppWebSocketInterface) {
   webSocket.on('error', (error) => {
@@ -26,13 +26,13 @@ function initializeWebSocket(webSocket: AppWebSocketInterface) {
 
   webSocket.on('message', function message(data, isBinary) {
     if (isBinary) {
-      dispatchClientMessage(data as Uint8Array, webSocket);
+      recieveClientMessage(data as Uint8Array, webSocket);
     }
   });
 }
 
 export default function registerPlayerConnection(ws: WebSocket) {
-  let webSocket: AppWebSocketInterface = (ws) as AppWebSocketInterface;
+  let webSocket: AppWebSocketInterface = ws as AppWebSocketInterface;
   webSocket.id = webSocketId++;
   wsArray.push(webSocket);
   initializeWebSocket(webSocket);
