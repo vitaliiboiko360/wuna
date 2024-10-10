@@ -3,23 +3,32 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from './store';
 
-import { initialState } from './userInterface.ts';
+// import { initialState } from './userInterface.ts';
+const initialState = {
+  cardsNumber: 0,
+  newCardsAddedNumber: 0,
+  avatarId: 0,
+  seatNumber: 0,
+};
 
 export const rightUserSlice = createSlice({
   name: 'rightUser',
   initialState,
   reducers: {
     updateRightUserCardsNumber: (state, action: PayloadAction<number>) => {
-      state.cardsNumber = action.payload;
+      state.cardsNumber = action.payload + 1;
     },
     incrementRightUserCardsNumber: (state, action: PayloadAction<void>) => {
       state.cardsNumber++;
+      state.newCardsAddedNumber = 1;
     },
     decrementRightUserCardsNumber: (state, action: PayloadAction<void>) => {
       state.cardsNumber--;
+      state.newCardsAddedNumber = -1;
     },
     incrementRightUserCardsByNumber: (state, action: PayloadAction<number>) => {
       state.cardsNumber = state.cardsNumber + action.payload;
+      state.newCardsAddedNumber = action.payload;
     },
     updateRightUserAvatarId: (state, action: PayloadAction<number>) => {
       state.avatarId = action.payload;

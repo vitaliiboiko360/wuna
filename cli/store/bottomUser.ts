@@ -14,6 +14,14 @@ export const bottomUserSlice = createSlice({
     },
     incrementBottomUserCardsNumber: (state, action: PayloadAction<void>) => {
       state.cardsNumber++;
+      state.newCardsAddedNumber = 1;
+    },
+    incrementBottomUserCardsByNumber: (
+      state,
+      action: PayloadAction<number>
+    ) => {
+      state.cardsNumber = action.payload;
+      state.newCardsAddedNumber = action.payload;
     },
     updateBottomUserAvatarId: (state, action: PayloadAction<number>) => {
       state.avatarId = action.payload;

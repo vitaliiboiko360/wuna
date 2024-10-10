@@ -14,12 +14,15 @@ export const leftUserSlice = createSlice({
     },
     incrementLeftUserCardsNumber: (state, action: PayloadAction<void>) => {
       state.cardsNumber++;
+      state.newCardsAddedNumber = 1;
     },
     decrementLeftUserCardsNumber: (state, action: PayloadAction<void>) => {
       state.cardsNumber--;
+      state.newCardsAddedNumber = -1;
     },
     incrementLeftUserCardsByNumber: (state, action: PayloadAction<number>) => {
       state.cardsNumber = state.cardsNumber + action.payload;
+      state.newCardsAddedNumber = action.payload;
     },
     updateLeftUserAvatarId: (state, action: PayloadAction<number>) => {
       state.avatarId = action.payload;
