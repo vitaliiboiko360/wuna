@@ -205,7 +205,7 @@ function processPlayerInputConnection(data: Uint8Array, id: number) {
     }
   }
   console.log('\nPROCESS_MOVE CALL:::\n');
-  processMove(player!, game, data);
+  processMove(player!, game, data, isValidCard(idOfCard));
   return; // disable multiplayer below
 
   // player just moved a valid card
