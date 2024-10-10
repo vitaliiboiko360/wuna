@@ -21,19 +21,27 @@ export function SvgCardStackAnimation(props) {
   //   );
 
   const getUserCardHandPosition = (playerId, svgDoc) => {
+    const defaultValue = { x: 400, y: 325 };
     const userHand = svgDoc?.querySelector(`#${USER_INFO[playerId - 1].id}`);
-    const { x, y } = userHand?.getBoundingClientRect() || { x: 400, y: 325 };
-    return { x: x, y: y };
+    if (!userHand) return defaultValue;
+    userHand;
+    let ctm = userHand.getScreenCTM();
+    let inverse = ctm; //.inverse();
+    // console.log(`\tinverse =${inverse}`);
+    const stringToOutput = `a: ${inverse.a}  b:${inverse.b}\nc:${inverse.c}  d:${inverse.d}\ne:${inverse.e}  f:${inverse.f}`;
+    console.log(stringToOutput);
+    const { x, y } = userHand?.getBoundingClientRect() || defaultValue;
+    return { x: ctm.e, y: ctm.f };
   };
 
   if (props.parentGroup && !lastPlayerCardId && lastPlayerId) {
     // console.log(JSON.stringify(props.parentGroup.getBoundingClientRect()));
-    const { x, y } = props.parentGroup.getBoundingClientRect();
+    const { e, f } = props.parentGroup.getScreenCTM();
     const endPosition = getUserCardHandPosition(lastPlayerId, refSvg.current);
     pathToDraw = (
       <>
         <path
-          d={`M ${x},${y} L ${endPosition.x},${endPosition.y}`}
+          d={`M ${e},${f} L ${endPosition.x},${endPosition.y}`}
           fill='none'
           stroke='red'
           strokeWidth='0.1em'
