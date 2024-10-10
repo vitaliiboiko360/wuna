@@ -26,10 +26,14 @@ export function SvgCardStackAnimation(props) {
     if (!userHand) return defaultValue;
     userHand;
     let ctm = userHand.getScreenCTM();
-    let inverse = ctm; //.inverse();
+    let inverse = ctm.inverse();
     // console.log(`\tinverse =${inverse}`);
-    const stringToOutput = `a: ${inverse.a}  b:${inverse.b}\nc:${inverse.c}  d:${inverse.d}\ne:${inverse.e}  f:${inverse.f}`;
+    const stringToOutput = `a: ${ctm.a}  b:${ctm.b}\nc:${ctm.c}  d:${ctm.d}\ne:${ctm.e}  f:${ctm.f}`;
     console.log(stringToOutput);
+    console.log(
+      `a: ${inverse.a}  b:${inverse.b}\nc:${inverse.c}  d:${inverse.d}\ne:${inverse.e}  f:${inverse.f}`
+    );
+    console.log(userHand.getBBox());
     const { x, y } = userHand?.getBoundingClientRect() || defaultValue;
     return { x: ctm.e, y: ctm.f };
   };

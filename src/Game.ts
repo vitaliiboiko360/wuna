@@ -349,14 +349,14 @@ class ColorBucketTotalValues {
   }
 
   getChooseColorToPlayForUser(userSeat: number) {
-    const getChooseColor = (inputArray: number[]) => {
+    const getChooseColor = (inputArray: number[]): number => {
       let sortedArray = inputArray
         .map((value, indexColor) => {
           return [value, indexColor];
         })
         .sort((a: number[], b: number[]) => {
-          if (a[0] < b[0]) return -1;
-          if (a[0] > b[0]) return 1;
+          if (a[0] > b[0]) return -1;
+          if (a[0] < b[0]) return 1;
           return 0;
         });
 
@@ -367,8 +367,8 @@ class ColorBucketTotalValues {
         userSeat,
         ' = ',
         inputArray.join(' '),
-        'color=',
-        color,
+        'color+1=',
+        color + 1,
         'sorted array=',
         sortedArray.join(' ')
       );
@@ -376,7 +376,7 @@ class ColorBucketTotalValues {
         console.log('value==0', ' or isNan=', Number.isNaN(value));
         return Math.floor(Math.random() * 3) + 1; // 0,1,2,3 colors but frontend use 1,2,3,4
       }
-      return color;
+      return color + 1;
     };
     switch (userSeat) {
       case USER._1:
