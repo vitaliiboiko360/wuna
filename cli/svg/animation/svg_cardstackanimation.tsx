@@ -5,7 +5,7 @@ import {
   selectActiveMoveLastPlayerCard,
   selectActiveMoveLastPlayer,
 } from '../../store/activeMove.ts';
-import { USER_1 } from '../../websocketconsumer.tsx';
+import { USER_2, USER_3, USER_4 } from '../../websocketconsumer.tsx';
 import { useSvgContext } from '../svg_container.tsx';
 import { USER_INFO } from '../svg_userplaceholder.tsx';
 import { AnimatePath } from './svg_cardstackanimationpath.tsx';
@@ -25,10 +25,22 @@ export function SvgCardStackAnimation(props) {
 
   const getUserCardHandPosition = (playerId, svgDoc) => {
     const defaultValue = { x: 400, y: 325 };
-    const userHand = svgDoc?.querySelector(`#${USER_INFO[playerId - 1].id}`);
-    if (!userHand) return defaultValue;
-    userHand;
-    let ctm = userHand.getScreenCTM();
+    const userIndex = playerId - 1;
+    const userHand = svgDoc?.querySelector(`#${USER_INFO[userIndex].id}`);
+    if (!userHand) {
+      return defaultValue;
+    }
+    const boundingBox = userHand.getBBox();
+
+    const xCenter = boundingBox.height / 2;
+    const yCenter = boundingBox.width / 2;
+
+    let point = new DOMPoint(xCenter, yCenter);
+    let ctm = userHand.getCTM();
+    // point.matrixTransform(ctm);
+    let svgCorrectCoordinates = point.matrixTransform(ctm);
+    // let ctm = userHand.getScreenCTM();
+    // toElement.getScreenCTM().inverse().multiply(ctm);
     // let inverse = ctm.inverse();
     // console.log(`\tinverse =${inverse}`);
     // const stringToOutput = `a: ${ctm.a}  b:${ctm.b}\nc:${ctm.c}  d:${ctm.d}\ne:${ctm.e}  f:${ctm.f}`;
@@ -36,30 +48,42 @@ export function SvgCardStackAnimation(props) {
     // console.log(
     //   `a: ${inverse.a}  b:${inverse.b}\nc:${inverse.c}  d:${inverse.d}\ne:${inverse.e}  f:${inverse.f}`
     // );
-    // console.log(userHand.getBBox());
+    console.log(`\tsvgCorrectCoordinates.x=${svgCorrectCoordinates.x}`);
+    console.log(`\tsvgCorrectCoordinates.y=${svgCorrectCoordinates.y}`);
     // const { x, y } = userHand?.getBoundingClientRect() || defaultValue;
-    return { x: parseInt(ctm.e), y: parseInt(ctm.f) };
+    return {
+      x: svgCorrectCoordinates.x,
+      y: svgCorrectCoordinates.y,
+    };
   };
+
   let refToDebug = useRef();
   let pathToDebug;
   if (props.parentGroup && !lastPlayerCardId && lastPlayerId) {
     console.log(`\t :: DRAW a8n lastPlayerCardId= ${lastPlayerCardId}`);
-    const { e, f } = props.parentGroup.getScreenCTM();
+    let point = new DOMPoint(0, 0);
+    let ctm = props.parentGroup.getCTM();
+    let svgCorrectCoordinates = point.matrixTransform(ctm);
+
+    let point2 = new DOMPoint(CARD_HALF_WIDTH, CARD_HALF_HEIGHT);
+    let svgCorrectCoordinates2 = point2.matrixTransform(ctm);
+    const startX = svgCorrectCoordinates2.x;
+    const startY = svgCorrectCoordinates2.y;
+    console.log(`\t\t svgCorrectCoordinates2.x=${svgCorrectCoordinates2.x}`);
+    console.log(`\t\t svgCorrectCoordinates2.y=${svgCorrectCoordinates2.y}`);
     const endPosition = getUserCardHandPosition(lastPlayerId, refSvg.current);
     pathToDebug = (
       <>
         <path
           ref={refToDebug}
-          d={`M ${e},${f} L ${endPosition.x},${endPosition.y}`}
+          d={`M ${startX},${startY} L ${endPosition.x},${endPosition.y}`}
           fill='none'
           stroke='red'
           strokeWidth='0.1em'
         />
       </>
     );
-    let eNorm = parseInt(e);
-    let fNorm = parseInt(f);
-    pathToDraw = `M ${e},${f} L ${endPosition.x},${endPosition.y}`;
+    pathToDraw = `M ${startX},${startY} L ${endPosition.x},${endPosition.y}`;
     console.log(`\t :: DRAW a8n pathToDraw= ${pathToDraw}`);
   }
 
