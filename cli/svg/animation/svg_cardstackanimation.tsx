@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, forwardRef } from 'react';
 import { createPortal } from 'react-dom';
-import { getBlankBacksideCard } from '../svg_getcard.tsx';
 import { useAppSelector } from '../../store/hooks.ts';
 import {
   selectActiveMoveLastPlayerCard,
@@ -9,59 +8,10 @@ import {
 import { USER_1 } from '../../websocketconsumer.tsx';
 import { useSvgContext } from '../svg_container.tsx';
 import { USER_INFO } from '../svg_userplaceholder.tsx';
+import { AnimatePath } from './svg_cardstackanimationpath.tsx';
 
-import { gsap } from 'gsap';
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
-import { useGSAP } from '@gsap/react';
-
-gsap.registerPlugin(MotionPathPlugin);
-gsap.registerPlugin(useGSAP);
-
-const AnimatePath = (props) => {
-  const refToCardGroup = useRef();
-  const { pathToDraw } = props;
-  props.pathToDraw &&
-    console.log(`\t\t CHECK input props pathToDraw= ${pathToDraw}`);
-
-  useEffect(() => {
-    if (refToCardGroup.current) {
-      console.log(`\t ::: refToGroup.current=${refToCardGroup.current}`);
-      if (pathToDraw) {
-        console.log(`\t\t::: ANIME PATH path= ${pathToDraw}`);
-        gsap.to(refToCardGroup.current, {
-          motionPath: {
-            path: pathToDraw,
-            // align: pathToDraw,
-            alignOrigin: [0.5, 0.5],
-            autoRotate: false,
-          },
-          transformOrigin: '50% 50%',
-          rotation: 15,
-          duration: 1,
-          ease: 'power1.inOut',
-        });
-      }
-    }
-  }, [pathToDraw]);
-
-  return (
-    <>
-      {pathToDraw && (
-        <>
-          <g
-            ref={refToCardGroup}
-            transform={`matrix(0.5,0.8,-0.905,0.2,280,130)`}
-          >
-            {getBlankBacksideCard()}
-          </g>
-          <g transform={`matrix(0.5,0.8,-0.905,0.2,280,130)`}>
-            {getBlankBacksideCard()}
-          </g>
-        </>
-      )}
-    </>
-  );
-};
+const CARD_HALF_WIDTH = 32;
+const CARD_HALF_HEIGHT = 48;
 
 export function SvgCardStackAnimation(props) {
   const lastPlayerCardId = useAppSelector(selectActiveMoveLastPlayerCard);
