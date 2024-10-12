@@ -57,19 +57,53 @@ export function SvgCardStackAnimation(props) {
     const startY = svgCorrectCoordinates.y;
 
     const endPosition = getUserCardHandPosition(lastPlayerId, refSvg.current);
+
+    const sub = (a: number, b: number): number => {
+      return a > b ? -(a - b) : b - a;
+    };
+
+    const add = (
+      a: number,
+      b: number,
+      c: number,
+      d: number
+    ): { x: number; y: number } => {
+      return Math.random() > 0.5
+        ? { x: a + c, y: b - d }
+        : { x: a - c, y: b + c };
+    };
+
+    const X = sub(startX, endPosition.x);
+    const Y = sub(startY, endPosition.y);
+    let halfWayThere = Math.sqrt(X ** 2 + Y ** 2) / 2;
+
+    const alpha = Math.tan(Math.PI / 12);
+    const deltaH = alpha * halfWayThere;
+
+    const halfX = X / 2;
+    const halfY = Y / 2;
+
+    const coeffX = halfX / halfWayThere;
+    const coeffY = halfY / halfWayThere;
+
+    const deltaX = deltaH * coeffY;
+    const deltaY = deltaH * coeffX;
+
+    const { x, y } = add(halfX, halfY, deltaX, deltaY);
+
     pathToDebug = (
       <>
         <path
           ref={refToDebug}
-          d={`M ${startX},${startY} L ${endPosition.x},${endPosition.y}`}
+          d={`M ${startX},${startY} C${x},${y} ${x},${y} ${endPosition.x},${endPosition.y}`}
           fill='none'
           stroke='red'
           strokeWidth='0.1em'
         />
       </>
     );
-    pathToDraw = `M ${startX},${startY} L ${endPosition.x},${endPosition.y}`;
-    console.log(`\t :: DRAW a8n pathToDraw= ${pathToDraw}`);
+    pathToDraw = `M ${startX},${startY} C${x},${y} ${x},${y} ${endPosition.x},${endPosition.y}`;
+    // console.log(`\t :: DRAW a8n pathToDraw= ${pathToDraw}`);
   }
 
   //   console.log(`>RENDER< parentGroup=${props.parentGroup.}`);
