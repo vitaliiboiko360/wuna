@@ -48,17 +48,14 @@ export function SvgCardStackAnimation(props) {
   let refToDebug = useRef();
   let pathToDebug;
   if (props.parentGroup && !lastPlayerCardId && lastPlayerId) {
-    console.log(`\t :: DRAW a8n lastPlayerCardId= ${lastPlayerCardId}`);
-    let point = new DOMPoint(0, 0);
+    // console.log(`\t :: DRAW a8n lastPlayerCardId= ${lastPlayerCardId}`);
+    let point = new DOMPoint(CARD_HALF_WIDTH, CARD_HALF_HEIGHT);
     let ctm = props.parentGroup.getCTM();
     let svgCorrectCoordinates = point.matrixTransform(ctm);
 
-    let point2 = new DOMPoint(CARD_HALF_WIDTH, CARD_HALF_HEIGHT);
-    let svgCorrectCoordinates2 = point2.matrixTransform(ctm);
-    const startX = svgCorrectCoordinates2.x;
-    const startY = svgCorrectCoordinates2.y;
-    console.log(`\t\t svgCorrectCoordinates2.x=${svgCorrectCoordinates2.x}`);
-    console.log(`\t\t svgCorrectCoordinates2.y=${svgCorrectCoordinates2.y}`);
+    const startX = svgCorrectCoordinates.x;
+    const startY = svgCorrectCoordinates.y;
+
     const endPosition = getUserCardHandPosition(lastPlayerId, refSvg.current);
     pathToDebug = (
       <>
