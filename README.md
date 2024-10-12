@@ -7,7 +7,7 @@ Web UNO game based on websocket and svg
 To run locally:  
 `./generateLocalDevOnlyCertificates.sh` to generate certs files `./key.pem` and `./cert.pem`  
 `./startGameServer.sh` to start server  
-`npm run build && npm run watch` to start client
+`npm run build & npm run watch` to start client
 
 **protocol**  
 CLI -> SRV  
