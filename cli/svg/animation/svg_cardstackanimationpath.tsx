@@ -20,17 +20,18 @@ export const AnimatePath = (props) => {
       console.log(`\t ::: refToGroup.current=${refToCardGroup.current}`);
       if (pathToDraw) {
         console.log(`\t\t::: ANIME PATH path= ${pathToDraw}`);
+        gsap.set(refToCardGroup.current, { transform: '' });
         gsap.to(refToCardGroup.current, {
           motionPath: {
             path: pathToDraw,
             // align: pathToDraw,
             alignOrigin: [0.5, 0.5],
-            autoRotate: true,
+            autoRotate: false,
           },
-          transformOrigin: '50% 50%',
-          rotation: 15,
-          duration: 1,
-          ease: 'power1.inOut',
+          // transformOrigin: '50% 50%',
+          rotation: 195,
+          duration: 1.1,
+          ease: 'power3.in',
         });
       }
     }

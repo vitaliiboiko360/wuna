@@ -89,7 +89,7 @@ export function SvgCardStackAnimation(props) {
     const deltaX = deltaH * coeffY;
     const deltaY = deltaH * coeffX;
 
-    const { x, y } = add(halfX, halfY, deltaX, deltaY);
+    const { x, y } = add(halfX + startX, halfY + startY, deltaX, deltaY);
 
     pathToDebug = (
       <>
