@@ -6,24 +6,27 @@ import { isReverseCard } from '../svg/svg_getcard.tsx';
 import { isWildCard } from '../../src/Cards.ts';
 
 interface ActiveMoveInterface {
-  card: number,
-  lastPlayer: number,
-  lastPlayerCard: number,
-  directionClockwize: boolean,
-  wildCardColor: number
+  card: number;
+  lastPlayer: number;
+  lastPlayerCard: number;
+  lastDrewCardNumber: number;
+  directionClockwize: boolean;
+  wildCardColor: number;
 }
 
 const initialState: ActiveMoveInterface = {
   card: 0,
   lastPlayer: 0,
   lastPlayerCard: 0,
+  lastDrewCardNumber: 0,
   directionClockwize: true,
-  wildCardColor: 0
+  wildCardColor: 0,
 };
 
-interface PlayerIdAndCard {
-  lastPlayer: number,
-  lastPlayerCard: number,
+interface PlayerIdAndCardInfo {
+  lastPlayer: number;
+  lastPlayerCard: number;
+  lastDrewCardNumber: number;
 }
 
 export const activeMoveSlice = createSlice({
@@ -31,7 +34,10 @@ export const activeMoveSlice = createSlice({
   initialState,
   reducers: {
     updateActiveMove: {
-      reducer: (state, action: { payload: { card: number, lastPlayer: number } }) => {
+      reducer: (
+        state,
+        action: { payload: { card: number; lastPlayer: number } }
+      ) => {
         if (isReverseCard(action.payload.card)) {
           state.directionClockwize = !state.directionClockwize;
         }
@@ -45,23 +51,31 @@ export const activeMoveSlice = createSlice({
         return {
           payload: {
             card: card,
-            lastPlayer: lastPlayer
-          }
-        }
-      }
+            lastPlayer: lastPlayer,
+          },
+        };
+      },
     },
-    updateActiveMoveLastPlayerAndCard: {
-      reducer: (state, action: {payload: PlayerIdAndCard}) => {
+    updateActiveMoveLastPlayerCardMoveInfo: {
+      reducer: (state, action: { payload: PlayerIdAndCardInfo }) => {
         state.lastPlayer = action.payload.lastPlayer;
         state.lastPlayerCard = action.payload.lastPlayerCard;
+        state.lastDrewCardNumber = action.payload.lastDrewCardNumber;
       },
-      prepare: (player: number, card: number):  {payload: PlayerIdAndCard}=>{
-        return {payload: {
-          lastPlayer: player,
-          lastPlayerCard: card,
-        }}
-      }
-    } ,
+      prepare: (
+        player: number,
+        card: number,
+        drew: number
+      ): { payload: PlayerIdAndCardInfo } => {
+        return {
+          payload: {
+            lastPlayer: player,
+            lastPlayerCard: card,
+            lastDrewCardNumber: drew,
+          },
+        };
+      },
+    },
     updateActiveMoveCard: (state, action: PayloadAction<number>) => {
       state.card = action.payload;
       if (isReverseCard(action.payload)) {
@@ -79,17 +93,39 @@ export const activeMoveSlice = createSlice({
     },
     default: (state) => {
       return state;
-    }
-  }
+    },
+  },
 });
 
-export const { updateActiveMove, updateActiveMoveCard, updateActiveMoveLastPlayerAndCard, updateActiveMoveLastPlayer, updateActiveMoveLastPlayerCard, updateActiveMoveWildCardColor } = activeMoveSlice.actions;
+export const {
+  updateActiveMove,
+  updateActiveMoveCard,
+  updateActiveMoveLastPlayerCardMoveInfo,
+  updateActiveMoveLastPlayer,
+  updateActiveMoveLastPlayerCard,
+  updateActiveMoveWildCardColor,
+} = activeMoveSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectActiveMoveCard = (state: RootState) => state.activeMove.card;
-export const selectActiveMoveLastPlayer = (state: RootState) => state.activeMove.lastPlayer;
-export const selectActiveMoveLastPlayerCard = (state: RootState) => state.activeMove.lastPlayerCard;
-export const selectActiveMoveDirection = (state: RootState) => state.activeMove.directionClockwize;
-export const selectActiveMoveWildCardColor = (state: RootState) => state.activeMove.wildCardColor;
+export const selectActiveMoveLastPlayer = (state: RootState) =>
+  state.activeMove.lastPlayer;
+export const selectActiveMoveLastPlayerCard = (state: RootState) =>
+  state.activeMove.lastPlayerCard;
+export const selectActiveMoveLastDrewCardNumber = (state: RootState) =>
+  state.activeMove.lastDrewCardNumber;
+export const selectActiveMoveDirection = (state: RootState) =>
+  state.activeMove.directionClockwize;
+export const selectActiveMoveWildCardColor = (state: RootState) =>
+  state.activeMove.wildCardColor;
+export const selectActiveMoveLastMoveInfo = (
+  state: RootState
+): PlayerIdAndCardInfo => {
+  return {
+    lastPlayer: state.activeMove.lastPlayer,
+    lastPlayerCard: state.activeMove.lastPlayerCard,
+    lastDrewCardNumber: state.activeMove.lastDrewCardNumber,
+  };
+};
 
 export default activeMoveSlice.reducer;

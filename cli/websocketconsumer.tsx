@@ -33,7 +33,7 @@ import {
   updateActiveMove,
   updateActiveMoveCard,
   updateActiveMoveLastPlayer,
-  updateActiveMoveLastPlayerAndCard,
+  updateActiveMoveLastPlayerCardMoveInfo,
   updateActiveMoveLastPlayerCard,
   updateActiveMoveWildCardColor,
 } from './store/activeMove.ts';
@@ -164,13 +164,25 @@ function processPlayerMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
 
   // handle skip move
   if (move == 0) {
+    if (userSeat == USER_1) {
+      return;
+    }
+
     let numberOfDrawedCards = inputArray[2];
     if (numberOfDrawedCards == 0) {
-      dispatch(updateActiveMoveLastPlayerAndCard(userSeat, 1));
+      dispatch(
+        updateActiveMoveLastPlayerCardMoveInfo(userSeat, 1, numberOfDrawedCards)
+      );
       console.log(`\n\tWe recive SKIP card`);
       return; // we have recieved a Skip card
     }
-    dispatch(updateActiveMoveLastPlayerAndCard(userSeat, move));
+    dispatch(
+      updateActiveMoveLastPlayerCardMoveInfo(
+        userSeat,
+        move,
+        numberOfDrawedCards
+      )
+    );
     if (numberOfDrawedCards == 1) {
       console.log(`\tinputArray.at(3)=${inputArray.at(3)}`);
       move = inputArray.at(3) ?? 0;

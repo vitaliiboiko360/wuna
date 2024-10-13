@@ -4,6 +4,7 @@ import { useAppSelector } from '../../store/hooks.ts';
 import {
   selectActiveMoveLastPlayerCard,
   selectActiveMoveLastPlayer,
+  selectActiveMoveLastMoveInfo,
 } from '../../store/activeMove.ts';
 import { USER_2, USER_3, USER_4 } from '../../websocketconsumer.tsx';
 import { useSvgContext } from '../svg_container.tsx';
