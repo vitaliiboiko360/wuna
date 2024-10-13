@@ -121,7 +121,14 @@ export function SvgCardStackAnimation(props) {
 
   return (
     <>
-      {createPortal(<AnimatePath pathToDraw={pathToDraw} />, refSvg.current)},
+      {createPortal(
+        <AnimatePath
+          numberToDraw={activeMoveInfo.lastDrewCardNumber}
+          pathToDraw={pathToDraw}
+        />,
+        refSvg.current
+      )}
+      ,
       {createPortal(
         <path d={pathToDraw} fill='none' stroke='red' strokeWidth='0.1em' />,
         refSvg.current
