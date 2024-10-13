@@ -7,6 +7,7 @@ import {
   updateActiveCardsByArray,
 } from './store/activeCards.ts';
 import {
+  incrementBottomUserCardsByNumber,
   updateBottomUserAvatarId,
   updateBottomUserCardsNumber,
 } from './store/bottomUser.ts';
