@@ -30,10 +30,10 @@ export const AnimatePath = (props) => {
             alignOrigin: [0.5, 0.5],
             autoRotate: false,
           },
-          // transformOrigin: '50% 50%',
-          stagger: 0.1,
-          rotation: 195,
-          duration: 0.7 * numberToDraw,
+          transformOrigin: '50% 50%',
+          stagger: 0.15,
+          rotation: 90 * (userSeat + 1),
+          duration: 0.8 * numberToDraw,
           ease: 'power3.out',
         });
       }
