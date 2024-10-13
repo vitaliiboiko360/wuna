@@ -11,7 +11,7 @@ gsap.registerPlugin(useGSAP);
 
 export const AnimatePath = (props) => {
   const refToCardGroup = useRef();
-  const { pathToDraw, numberToDraw } = props;
+  const { pathToDraw, numberToDraw, userSeat } = props;
   props.pathToDraw &&
     console.log(`\t\t CHECK input props pathToDraw= ${pathToDraw}`);
 

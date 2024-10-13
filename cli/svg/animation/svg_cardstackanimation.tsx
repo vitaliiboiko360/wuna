@@ -123,6 +123,7 @@ export function SvgCardStackAnimation(props) {
     <>
       {createPortal(
         <AnimatePath
+          userSeat={lastPlayerId}
           numberToDraw={activeMoveInfo.lastDrewCardNumber}
           pathToDraw={pathToDraw}
         />,
