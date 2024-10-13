@@ -162,46 +162,51 @@ function processPlayerMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
   let userSeat = inputArray[0];
   let move = inputArray[1];
 
-  if (userSeat != USER_1) {
-    if (move == 0) {
-      let numberOfDrawedCards = inputArray[2];
-      if (numberOfDrawedCards == 0) {
-        dispatch(updateActiveMoveLastPlayerAndCard(userSeat, 1));
-        console.log(`\n\tWe recive SKIP card`);
-        return; // we have recieved a Skip card
-      }
-      dispatch(updateActiveMoveLastPlayerAndCard(userSeat, move));
-      if (numberOfDrawedCards == 1) {
-        console.log(`\tinputArray.at(3)=${inputArray.at(3)}`);
-        move = inputArray.at(3) ?? 0;
-        console.log(`\n\tTIMEOUT move= ${move}`);
-        let colorToPlay = inputArray[4];
-        console.log(`colorToPlay= ${colorToPlay}`);
-        if (move != 0) {
-          setTimeout(() => {
-            if (isWildCard(move)) {
-              dispatch(updateActiveMoveWildCardColor(colorToPlay));
-            }
-            dispatch(updateActiveMoveLastPlayerCard(move));
-            dispatch(updateActiveMove(move, userSeat));
-          }, 10);
-        }
-      }
-
-      switch (userSeat) {
-        case USER_2:
-          dispatch(incrementLeftUserCardsByNumber(numberOfDrawedCards));
-          break;
-        case USER_3:
-          dispatch(incrementTopUserCardsByNumber(numberOfDrawedCards));
-          break;
-        case USER_4:
-          dispatch(incrementRightUserCardsByNumber(numberOfDrawedCards));
-          break;
-        default:
-      }
-      return;
+  // handle skip move
+  if (move == 0) {
+    let numberOfDrawedCards = inputArray[2];
+    if (numberOfDrawedCards == 0) {
+      dispatch(updateActiveMoveLastPlayerAndCard(userSeat, 1));
+      console.log(`\n\tWe recive SKIP card`);
+      return; // we have recieved a Skip card
     }
+    dispatch(updateActiveMoveLastPlayerAndCard(userSeat, move));
+    if (numberOfDrawedCards == 1) {
+      console.log(`\tinputArray.at(3)=${inputArray.at(3)}`);
+      move = inputArray.at(3) ?? 0;
+      console.log(`\n\tTIMEOUT move= ${move}`);
+      let colorToPlay = inputArray[4];
+      console.log(`colorToPlay= ${colorToPlay}`);
+      if (move != 0) {
+        setTimeout(() => {
+          if (isWildCard(move)) {
+            dispatch(updateActiveMoveWildCardColor(colorToPlay));
+          }
+          dispatch(updateActiveMoveLastPlayerCard(move));
+          dispatch(updateActiveMove(move, userSeat));
+        }, 10);
+      }
+    }
+
+    switch (userSeat) {
+      case USER_1:
+        dispatch(incrementBottomUserCardsByNumber(numberOfDrawedCards));
+      case USER_2:
+        dispatch(incrementLeftUserCardsByNumber(numberOfDrawedCards));
+        break;
+      case USER_3:
+        dispatch(incrementTopUserCardsByNumber(numberOfDrawedCards));
+        break;
+      case USER_4:
+        dispatch(incrementRightUserCardsByNumber(numberOfDrawedCards));
+        break;
+      default:
+    }
+    return;
+  }
+
+  // handle other users moves
+  if (userSeat != USER_1) {
     if (isWildCard(move)) {
       let colorToPlay = inputArray[2];
       dispatch(updateActiveMoveWildCardColor(colorToPlay));
