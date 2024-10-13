@@ -18,8 +18,16 @@ export const AnimatePath = (props) => {
   useEffect(() => {
     if (refToCardGroup.current) {
       console.log(`\t ::: refToGroup.current=${refToCardGroup.current}`);
+      let pathToMeasure = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'path'
+      );
+      pathToMeasure.setAttribute('d', pathToDraw);
+      let totalLength = pathToMeasure.getTotalLength();
       if (pathToDraw) {
-        console.log(`\t\t::: ANIME PATH path= ${pathToDraw}`);
+        console.log(
+          `\t\t::: ANIME PATH path= ${pathToDraw}\t totalLength= ${totalLength}`
+        );
         gsap.set(Array.from(refToCardGroup.current.children), {
           transform: '',
         });
@@ -31,9 +39,9 @@ export const AnimatePath = (props) => {
             autoRotate: false,
           },
           transformOrigin: '50% 50%',
-          stagger: 0.15,
+          stagger: 0.15 * numberToDraw,
           rotation: 90 * (userSeat + 1),
-          duration: 0.8 * numberToDraw,
+          duration: 0.4 * (totalLength / 100),
           ease: 'power3.out',
         });
       }
