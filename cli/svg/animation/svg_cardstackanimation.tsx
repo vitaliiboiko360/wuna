@@ -130,10 +130,10 @@ export function SvgCardStackAnimation(props) {
         refSvg.current
       )}
       ,
-      {createPortal(
+      {/* {createPortal(
         <path d={pathToDraw} fill='none' stroke='red' strokeWidth='0.1em' />,
         refSvg.current
-      )}
+      )} */}
     </>
   );
 }
