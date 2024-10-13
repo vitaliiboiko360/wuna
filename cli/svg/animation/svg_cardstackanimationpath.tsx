@@ -20,8 +20,10 @@ export const AnimatePath = (props) => {
       console.log(`\t ::: refToGroup.current=${refToCardGroup.current}`);
       if (pathToDraw) {
         console.log(`\t\t::: ANIME PATH path= ${pathToDraw}`);
-        gsap.set(refToCardGroup.current, { transform: '' });
-        gsap.to(refToCardGroup.current, {
+        gsap.set(Array.from(refToCardGroup.current.children), {
+          transform: '',
+        });
+        gsap.to(Array.from(refToCardGroup.current.children), {
           motionPath: {
             path: pathToDraw,
             // align: pathToDraw,
@@ -29,9 +31,10 @@ export const AnimatePath = (props) => {
             autoRotate: false,
           },
           // transformOrigin: '50% 50%',
+          stagger: 0.1,
           rotation: 195,
-          duration: 1.1,
-          ease: 'power3.in',
+          duration: 0.7 * numberToDraw,
+          ease: 'power3.out',
         });
       }
     }
