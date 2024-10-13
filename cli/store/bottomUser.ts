@@ -12,6 +12,12 @@ export const bottomUserSlice = createSlice({
     updateBottomUserCardsNumber: (state, action: PayloadAction<number>) => {
       state.cardsNumber = action.payload;
     },
+    updateBottomUserCardsNumberNewAdded: (
+      state,
+      action: PayloadAction<number>
+    ) => {
+      state.newCardsAddedNumber = action.payload;
+    },
     incrementBottomUserCardsNumber: (state, action: PayloadAction<void>) => {
       state.cardsNumber++;
       state.newCardsAddedNumber = 1;
@@ -37,6 +43,7 @@ export const bottomUserSlice = createSlice({
 
 export const {
   updateBottomUserCardsNumber,
+  updateBottomUserCardsNumberNewAdded,
   incrementBottomUserCardsNumber,
   incrementBottomUserCardsByNumber,
   updateBottomUserAvatarId,
@@ -47,7 +54,7 @@ export const {
 export const selectBottomUserCardsNumber = (state: RootState) =>
   state.bottomUser.cardsNumber;
 export const selectBottomUserCardsNumberNewAdded = (state: RootState) =>
-  state.bottomUser.cardsNumber;
+  state.bottomUser.newCardsAddedNumber;
 export const selectBottomUserAvatarId = (state: RootState) =>
   state.bottomUser.avatarId;
 export const selectBottomUserSeatNumber = (state: RootState) =>

@@ -12,6 +12,12 @@ export const topUserSlice = createSlice({
     updateTopUserCardsNumber: (state, action: PayloadAction<number>) => {
       state.cardsNumber = action.payload;
     },
+    updateTopUserCardsNumberNewAdded: (
+      state,
+      action: PayloadAction<number>
+    ) => {
+      state.newCardsAddedNumber = action.payload;
+    },
     incrementTopUserCardsNumber: (state, action: PayloadAction<void>) => {
       state.cardsNumber++;
       state.newCardsAddedNumber = 1;
@@ -38,6 +44,7 @@ export const topUserSlice = createSlice({
 
 export const {
   updateTopUserCardsNumber,
+  updateTopUserCardsNumberNewAdded,
   incrementTopUserCardsNumber,
   decrementTopUserCardsNumber,
   incrementTopUserCardsByNumber,
@@ -48,6 +55,8 @@ export const {
 // Other code such as selectors can use the imported `RootState` type
 export const selectTopUserCardsNumber = (state: RootState) =>
   state.topUser.cardsNumber;
+export const selectTopUserCardsNumberNewAdded = (state: RootState) =>
+  state.bottomUser.newCardsAddedNumber;
 export const selectTopUserAvatarId = (state: RootState) =>
   state.topUser.avatarId;
 export const selectTopUserSeatNumber = (state: RootState) =>
