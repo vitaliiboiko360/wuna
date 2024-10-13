@@ -44,13 +44,21 @@ export const AnimatePath = (props) => {
     <>
       {pathToDraw && (
         <>
+          <g key={`card-stack-anim-top-0`} ref={refToCardGroup}>
+            {Array.from({ length: numberToDraw }).map((_, index) => {
+              return (
+                <React.Fragment key={`card-stack-drew-animation-key-${index}`}>
+                  <g transform={`matrix(0.5,0.8,-0.905,0.2,280,130)`}>
+                    {getBlankBacksideCard()}
+                  </g>
+                </React.Fragment>
+              );
+            })}
+          </g>
           <g
-            ref={refToCardGroup}
+            key={`card-stack-anim-top-1`}
             transform={`matrix(0.5,0.8,-0.905,0.2,280,130)`}
           >
-            {getBlankBacksideCard()}
-          </g>
-          <g transform={`matrix(0.5,0.8,-0.905,0.2,280,130)`}>
             {getBlankBacksideCard()}
           </g>
         </>
