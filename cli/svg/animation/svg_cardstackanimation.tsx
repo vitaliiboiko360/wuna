@@ -17,6 +17,7 @@ const CARD_HALF_HEIGHT = 48;
 export function SvgCardStackAnimation(props) {
   const lastPlayerCardId = useAppSelector(selectActiveMoveLastPlayerCard);
   const lastPlayerId = useAppSelector(selectActiveMoveLastPlayer);
+  const activeMoveInfo = useAppSelector(selectActiveMoveLastMoveInfo);
   const refSvg = useSvgContext();
 
   let pathToDraw;
@@ -48,7 +49,12 @@ export function SvgCardStackAnimation(props) {
 
   let refToDebug = useRef();
   let pathToDebug;
-  if (props.parentGroup && !lastPlayerCardId && lastPlayerId) {
+  if (
+    props.parentGroup &&
+    lastPlayerCardId == 0 &&
+    lastPlayerId != 0 &&
+    activeMoveInfo.lastDrewCardNumber > 0
+  ) {
     // console.log(`\t :: DRAW a8n lastPlayerCardId= ${lastPlayerCardId}`);
     let point = new DOMPoint(CARD_HALF_WIDTH, CARD_HALF_HEIGHT);
     let ctm = props.parentGroup.getCTM();
