@@ -10,6 +10,7 @@ import { USER_2, USER_3, USER_4 } from '../../websocketconsumer.tsx';
 import { useSvgContext } from '../svg_container.tsx';
 import { USER_INFO } from '../svg_userplaceholder.tsx';
 import { AnimatePath } from './svg_cardstackanimationpath.tsx';
+import { shallowEqual } from 'react-redux';
 
 const CARD_HALF_WIDTH = 32;
 const CARD_HALF_HEIGHT = 48;
@@ -17,7 +18,10 @@ const CARD_HALF_HEIGHT = 48;
 export function SvgCardStackAnimation(props) {
   const lastPlayerCardId = useAppSelector(selectActiveMoveLastPlayerCard);
   const lastPlayerId = useAppSelector(selectActiveMoveLastPlayer);
-  const activeMoveInfo = useAppSelector(selectActiveMoveLastMoveInfo);
+  const activeMoveInfo = useAppSelector(
+    selectActiveMoveLastMoveInfo,
+    shallowEqual
+  );
   const refSvg = useSvgContext();
 
   let pathToDraw;
