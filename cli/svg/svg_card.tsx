@@ -46,7 +46,7 @@ const deltaAngle = 25;
 
 const Card = (props) => {
   const refSvg = useSvgContext();
-  const lastPlayerCardId = useAppSelector(selectActiveMoveLastPlayerCard );
+  const lastPlayerCardId = useAppSelector(selectActiveMoveLastPlayerCard);
   const cardOnTop = useAppSelector(selectActiveMoveCard);
   const lastPlayerId = useAppSelector(selectActiveMoveLastPlayer);
   const activeWildCardColorToPlay = useAppSelector(
@@ -60,16 +60,16 @@ const Card = (props) => {
     lastPlayerId != USER_1 &&
     !(playCardInfo.x && playCardInfo.y)
   ) {
-    console.log('SKIP CARD RENDER lastPlayerCardId= ', lastPlayerCardId);
+    // console.log('SKIP CARD RENDER lastPlayerCardId= ', lastPlayerCardId);
     return;
   }
 
   if (!isValidCard(lastPlayerCardId)) {
-    console.log(
-      'SKIP CARD RENDER !isValidCard(lastPlayerCardId== ',
-      lastPlayerCardId,
-      ' )==false'
-    );
+    // console.log(
+    //   'SKIP CARD RENDER !isValidCard(lastPlayerCardId== ',
+    //   lastPlayerCardId,
+    //   ' )==false'
+    // );
     return;
   }
 
@@ -80,7 +80,10 @@ const Card = (props) => {
 
   const runAnimationOnCard = (playerId) => {
     if (playerId == 0 || lastPlayerCardId != cardOnTop) {
-      console.log(`\n\tlastPlayerCardId (${lastPlayerCardId}) != cardOnTop (${cardOnTop})\n\nSKIP CARD RENDER Animation but lastPlayerId=`, playerId);
+      console.log(
+        `\n\tlastPlayerCardId (${lastPlayerCardId}) != cardOnTop (${cardOnTop})\n\nSKIP CARD RENDER Animation but lastPlayerId=`,
+        playerId
+      );
       return;
     }
 
