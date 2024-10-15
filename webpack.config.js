@@ -6,9 +6,7 @@ const PORT = 4001;
 
 module.exports = {
   entry: {
-    app: [
-      './js/main.jsx',
-    ],
+    app: ['./js/main.jsx'],
   },
   output: {
     path: path.resolve(__dirname, 'js'),
@@ -25,8 +23,8 @@ module.exports = {
       options: {
         key: './key.pem',
         cert: './cert.pem',
-        ca: './cert.pem'
-      }
+        ca: './cert.pem',
+      },
     },
     static: {
       directory: path.resolve(__dirname),
@@ -38,8 +36,9 @@ module.exports = {
         target: `wss://localhost:${WSPORT}`,
         ws: true,
         secure: false,
-        logLevel: 'debug'
-      },]
+        logLevel: 'debug',
+      },
+    ],
   },
   resolve: {
     extensions: ['.js', '.jsx', '.tsx'],
@@ -50,7 +49,18 @@ module.exports = {
       {
         exclude: /(node_modules)/,
         loader: 'babel-loader',
-      }
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ],
+      },
     ],
   },
   devtool: 'source-map',
