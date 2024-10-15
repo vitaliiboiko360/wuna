@@ -4,14 +4,19 @@ import GameField from './game_field';
 import WebSocketContextProvider from './websocketprovider';
 import WebSocketConsumer from './websocketconsumer';
 import QueryProvider from './queryprovider';
+import { BackgroundLoader } from './layout/backgroundloader';
+import { RootContainer } from './layout/rootcontainer';
 
 export default function Main() {
   return (
     <QueryProvider>
-      <WebSocketContextProvider>
-        <WebSocketConsumer />
-        <GameField />
-      </WebSocketContextProvider>
+      <RootContainer>
+        <BackgroundLoader />
+        <WebSocketContextProvider>
+          <WebSocketConsumer />
+          <GameField />
+        </WebSocketContextProvider>
+      </RootContainer>
     </QueryProvider>
   );
 }
