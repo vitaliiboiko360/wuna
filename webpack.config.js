@@ -4,6 +4,8 @@ const path = require('path');
 const WSPORT = 8008;
 const PORT = 4001;
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = {
   entry: {
     app: ['./js/main.jsx'],
@@ -70,13 +72,23 @@ module.exports = {
         test: /\.scss$/,
         exclude: /node_modules/,
         use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
-          { loader: 'sass-loader' },
+          { loader: mode ? 'style-loader' : MiniCssExtractPlugin.loader },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              api: 'modern-compiler',
+            },
+          },
         ],
       },
     ],
   },
   devtool: 'source-map',
-  plugins: [],
+  plugins: [new MiniCssExtractPlugin()],
 };
