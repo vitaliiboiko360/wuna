@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { selectActivePlayerSeatNumber } from '../store/activePlayerSeatNumber.ts';
 import { useAppSelector } from '../store/hooks.ts';
-import * as css from './rootcontainer.scss';
+import * as css from './layout.scss';
 
 export function RootContainer(props) {
   const activePlayerSeatNumber = useAppSelector(selectActivePlayerSeatNumber);

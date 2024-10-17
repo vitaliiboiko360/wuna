@@ -1,0 +1,41 @@
+.rootContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bgContainer {
+  position: absolute;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+
+  .flexVideoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    video {
+      position: absolute;
+      z-index: -1;
+      width: auto;
+      height: 100vh;
+      display: block;
+      margin: 0 auto;
+    }
+  }
+}
+
+.svgContainerEmpty {
+  position: absolute;
+  border-radius: 3em;
+  padding: 2em;
+  top: 3em;
+}
+
+.svgContainer {
+  position: absolute;
+  background-color: hsl(229.85deg 32.57% 46.44% / 42%);
+  border-radius: 3em;
+  padding: 2em;
+  top: 3em;
+}
