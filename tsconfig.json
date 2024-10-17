@@ -10,6 +10,6 @@
     "sourceMap": true,
     "jsx": "react"
   },
-  "include": ["./src/**/*", "./src/*", "./declaration.d.ts", "./cli/**/*.scss"],
+  "include": ["./declaration.d.ts", "./src/**/*", "./src/*", "./cli/**/*.scss"],
   "exclude": ["node_modues", "cli"]
 }

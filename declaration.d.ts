@@ -1,4 +1,5 @@
+// declaration.d.ts
 declare module '*.scss' {
-  const css: { [className: string]: string };
-  export = css;
+  const css: Record<string, string>;
+  export default css;
 }

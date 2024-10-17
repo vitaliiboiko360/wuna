@@ -6,6 +6,8 @@ const PORT = 4001;
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const MODE = 'development';
+
 module.exports = {
   entry: {
     app: ['./js/main.jsx'],
@@ -45,7 +47,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.tsx', '.scss'],
   },
-  mode: 'development',
+  mode: MODE,
   module: {
     rules: [
       {
@@ -72,7 +74,12 @@ module.exports = {
         test: /\.scss$/,
         exclude: /node_modules/,
         use: [
-          { loader: mode ? 'style-loader' : MiniCssExtractPlugin.loader },
+          {
+            loader: 'style-loader',
+            // MODE == 'development'
+            //   ? 'style-loader'
+            //   : MiniCssExtractPlugin.loader,
+          },
           {
             loader: 'css-loader',
             options: {
