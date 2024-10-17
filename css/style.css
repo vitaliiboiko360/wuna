@@ -2,6 +2,7 @@ body {
   font-size: 20;
   user-select: none;
   outline: none;
+  margin: 0;
 }
 
 body svg {
