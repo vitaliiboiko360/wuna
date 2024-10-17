@@ -75,7 +75,8 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'style-loader',
+            // loader: 'style-loader',
+            loader: MiniCssExtractPlugin.loader,
             // MODE == 'development'
             //   ? 'style-loader'
             //   : MiniCssExtractPlugin.loader,
