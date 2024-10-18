@@ -20,7 +20,7 @@ export function RootContainer(props) {
       <div className={css.rootContainer}>
         <div className={css.bgContainer}>{props.children[0]}</div>
         <div ref={refDivSvg} className={css.svgContainerEmpty}>
-          {props.children[1]}
+          <div>{props.children[1]}</div>
         </div>
       </div>
     </>

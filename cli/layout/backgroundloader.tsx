@@ -9,11 +9,9 @@ const paths = [
 export function BackgroundLoader(props) {
   return (
     <>
-      <div className={css.flexVideoContainer}>
-        <video autoPlay loop muted>
-          <source src={paths[2]} type="video/mp4"></source>
-        </video>
-      </div>
+      <video className={css.videoBackground} autoPlay loop muted>
+        <source src={paths[1]} type="video/mp4"></source>
+      </video>
     </>
   );
 }
