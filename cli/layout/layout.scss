@@ -1,40 +1,84 @@
 .rootContainer {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: none;
   align-items: center;
+  // height: 100vh;
+  // position: relative;
 }
 
 .bgContainer {
-  position: absolute;
-  overflow: hidden;
+  // box-sizing: border-box;
+  // flex: none;
+  // flex-grow: 1;
+  // width: 100%;
+  /*! */
+  // overflow: hidden;
   height: 100vh;
-  width: 100vw;
+  // width: 100vw;
+}
 
-  .flexVideoContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+// .flexVideoContainerWraper {
+//   /*! */
+//   // width: 100%;
+//   display: block;
+// }
 
-    video {
-      position: absolute;
-      z-index: -1;
-      width: auto;
-      height: 100vh;
-      display: block;
-      margin: 0 auto;
-    }
-  }
+.flexVideoContainer {
+  order: 1;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // position: absolute;
+  // top: 0;
+  // bottom: 0;
+  // left: 0;
+  // width: 100%;
+  // height: 100%;
+  // overflow: hidden;
+}
+
+.videoBackground {
+  // object-fit: cover;
+  z-index: -1;
+  // min-width: 100%;
+  // min-height: 100%;
+  // flex-grow: 1;
+  // position: absolute;
+  // width: auto;
+  // height: 100%;
+  // top: 50%;
+  // left: 50%;
+  // transform: translate(-50%);
+  // object-fit: cover;
+  // width: auto;
+  height: 100vh;
+  // display: block;
+  // margin: 0 auto;
+}
+
+.divSvgContainerWrap {
+  position: relative;
 }
 
 .svgContainerEmpty {
-  position: absolute;
+  // box-sizing: border-box;
+  // flex-grow: 1;
+  // flex: none;
+  // width: 100%;
+  // margin-top: -100%;
+  // position: absolute;
   border-radius: 3em;
   padding: 2em;
   top: 3em;
 }
 
 .svgContainer {
-  position: absolute;
+  // box-sizing: border-box;
+  // flex-grow: 1;
+  // flex: none;
+  // width: 100%;
+  // margin-left: -100%;
+  // position: absolute;
   background-color: hsl(229.85deg 32.57% 46.44% / 42%);
   border-radius: 3em;
   padding: 2em;
