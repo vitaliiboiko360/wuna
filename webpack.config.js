@@ -74,13 +74,15 @@ module.exports = {
         test: /\.scss$/,
         exclude: /node_modules/,
         use: [
-          {
-            // loader: 'style-loader',
-            loader: MiniCssExtractPlugin.loader,
-            // MODE == 'development'
-            //   ? 'style-loader'
-            //   : MiniCssExtractPlugin.loader,
-          },
+          // {
+          //   loader: 'style-loader',
+          //   // loader: MiniCssExtractPlugin.loader,
+          //   // MODE == 'development'
+          //   //   ? 'style-loader'
+          //   //   : MiniCssExtractPlugin.loader,
+          // },
+          // { loader: MiniCssExtractPlugin.loader },
+          { loader: 'style-loader' },
           {
             loader: 'css-loader',
             options: {
