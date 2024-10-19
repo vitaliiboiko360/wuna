@@ -6,7 +6,12 @@
   // height: 100vh;
   // position: relative;
 }
-
+@media (orientation: landscape) {
+  .videoBackground {
+    height: auto !important;
+    width: 100%;
+  }
+}
 .bgContainer {
   grid-column: 1;
   grid-row: 1;
