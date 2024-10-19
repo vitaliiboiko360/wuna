@@ -9,7 +9,7 @@ const paths = [
 export function BackgroundLoader(props) {
   return (
     <>
-      <video className={css.videoBackground} autoPlay loop muted>
+      <video className={css.videoBackground} autoPlay loop muted playsInline>
         <source src={paths[1]} type="video/mp4"></source>
       </video>
     </>
