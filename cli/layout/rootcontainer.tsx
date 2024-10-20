@@ -10,7 +10,7 @@ export function RootContainer(props) {
     if (activePlayerSeatNumber != 0) {
       refDivSvg.current?.classList.replace(
         css.svgContainerEmpty,
-        css.svgContainer
+        css.svgContainerFull
       );
     }
   }, [activePlayerSeatNumber]);
