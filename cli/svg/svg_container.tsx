@@ -20,7 +20,7 @@ const Svg = (props) => {
     props.setRef(refSvg);
   });
   return (
-    <svg ref={refSvg} {...SVG_ATTRIBUTES}>
+    <svg ref={refSvg} viewBox={SVG_ATTRIBUTES.viewBox}>
       {props.children}
     </svg>
   );
