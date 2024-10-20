@@ -1,28 +1,28 @@
 .rootContainer {
   display: grid;
   grid-template-columns: auto;
-  // align-items: center;
-  // justify-content: center;
-  // height: 100vh;
-  // position: relative;
 }
-@media (orientation: landscape) {
+
+// 3840 x 2160
+// 1,777777778
+
+@media (min-aspect-ratio: 16/9) {
   .videoBackground {
-    height: auto !important;
-    width: 100%;
+    width: 100vw !important;
   }
 }
+
+@media (max-aspect-ratio: 16/9) {
+  .videoBackground {
+    height: 100vh !important;
+  }
+}
+
 .bgContainer {
   grid-column: 1;
   grid-row: 1;
-  // box-sizing: border-box;
-  // flex: none;
-  // flex-grow: 1;
-  // width: 100%;
-  /*! */
-  // overflow: hidden;
-  // height: 100vh;
-  // width: 100vw;
+  display: flex;
+  justify-content: center;
 }
 
 // .flexVideoContainerWraper {
@@ -33,66 +33,39 @@
 
 .flexVideoContainer {
   order: 1;
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  // position: absolute;
-  // top: 0;
-  // bottom: 0;
-  // left: 0;
-  // width: 100%;
-  // height: 100%;
-  // overflow: hidden;
 }
 
 .videoBackground {
-  // object-fit: cover;
+  justify-content: center;
   z-index: -1;
-  // min-width: 100%;
-  // min-height: 100%;
-  // flex-grow: 1;
-  // position: absolute;
-  // width: auto;
-  // height: 100%;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%);
-  // object-fit: cover;
-  // width: auto;
-  height: 100vh;
-  // display: block;
-  // margin: 0 auto;
 }
 
 .divSvgContainerWrap {
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+%svgContainerBase {
+  grid-column: 1;
+  grid-row: 1;
+  border-radius: 3em;
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    height: 80vh;
+  }
 }
 
 .svgContainerEmpty {
-  grid-column: 1;
-  grid-row: 1;
-  // box-sizing: border-box;
-  // flex-grow: 1;
-  // flex: none;
-  // width: 100%;
-  // margin-top: -100%;
-  // position: absolute;
-  border-radius: 3em;
-  padding: 2em;
-  top: 3em;
+  @extend %svgContainerBase;
 }
 
-.svgContainer {
-  grid-column: 1;
-  grid-row: 1;
-  // box-sizing: border-box;
-  // flex-grow: 1;
-  // flex: none;
-  // width: 100%;
-  // margin-left: -100%;
-  // position: absolute;
+.svgContainerFull {
+  @extend %svgContainerBase;
   background-color: hsl(229.85deg 32.57% 46.44% / 42%);
-  border-radius: 3em;
-  padding: 2em;
-  top: 3em;
 }
