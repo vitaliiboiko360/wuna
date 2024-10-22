@@ -4,7 +4,7 @@ const path = require('path');
 const WSPORT = 8008;
 const PORT = 4001;
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const MODE = 'development';
 
@@ -100,5 +100,5 @@ module.exports = {
     ],
   },
   devtool: 'source-map',
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [],
 };
