@@ -11,6 +11,7 @@ import { useSvgContext } from '../svg_container.tsx';
 import { USER_INFO } from '../svg_userplaceholder.tsx';
 import { AnimatePath } from './svg_cardstackanimationpath.tsx';
 import { shallowEqual } from 'react-redux';
+import round from 'lodash.round';
 
 const CARD_HALF_WIDTH = 32;
 const CARD_HALF_HEIGHT = 48;
@@ -34,6 +35,7 @@ export function SvgCardStackAnimation(props) {
     const userIndex = playerId - 1;
     const userHand = svgDoc?.querySelector(`#${USER_INFO[userIndex].id}`);
     if (!userHand) {
+      console.log(`\t;;;;;\tNo userHand ret Default=${defaultValue}`);
       return defaultValue;
     }
     const boundingBox = userHand.getBBox();
@@ -46,8 +48,8 @@ export function SvgCardStackAnimation(props) {
 
     let svgCorrectCoordinates = point.matrixTransform(ctm);
     return {
-      x: svgCorrectCoordinates.x,
-      y: svgCorrectCoordinates.y,
+      x: round(svgCorrectCoordinates.x, 2),
+      y: round(svgCorrectCoordinates.y, 2),
     };
   };
 
@@ -110,11 +112,15 @@ export function SvgCardStackAnimation(props) {
 
     const k = refSvg.current.height.baseVal.value / 650;
 
-    pathToDraw = `M ${startX / k},${startY / k} C${controlX / k},${
-      controlY / k
-    } ${controlX / k},${controlY / k} ${endPosition.x / k},${
-      endPosition.y / k
-    }`;
+    const nrmlz = (numValue: number) => {
+      return round(numValue / k, 2);
+    };
+
+    pathToDraw = `M ${nrmlz(startX)},${nrmlz(startY)} C${nrmlz(
+      controlX
+    )},${nrmlz(controlY)} ${nrmlz(controlX)},${nrmlz(controlY)} ${nrmlz(
+      endPosition.x
+    )},${nrmlz(endPosition.y)}`;
 
     pathToDebug = (
       <>

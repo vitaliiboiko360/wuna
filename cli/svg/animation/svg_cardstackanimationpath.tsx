@@ -16,36 +16,43 @@ export const AnimatePath = (props) => {
     console.log(`\t\t CHECK input props pathToDraw= ${pathToDraw}`);
 
   useEffect(() => {
-    if (refToCardGroup.current) {
-      console.log(`\t ::: refToGroup.current=${refToCardGroup.current}`);
-      let pathToMeasure = document.createElementNS(
-        'http://www.w3.org/2000/svg',
-        'path'
-      );
-      pathToMeasure.setAttribute('d', pathToDraw);
-      let totalLength = pathToMeasure.getTotalLength();
-      if (pathToDraw) {
-        console.log(
-          `\t\t::: ANIME PATH path= ${pathToDraw}\t totalLength= ${totalLength}`
-        );
-        gsap.set(Array.from(refToCardGroup.current.children), {
-          transform: '',
-        });
-        gsap.to(Array.from(refToCardGroup.current.children), {
-          motionPath: {
-            path: pathToDraw,
-            // align: pathToDraw,
-            alignOrigin: [0.5, 0.5],
-            autoRotate: false,
-          },
-          transformOrigin: '50% 50%',
-          stagger: 0.15 * numberToDraw,
-          rotation: 90 * (userSeat + 1),
-          duration: 0.4 * (totalLength / 100),
-          ease: 'power3.out',
-        });
-      }
+    if (!refToCardGroup.current || !pathToDraw) {
+      return;
     }
+    console.log(`\t ::: refToGroup.current=${refToCardGroup.current}`);
+
+    let pathToMeasure = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'path'
+    );
+    pathToMeasure.setAttribute('d', pathToDraw);
+    let totalLength = pathToMeasure.getTotalLength();
+
+    // console.log(
+    //   `\t\t::: ANIME PATH path= ${pathToDraw}\t totalLength= ${totalLength}`
+    // );
+
+    console.log(`\t:::::\tStart effect :::`);
+    gsap.set(Array.from(refToCardGroup.current.children), {
+      transform: '',
+    });
+    gsap.to(Array.from(refToCardGroup.current.children), {
+      motionPath: {
+        path: pathToDraw,
+        // align: pathToDraw,
+        alignOrigin: [0.5, 0.5],
+        autoRotate: false,
+      },
+      transformOrigin: '50% 50%',
+      stagger: 0.15 * numberToDraw,
+      rotation: 90 * (userSeat + 1),
+      duration: 0.4 * (totalLength / 100),
+      ease: 'power3.out',
+    });
+
+    return () => {
+      pathToMeasure.remove();
+    };
   }, [pathToDraw]);
 
   return (
