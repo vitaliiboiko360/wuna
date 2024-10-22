@@ -1,9 +1,21 @@
 import type { AppDispatch } from '../../store/store.ts';
 import { removeActiveCard } from '../../store/activeCards.ts';
-import { updateActiveMove, updateActiveMoveLastPlayerCard } from '../../store/activeMove.ts';
+import {
+  updateActiveMove,
+  updateActiveMoveLastPlayerCard,
+} from '../../store/activeMove.ts';
 import { USER_1 } from '../../websocketconsumer.tsx';
 import { isWildCard } from '../../../src/Cards.ts';
-export default function getOnClickForCard(idOfCard: number, webSocket: WebSocket, userId: number, dispatch: AppDispatch, updatePlayCardInfo) {
+import { SVG_ATTRIBUTES } from '../svg_container.tsx';
+import round from 'lodash.round';
+export default function getOnClickForCard(
+  svgElement,
+  idOfCard: number,
+  webSocket: WebSocket,
+  userId: number,
+  dispatch: AppDispatch,
+  updatePlayCardInfo
+) {
   return function (event: Event) {
     let isWild = false;
     if (webSocket.readyState == WebSocket.OPEN) {
@@ -15,15 +27,25 @@ export default function getOnClickForCard(idOfCard: number, webSocket: WebSocket
       }
       if (isWildCard(idOfCard)) {
         isWild = true;
-      }
-      else
-        webSocket.send(arrayToSend);
+      } else webSocket.send(arrayToSend);
     }
     dispatch(removeActiveCard(idOfCard));
-    dispatch(updateActiveMoveLastPlayerCard(idOfCard))
+    dispatch(updateActiveMoveLastPlayerCard(idOfCard));
     dispatch(updateActiveMove(idOfCard, USER_1));
-    const { x, y } = event.currentTarget?.getBoundingClientRect();
-    updatePlayCardInfo({ x: Math.floor(x), y: Math.floor(y), isWildCard: isWild });
+    const { x, y } = (event.currentTarget as SVGGraphicsElement)?.getBBox();
+    let ctm = (event.currentTarget as SVGGraphicsElement)?.getCTM();
+    let point = new DOMPoint(x, y);
+    let svgCoordinates = point.matrixTransform(ctm);
+    const viewportToViewboxRatio =
+      svgElement.height.baseVal.value / SVG_ATTRIBUTES.height;
+
+    const normalize = (value: number) =>
+      round(value / viewportToViewboxRatio, 2);
+    updatePlayCardInfo({
+      x: normalize(svgCoordinates.x),
+      y: normalize(svgCoordinates.y),
+      isWildCard: isWild,
+    });
     // console.log(`x=${x}\ty=${y}`);
   };
 }

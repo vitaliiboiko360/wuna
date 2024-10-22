@@ -14,6 +14,7 @@ import { selectActivePlayerSeatNumber } from '../store/activePlayerSeatNumber.ts
 import { selectActiveMoveWildCardColor } from '../store/activeMove.ts';
 import { USER_1 } from '../websocketconsumer.tsx';
 import { WILD } from '../../src/Cards.ts';
+import { useSvgContext } from './svg_container';
 
 function sendSkipMoveToServer(websocket, seatNumber) {
   let arrayToSend: Uint8Array = new Uint8Array(3);
@@ -24,6 +25,7 @@ function sendSkipMoveToServer(websocket, seatNumber) {
 }
 
 export default function SvgActivePlayerCards(props) {
+  const refSvg = useSvgContext();
   const webSocket = useContext(WebSocketContext);
   const activePlayerSeatNumber = useAppSelector(selectActivePlayerSeatNumber);
   const activeWildCardColorToPlay = useAppSelector(
@@ -78,7 +80,10 @@ export default function SvgActivePlayerCards(props) {
               1500
             );
         }
-        if (props.isOurTurn && isCardSameColor(card, activeWildCardColorToPlay)){
+        if (
+          props.isOurTurn &&
+          isCardSameColor(card, activeWildCardColorToPlay)
+        ) {
           // console.log(
           //   'card=',
           //   card,
@@ -97,6 +102,7 @@ export default function SvgActivePlayerCards(props) {
               onClick={
                 isPlayable
                   ? getOnClickForCard(
+                      refSvg.current,
                       card,
                       webSocket,
                       activePlayerSeatNumber,
