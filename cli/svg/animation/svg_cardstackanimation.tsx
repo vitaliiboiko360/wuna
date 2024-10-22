@@ -41,7 +41,7 @@ export function SvgCardStackAnimation(props) {
     const xCenter = boundingBox.height / 2;
     const yCenter = boundingBox.width / 2;
 
-    let point = new DOMPoint(xCenter, yCenter);
+    let point = new DOMPoint(boundingBox.x + xCenter, boundingBox.y + yCenter);
     let ctm = userHand.getCTM();
 
     let svgCorrectCoordinates = point.matrixTransform(ctm);
@@ -60,7 +60,8 @@ export function SvgCardStackAnimation(props) {
     activeMoveInfo.lastDrewCardNumber > 0
   ) {
     // console.log(`\t :: DRAW a8n lastPlayerCardId= ${lastPlayerCardId}`);
-    let point = new DOMPoint(CARD_HALF_WIDTH, CARD_HALF_HEIGHT);
+    let { x, y, height, width } = props.parentGroup.getBBox();
+    let point = new DOMPoint(x + width / 2, y + height / 2);
     let ctm = props.parentGroup.getCTM();
     let svgCorrectCoordinates = point.matrixTransform(ctm);
 
@@ -78,10 +79,10 @@ export function SvgCardStackAnimation(props) {
       b: number,
       c: number,
       d: number
-    ): { x: number; y: number } => {
+    ): { controlX: number; controlY: number } => {
       return Math.random() > 0.5
-        ? { x: a + c, y: b - d }
-        : { x: a - c, y: b + c };
+        ? { controlX: a + c, controlY: b - d }
+        : { controlX: a - c, controlY: b + c };
     };
 
     const X = sub(startX, endPosition.x);
@@ -100,28 +101,40 @@ export function SvgCardStackAnimation(props) {
     const deltaX = deltaH * coeffY;
     const deltaY = deltaH * coeffX;
 
-    const { x, y } = add(halfX + startX, halfY + startY, deltaX, deltaY);
+    const { controlX, controlY } = add(
+      halfX + startX,
+      halfY + startY,
+      deltaX,
+      deltaY
+    );
+
+    const k = refSvg.current.height.baseVal.value / 650;
+
+    pathToDraw = `M ${startX / k},${startY / k} C${controlX / k},${
+      controlY / k
+    } ${controlX / k},${controlY / k} ${endPosition.x / k},${
+      endPosition.y / k
+    }`;
 
     pathToDebug = (
       <>
         <path
           ref={refToDebug}
-          d={`M ${startX},${startY} C${x},${y} ${x},${y} ${endPosition.x},${endPosition.y}`}
-          fill='none'
-          stroke='red'
-          strokeWidth='0.1em'
+          d={pathToDraw}
+          fill="none"
+          stroke="red"
+          strokeWidth="0.1em"
         />
       </>
     );
-    pathToDraw = `M ${startX},${startY} C${x},${y} ${x},${y} ${endPosition.x},${endPosition.y}`;
-    // console.log(`\t :: DRAW a8n pathToDraw= ${pathToDraw}`);
+    console.log(`\t :: DRAW a8n pathToDraw= ${pathToDraw}`);
   }
 
   //   console.log(`>RENDER< parentGroup=${props.parentGroup.}`);
-
-  //   useEffect(() => {
-  //     console.log(`>USEFFECT< parentGroup=${props.parentGroup}`);
-  //   });
+  const refToDebug2 = useRef();
+  useEffect(() => {
+    pathToDraw && console.log(refToDebug2.current);
+  });
 
   return (
     <>
@@ -134,10 +147,17 @@ export function SvgCardStackAnimation(props) {
         refSvg.current
       )}
       ,
-      {/* {createPortal(
-        <path d={pathToDraw} fill='none' stroke='red' strokeWidth='0.1em' />,
-        refSvg.current
-      )} */}
+      {pathToDraw &&
+        createPortal(
+          <path
+            ref={refToDebug2}
+            d={pathToDraw}
+            fill="none"
+            stroke="red"
+            strokeWidth="0.1em"
+          />,
+          refSvg.current
+        )}
     </>
   );
 }
