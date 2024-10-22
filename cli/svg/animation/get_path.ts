@@ -1,9 +1,13 @@
 import { USER_1 } from '../../websocketconsumer';
 import { USER_INFO } from '../svg_userplaceholder';
 
+import { SVG_ATTRIBUTES } from '../svg_container';
+
+import round from 'lodash.round';
+
 export default function getPath(
-  userPosition: number,
   svgElement,
+  userPosition: number,
   x: number,
   y: number,
   xStart: number,
@@ -29,7 +33,7 @@ export default function getPath(
   const userId = USER_INFO[userIndex].id;
   let userCardGroup = svgElement.querySelector('#' + userId);
   if (userCardGroup == null) {
-    console.log('cannot get usercard userId==', userId);
+    console.log('\t:::::\tcannot get usercard userId==', userId);
     return `M400,300 L${x},${y}`;
   }
 
@@ -37,12 +41,17 @@ export default function getPath(
   const height = Math.floor(bBox.height);
   const width = Math.floor(bBox.width);
   // console.log('bBox of userCardGroup pos', userPosition, ' ', (bBox));
-  let point = new DOMPoint(bBox.x, bBox.y);
+  let point = new DOMPoint(bBox.x + bBox.width / 2, bBox.y + bBox.height / 2);
 
-  let matrix = userCardGroup.getScreenCTM();
+  const viewportToViewboxRatio =
+    svgElement.height.baseVal.value / SVG_ATTRIBUTES.height;
+
+  const normalize = (value: number) => round(value / viewportToViewboxRatio, 2);
+
+  let matrix = userCardGroup.getCTM();
   let localCoordinates = point.matrixTransform(matrix);
-  let startX = Math.floor(localCoordinates.x);
-  let startY = Math.floor(localCoordinates.y);
+  let startX = normalize(localCoordinates.x);
+  let startY = normalize(localCoordinates.y);
 
   switch (userPosition) {
     case 2:
