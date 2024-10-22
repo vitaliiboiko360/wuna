@@ -37,6 +37,8 @@ import {
 } from './svg_handlewildcard.tsx';
 import { isWildCard } from '../../src/Cards.ts';
 
+import round from 'lodash.round';
+
 gsap.registerPlugin(MotionPathPlugin);
 
 const CARD_HALF_WIDTH = 32;
@@ -91,8 +93,8 @@ const Card = (props) => {
 
     const r = Math.floor(Math.random() * deltaFromCenter) + 1;
     const alpha = Math.random() * (2 * Math.PI);
-    const x = xCenter + Math.cos(alpha) * r - CARD_HALF_WIDTH;
-    const y = yCenter + Math.sin(alpha) * r - CARD_HALF_HEIGHT;
+    const x = round(xCenter + Math.cos(alpha) * r - CARD_HALF_WIDTH, 2);
+    const y = round(yCenter + Math.sin(alpha) * r - CARD_HALF_HEIGHT, 2);
     // console.log(`r=${r}\talpha=${alpha}\tx=${x}\ty=${y}`);
 
     const randomAngle = getRandom(-deltaAngle, deltaAngle);
@@ -108,14 +110,13 @@ const Card = (props) => {
     const userYStart = playCardInfo.y;
 
     const path = getPath(
-      playerId,
       refSvg.current,
+      playerId,
       x,
       y,
       userXStart,
       userYStart
     );
-    const extractStartPoint = /[Mm](\d+),\s*(\d+)/;
 
     const onComplete =
       playerId == USER_1
