@@ -10,15 +10,14 @@ import SvgCardPile from './svg/svg_cardpile';
 import SvgActivePlayerCardHolder from './svg/svg_activeplayercardholder';
 import PlayCardInfoProvider from './svg/svg_playcardprovider';
 import { SvgCardStack } from './svg/svg_cardstack';
-import SvgUserAllPlaceHolders from './svg/svg_userallplaceholders';
+import SvgDefinitions from './svg/svg_definitions';
 
 export default function GameField(props) {
   return (
     <SvgContainer>
+      <SvgDefinitions />
       <SvgEllipseTable />
-      <SvgUserAllPlaceHolders>
-        <SvgUserPlaceHolder {...USER_INFO[USER_PLACE.LEFT_USER]} />
-      </SvgUserAllPlaceHolders>
+      <SvgUserPlaceHolder {...USER_INFO[USER_PLACE.LEFT_USER]} />
       <SvgUserPlaceHolder {...USER_INFO[USER_PLACE.TOP_USER]} />
       <SvgUserPlaceHolder {...USER_INFO[USER_PLACE.RIGHT_USER]} />
       <SvgUserPlaceHolder {...USER_INFO[USER_PLACE.BOTTOM_USER]} />
