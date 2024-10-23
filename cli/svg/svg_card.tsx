@@ -118,10 +118,20 @@ const Card = (props) => {
       userYStart
     );
 
+    let pathToMeasure = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'path'
+    );
+    pathToMeasure.setAttribute('d', path);
+    let totalLength = pathToMeasure.getTotalLength();
+
     const onComplete =
       playerId == USER_1
-        ? () => {}
+        ? () => {
+            pathToMeasure.remove();
+          }
         : () => {
+            pathToMeasure.remove();
             updateColorOnWildCard(element, COLORS[activeWildCardColorToPlay]);
           };
 
@@ -132,7 +142,7 @@ const Card = (props) => {
         path: path,
         alignOrigin: [0.5, 0.5],
       },
-      duration: 1.5,
+      duration: (totalLength / 100) * 0.4,
       rotation: 360 + randomAngle,
       ease: 'slow',
       repeat: 0,
