@@ -1,11 +1,11 @@
 import React from 'react';
 
-export default function SvgUserAllPlaceHolders(props) {
+export default function SvgDefinitions(props) {
   return (
     <>
-      <g>
+      <defs>
         <filter id="editing-goldstamp">
-          <feFlood flood-color="#797549" result="flood"></feFlood>
+          <feFlood floodColor="#5d4979" result="flood"></feFlood>
           <feMorphology
             operator="dilate"
             radius="2"
@@ -27,7 +27,7 @@ export default function SvgUserAllPlaceHolders(props) {
             surfaceScale="2"
             specularConstant="0.7"
             specularExponent="10"
-            lighting-color="#white"
+            lightingColor="#white"
             in="blur"
             result="specular"
           >
@@ -54,13 +54,17 @@ export default function SvgUserAllPlaceHolders(props) {
             <feMergeNode in="specular3"></feMergeNode>
           </feMerge>
         </filter>
-        	<style>text {
-  font-size: 2rem;
-  font-family: Arial Black;
-  dominant-baseline: central;
-  text-anchor: middle;}</style>
-        {props.children}
-      </g>
+        <style>{`.user-name {
+display: inline-block;
+color: #999569;
+font-size: 1.1rem;
+font-weight: 600;
+font-family: Arial Black;
+}`}</style>
+      </defs>
     </>
   );
 }
+
+// dominant-baseline: central;
+// text-anchor: middle;
