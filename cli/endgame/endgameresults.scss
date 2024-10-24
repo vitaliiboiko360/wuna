@@ -1,0 +1,12 @@
+.outerDiv {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: center;
+  align-self: center;
+}
+
+.innerDiv {
+  border: 0.1em solid rgb(0, 250, 71);
+  width: 70rem;
+  height: 70rem;
+}
