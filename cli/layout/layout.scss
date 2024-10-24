@@ -3,8 +3,8 @@
   grid-template-columns: auto;
 }
 
-// 3840 x 2160
-// 1,777777778
+// Video resolution 3840 x 2160
+// Aspect Ration 1,777777778
 
 @media (min-aspect-ratio: 16/9) {
   .videoBackground {
@@ -24,12 +24,6 @@
   display: flex;
   justify-content: center;
 }
-
-// .flexVideoContainerWraper {
-//   /*! */
-//   // width: 100%;
-//   display: block;
-// }
 
 .flexVideoContainer {
   order: 1;
