@@ -18,6 +18,7 @@ const Svg = (props) => {
   const refSvg = useRef();
   useEffect(() => {
     props.setRef(refSvg);
+    props.setSvgGameField(refSvg.current);
   });
   return (
     <svg ref={refSvg} viewBox={SVG_ATTRIBUTES.viewBox}>
@@ -30,7 +31,9 @@ export default function SvgContainer(props) {
   const [ref, setRef] = useState();
   return (
     <SvgContext.Provider value={ref}>
-      <Svg setRef={setRef}>{props.children}</Svg>
+      <Svg {...props} setRef={setRef}>
+        {props.children}
+      </Svg>
     </SvgContext.Provider>
   );
 }

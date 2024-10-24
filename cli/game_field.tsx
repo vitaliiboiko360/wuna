@@ -14,7 +14,7 @@ import SvgDefinitions from './svg/svg_definitions';
 
 export default function GameField(props) {
   return (
-    <SvgContainer>
+    <SvgContainer {...props}>
       <SvgDefinitions />
       <SvgEllipseTable />
       <SvgUserPlaceHolder {...USER_INFO[USER_PLACE.LEFT_USER]} />
