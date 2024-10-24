@@ -6,19 +6,19 @@ import WebSocketConsumer from './websocketconsumer';
 import QueryProvider from './queryprovider';
 import { BackgroundLoader } from './layout/backgroundloader';
 import { RootContainer } from './layout/rootcontainer';
-import EndGameResultsChecker from './endgameresultschecker';
+import EndGameResultsChecker from './endgame/endgameresultschecker';
 
 export default function Main() {
   return (
     <QueryProvider>
-      <RootContainer>
-        <BackgroundLoader />
-        <WebSocketContextProvider>
-          <WebSocketConsumer />
+      <WebSocketContextProvider>
+        <WebSocketConsumer />
+        <RootContainer>
+          <BackgroundLoader />
           <GameField />
           <EndGameResultsChecker />
-        </WebSocketContextProvider>
-      </RootContainer>
+        </RootContainer>
+      </WebSocketContextProvider>
     </QueryProvider>
   );
 }
