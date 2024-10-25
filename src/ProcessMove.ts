@@ -119,7 +119,7 @@ export function handleWin(
   });
 
   let arrayToSend: Uint8Array = new Uint8Array(totalLength);
-  arrayToSend[0] = userSeat + 5; // SRV -> CLI : userSeat + 5
+  arrayToSend[0] = userSeat + 1; // SRV -> CLI : userSeat + 1
   arrayToSend[1] = 1; // marker of game results
   let index = 2;
 
