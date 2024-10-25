@@ -120,6 +120,28 @@ export function getCardColor(idOfCard: number) {
   return 0;
 }
 
+// array corresponds to face value number cards and three special ones
+// [0 .. 9, Reverse, Skip, Draw2]
+export const CARD_VALUES = [1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 20, 20, 20];
+
+export function getCardValue(idOfCard: number) {
+  const color = getCardColor(idOfCard);
+  switch (color) {
+    case COLOR.RED:
+      return CARD_VALUES[idOfCard - RED._0];
+    case COLOR.GREEN:
+      return CARD_VALUES[idOfCard - GREEN._0];
+    case COLOR.BLUE:
+      return CARD_VALUES[idOfCard - BLUE._0];
+    case COLOR.YELLOW:
+      return CARD_VALUES[idOfCard - YELLOW._0];
+    case COLOR.BLACK:
+      return idOfCard == WILD.Draw4 ? 40 : idOfCard == WILD.Wild ? 50 : 0;
+    default:
+      return 0;
+  }
+}
+
 export function isValidStartCard(idOfCard: number) {
   return ((idOfCard >= RED._0 && idOfCard <= RED._9) ||
     (idOfCard >= GREEN._0 && idOfCard <= GREEN._9) ||

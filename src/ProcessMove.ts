@@ -14,6 +14,8 @@ import {
 } from './Cards';
 import { compare, Game, DRAW1, DRAW2, DRAW4 } from './Game';
 
+import { getCardValue } from './Cards';
+
 const valueSorted = [
   WILD.Wild,
   WILD.Draw4,
@@ -66,11 +68,72 @@ enum COLOR_BUCKET_INDEX {
 const USERS = 4;
 const COLORS = 4;
 
-export function handleWin(player: ConnectionAndMeta, userSeat: number) {
+interface userHandInfo {
+  cardArray: number[];
+  userSeat: number;
+  totalScore: number;
+}
+const userHandInfo = (
+  cardArray: number[],
+  userSeat: number,
+  totalScore = 0
+): userHandInfo => {
+  return {
+    cardArray: cardArray,
+    userSeat: userSeat,
+    totalScore: totalScore,
+  };
+};
+
+const getTotalScore = (cardArray: number[]) => {
+  return cardArray.reduce((totalValue, idOfCard) => {
+    return totalValue + getCardValue(idOfCard);
+  }, 0);
+};
+
+export function handleWin(
+  player: ConnectionAndMeta,
+  userSeat: number,
+  game: Game
+) {
   console.log('WIN!!');
-  let arrayToSend: Uint8Array = new Uint8Array(3);
-  arrayToSend[0] = userSeat + 1;
-  arrayToSend[1] = 1; // indicate he's the winner
+
+  let totalLength =
+    game.A_UserCards.length +
+    game.B_UserCards.length +
+    game.C_UserCards.length +
+    game.D_UserCards.length +
+    (4 + 4 + 4); // +4 zeros as separator, +4 user places, +4 users scores,
+
+  let userHands: userHandInfo[] = [
+    userHandInfo(game.A_UserCards, 0, getTotalScore(game.A_UserCards)),
+    userHandInfo(game.B_UserCards, 1, getTotalScore(game.B_UserCards)),
+    userHandInfo(game.C_UserCards, 2, getTotalScore(game.C_UserCards)),
+    userHandInfo(game.D_UserCards, 3, getTotalScore(game.D_UserCards)),
+  ];
+
+  userHands.sort((a: userHandInfo, b: userHandInfo) => {
+    if (a.totalScore < b.totalScore) return -1;
+    if (a.totalScore > b.totalScore) return 1;
+    return 0;
+  });
+
+  let arrayToSend: Uint8Array = new Uint8Array(totalLength);
+  let index = 0;
+
+  const addValue = (value: number) => {
+    if (index >= totalLength) return;
+    arrayToSend[index++] = value;
+  };
+
+  for (let i = 0; i < userHands.length; i++) {
+    addValue(userHands[i].userSeat + 5); // server sends 5,6,7,8 as a place of the user. map correctly on CLI
+    addValue(userHands[i].totalScore);
+    for (let j = 0; j < userHands[i].cardArray.length; j++) {
+      addValue(userHands[i].cardArray[j]);
+    }
+    addValue(0); // separator
+  }
   player.send(arrayToSend);
 }
 
@@ -259,7 +322,7 @@ export default function processMove(
 
         if (playerCardRemained == 0) {
           player.send(arrayToSend);
-          handleWin(player, userSeat);
+          handleWin(player, userSeat, game);
           return;
         }
 
