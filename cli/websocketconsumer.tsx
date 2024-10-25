@@ -38,6 +38,7 @@ import {
   updateActiveMoveWildCardColor,
 } from './store/activeMove.ts';
 import { updateActivePlayerSeatNumber } from './store/activePlayerSeatNumber.ts';
+import { updateGameResults } from './store/gameResults.ts';
 
 import { COLOR_OFFSETS, COLOR, isReverseCard } from './svg/svg_getcard.tsx';
 
@@ -148,6 +149,10 @@ function processGuestMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
   dispatch(updateRightUserCardsNumber(inputArray[5]));
 }
 
+function reportGameResults(inputArray: Uint8Array, dispatch: AppDispatch) {
+  dispatch(updateGameResults(inputArray.slice(2)));
+}
+
 function insertToActiveCards(inputArray: Uint8Array, dispatch: AppDispatch) {
   let cardArray = inputArray.slice(1);
   let arrayToInsert: number[] = [];
@@ -161,6 +166,11 @@ function insertToActiveCards(inputArray: Uint8Array, dispatch: AppDispatch) {
 function processPlayerMessage(inputArray: Uint8Array, dispatch: AppDispatch) {
   let userSeat = inputArray[0];
   let move = inputArray[1];
+
+  // handle somebody's win, output results of the game
+  if (move == 1) {
+    return reportGameResults(inputArray, dispatch);
+  }
 
   // handle skip move
   if (move == 0) {

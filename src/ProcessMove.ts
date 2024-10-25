@@ -103,7 +103,7 @@ export function handleWin(
     game.B_UserCards.length +
     game.C_UserCards.length +
     game.D_UserCards.length +
-    (4 + 4 + 4); // +4 zeros as separator, +4 user places, +4 users scores,
+    (2 + 4 + 4 + 4); //2+ header, +4 zeros as separator, +4 user places, +4 users scores,
 
   let userHands: userHandInfo[] = [
     userHandInfo(game.A_UserCards, 0, getTotalScore(game.A_UserCards)),
@@ -119,7 +119,9 @@ export function handleWin(
   });
 
   let arrayToSend: Uint8Array = new Uint8Array(totalLength);
-  let index = 0;
+  arrayToSend[0] = userSeat + 5; // SRV -> CLI : userSeat + 5
+  arrayToSend[1] = 1; // marker of game results
+  let index = 2;
 
   const addValue = (value: number) => {
     if (index >= totalLength) return;
