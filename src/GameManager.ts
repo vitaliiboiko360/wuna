@@ -201,7 +201,7 @@ function processPlayerInputConnection(data: Uint8Array, id: number) {
       color
     );
     if (remainedCardsCount == 0) {
-      return handleWin(player!, seatNumber);
+      return handleWin(player!, seatNumber, game);
     }
   }
   console.log('\nPROCESS_MOVE CALL:::\n');
