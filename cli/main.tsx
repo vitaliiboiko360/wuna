@@ -6,7 +6,7 @@ import WebSocketConsumer from './websocketconsumer';
 import QueryProvider from './queryprovider';
 import { BackgroundLoader } from './layout/backgroundloader';
 import { RootContainer } from './layout/rootcontainer';
-import EndGameResultsChecker from './endgame/endgameresultschecker';
+import EndGameResultsChecker from './gameresults/endgameresultschecker';
 
 export default function Main() {
   return (
