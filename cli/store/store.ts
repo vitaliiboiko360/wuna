@@ -7,7 +7,7 @@ import bottomUserReducer from './bottomUser.ts';
 import activeMoveReducer from './activeMove.ts';
 import playerSeatRequestedReducer from './playerSeatRequested.ts';
 import activePlayerSeatNumberReducer from './activePlayerSeatNumber.ts';
-import { gameResults } from './gameResults.ts';
+import gameResults from './gameResults.ts';
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +19,7 @@ export const store = configureStore({
     activeMove: activeMoveReducer,
     playerSeatRequested: playerSeatRequestedReducer,
     activePlayerSeatNumber: activePlayerSeatNumberReducer,
+    gameResults: gameResults,
   },
 });
 
