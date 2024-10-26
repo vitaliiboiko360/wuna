@@ -115,6 +115,10 @@ export function handleWin(
   userHands.sort((a: userHandInfo, b: userHandInfo) => {
     if (a.totalScore < b.totalScore) return -1;
     if (a.totalScore > b.totalScore) return 1;
+    if (a.totalScore == b.totalScore) {
+      if (a.cardArray.length > b.cardArray.length) return 1;
+      if (a.cardArray.length < b.cardArray.length) return -1;
+    }
     return 0;
   });
 
@@ -129,7 +133,7 @@ export function handleWin(
   };
 
   for (let i = 0; i < userHands.length; i++) {
-    addValue(userHands[i].userSeat + 5); // server sends 5,6,7,8 as a place of the user. map correctly on CLI
+    addValue(userHands[i].userSeat + 1); // server sends 5,6,7,8 as a place of the user. map correctly on CLI
     addValue(userHands[i].totalScore);
     for (let j = 0; j < userHands[i].cardArray.length; j++) {
       addValue(userHands[i].cardArray[j]);

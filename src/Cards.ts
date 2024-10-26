@@ -107,7 +107,7 @@ export function getCardColor(idOfCard: number) {
 
 // array corresponds to face value number cards and three special ones
 // [0 .. 9, Reverse, Skip, Draw2]
-export const CARD_VALUES = [1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 20, 20, 20];
+export const CARD_VALUES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 20, 20, 20];
 
 export function getCardValue(idOfCard: number) {
   const color = getCardColor(idOfCard);
