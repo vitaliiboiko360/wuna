@@ -45,7 +45,11 @@ export const gameResults = createSlice({
         for (let i = 0; i < gameResultsArray.length; i++) {
           let value = gameResultsArray[i];
 
-          if (value == 0) {
+          if (
+            value == 0 &&
+            gameResultsArray.at(i + 1) != 0 &&
+            place + 1 >= gameResultsArray.length
+          ) {
             place++;
             continue;
           }
