@@ -1,6 +1,8 @@
 import React from 'react';
 import * as css from './gameresults.scss';
 
+import SvgGameResultsContainer from './svg_gameresults_container';
+
 import { gsap } from 'gsap';
 
 export default function EndGameResultsOutput(props) {
@@ -9,10 +11,12 @@ export default function EndGameResultsOutput(props) {
   return (
     <div className={css.outerDiv}>
       <div className={css.innerDiv}>
-        <div className={'player-line'}>{firstPlace.join(' ')}</div>
-        <div className={'player-line'}>{secondPlace.join(' ')}</div>
-        <div className={'player-line'}>{thirdPlace.join(' ')}</div>
-        <div className={'player-line'}>{fourthPlace.join(' ')}</div>
+        <SvgGameResultsContainer>
+          <div className={'player-line'}>{firstPlace.join(' ')}</div>
+          <div className={'player-line'}>{secondPlace.join(' ')}</div>
+          <div className={'player-line'}>{thirdPlace.join(' ')}</div>
+          <div className={'player-line'}>{fourthPlace.join(' ')}</div>
+        </SvgGameResultsContainer>
       </div>
     </div>
   );
