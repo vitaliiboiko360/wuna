@@ -9,19 +9,23 @@ export const enum PLACE {
   FORTH,
 }
 
+export const TOP_OFFSET = 80;
+export const LEFT_OFFSET = 105;
+
 export const SCORELINE_ATTRIBUTES = {
-  height: 75,
-  width: 400,
+  height: 120,
+  width: 490,
   rx: 5,
   ry: 5,
+  fill: '#f02',
 };
 
 export default function SvgPlayerScoreLine(props) {
   const { playerScoreCardArray, place } = props;
   return (
     <g
-      transform={`matrix(1,0,0,1,150,${
-        100 + place * (SCORELINE_ATTRIBUTES.height + 25)
+      transform={`matrix(1,0,0,1,105,${
+        80 + place * (SCORELINE_ATTRIBUTES.height + 10)
       })`}
     >
       <rect {...SCORELINE_ATTRIBUTES}>
