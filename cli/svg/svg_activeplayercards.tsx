@@ -47,6 +47,15 @@ export default function SvgActivePlayerCards(props) {
 
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    if (props.isOurTurn) {
+      setTimeout(
+        () => sendSkipMoveToServer(webSocket, activePlayerSeatNumber),
+        200
+      );
+    }
+  }, [props.isOurTurn]);
+
   if (activePlayerSeatNumber == 0) {
     console.log(`activePlayerSeatNumber == 0`);
     return <></>;
@@ -79,21 +88,6 @@ export default function SvgActivePlayerCards(props) {
               () => sendSkipMoveToServer(webSocket, activePlayerSeatNumber),
               1500
             );
-        }
-        if (
-          props.isOurTurn &&
-          isCardSameColor(card, activeWildCardColorToPlay)
-        ) {
-          // console.log(
-          //   'card=',
-          //   card,
-          //   ' activeWildCardColorToPlay=',
-          //   activeWildCardColorToPlay,
-          //   'getCardColor(card)=',
-          //   getCardColor(card),
-          //   ' isCardSameColor= ',
-          //   isCardSameColor(card, activeWildCardColorToPlay)
-          // );
         }
         return (
           <Fragment key={index}>
