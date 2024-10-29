@@ -6,7 +6,6 @@ const paths = [
   'data/bg/180075-863401737_moon_house.mp4',
   'data/bg/201290-915375225_milton_resort.mp4',
   'data/bg/186611-878455887_wasted_fire.mp4',
-  'data/bg/202246-917718587_large.mp4',
   'data/bg/205921_large.mp4',
   'data/bg/165986-833909364_large.mp4',
   'data/bg/180075-863401737_moon_house.mp4',
