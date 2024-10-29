@@ -7,6 +7,10 @@
 
 .innerDiv {
   border: 0.1em solid rgb(0, 250, 71);
-  width: 70rem;
-  height: 70rem;
+  width: 85vh;
+  // aspect-ratio: 1 / 1;
+  height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
