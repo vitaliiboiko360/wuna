@@ -7,7 +7,7 @@ export default function SvgGameResultsSharedDefs(props) {
     <>
       <defs>
         <filter id={FILTER_BLUR_ID} filterUnits="userSpaceOnUse">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
         </filter>
       </defs>
     </>
