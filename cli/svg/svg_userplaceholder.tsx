@@ -5,31 +5,43 @@ import UserClickAvatar from './svg_userclickavatar.tsx';
 import UserName from './svg_userplacename.tsx';
 
 export default function SvgUserPlaceHolder(props) {
+  const {
+    xPosition,
+    yPosition,
+    position,
+    userCardGroupSelector,
+    userAvatarSelector,
+  } = props;
   let ref = React.useRef(null);
-  return (<>
-    <UserClickAvatar
-      xPosition={props.xPosition}
-      yPosition={props.yPosition}
-      position={props.position}
-      ref={ref} />
-    <UserName
-      xPosition={props.xPosition}
-      yPosition={props.yPosition}
-      position={props.position}
-      refAvatarBox={ref}
-    />
-    <UserCardsGroup
-      position={props.position}
-      id={props.id}
-      refAvatarBox={ref} />
-  </>);
+  return (
+    <>
+      <UserClickAvatar
+        xPosition={xPosition}
+        yPosition={yPosition}
+        position={position}
+        id={userAvatarSelector}
+        ref={ref}
+      />
+      <UserName
+        xPosition={xPosition}
+        yPosition={yPosition}
+        position={position}
+        refAvatarBox={ref}
+      />
+      <UserCardsGroup
+        position={position}
+        id={userCardGroupSelector}
+        refAvatarBox={ref}
+      />
+    </>
+  );
 }
 
 export const enum USER_PLACE {
   BOTTOM_USER = 0,
   LEFT_USER,
   TOP_USER,
-  RIGHT_USER
+  RIGHT_USER,
 }
 
 export const USER_INFO = [
@@ -37,26 +49,28 @@ export const USER_INFO = [
     position: USER_PLACE.BOTTOM_USER,
     xPosition: 330,
     yPosition: 485,
-    id: 'ubo'
+    userCardGroupSelector: 'ucgbo',
+    userAvatarSelector: 'uabo',
   },
   {
     position: USER_PLACE.LEFT_USER,
     xPosition: 5,
     yPosition: 250,
-    id: 'ule'
+    userCardGroupSelector: 'ucgle',
+    userAvatarSelector: 'uale',
   },
   {
     position: USER_PLACE.TOP_USER,
     xPosition: 400,
     yPosition: 5,
-    id: 'uto'
+    userCardGroupSelector: 'ucgto',
+    userAvatarSelector: 'uato',
   },
   {
     position: USER_PLACE.RIGHT_USER,
     xPosition: 670,
     yPosition: 270,
-    id: 'uri'
-  }
+    userCardGroupSelector: 'ucgri',
+    userAvatarSelector: 'uari',
+  },
 ];
-
-
