@@ -30,7 +30,7 @@ export default function getPath(
   }
 
   const userIndex = userPosition - 1;
-  const userId = USER_INFO[userIndex].id;
+  const userId = USER_INFO[userIndex].userCardGroupSelector;
   let userCardGroup = svgElement.querySelector('#' + userId);
   if (userCardGroup == null) {
     console.log('\t:::::\tcannot get usercard userId==', userId);

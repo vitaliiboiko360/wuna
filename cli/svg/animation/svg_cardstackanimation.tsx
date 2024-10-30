@@ -33,7 +33,9 @@ export function SvgCardStackAnimation(props) {
   const getUserCardHandPosition = (playerId, svgDoc) => {
     const defaultValue = { x: 400, y: 325 };
     const userIndex = playerId - 1;
-    const userHand = svgDoc?.querySelector(`#${USER_INFO[userIndex].id}`);
+    const userHand = svgDoc?.querySelector(
+      `#${USER_INFO[userIndex].userCardGroupSelector}`
+    );
     if (!userHand) {
       console.log(`\t;;;;;\tNo userHand ret Default=${defaultValue}`);
       return defaultValue;
