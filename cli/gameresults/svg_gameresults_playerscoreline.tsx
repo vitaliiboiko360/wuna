@@ -17,7 +17,8 @@ export const SCORELINE_ATTRIBUTES = {
   width: 490,
   rx: 5,
   ry: 5,
-  fill: '#f02',
+  // fill: '#f02',
+  fill: '#6c4c571f',
 };
 
 export default function SvgPlayerScoreLine(props) {

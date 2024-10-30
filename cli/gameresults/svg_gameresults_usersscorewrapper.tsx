@@ -19,7 +19,7 @@ export default function SvgUsersScoreTableWrapper(props) {
     <>
       <defs>
         <filter id={FILTER_ID} filterUnits="userSpaceOnUse">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="24" result="blur" />
         </filter>
       </defs>
       <rect

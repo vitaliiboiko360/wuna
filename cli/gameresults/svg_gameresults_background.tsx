@@ -10,7 +10,8 @@ const GAME_RESULTS_BACKGROUND = {
   ry: '8%',
   width: '100%',
   height: '100%',
-  fill: '#d6cae6',
+  // fill: '#d6cae6',
+  fill: '#7f86b3f2',
 };
 
 export default function SvgGameResultsBackground(props) {
