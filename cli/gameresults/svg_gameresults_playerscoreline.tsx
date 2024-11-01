@@ -1,6 +1,7 @@
 import React from 'react';
 
 import PlayerScoreStats from './svg_gameresults_playerscorestats';
+import SvgAvatartCopier from './svg_gameresults_avatarcopier';
 
 export const enum PLACE {
   FIRST = 0,
@@ -29,6 +30,7 @@ export default function SvgPlayerScoreLine(props) {
         80 + place * (SCORELINE_ATTRIBUTES.height + 10)
       })`}
     >
+      {<SvgAvatartCopier playerId={playerScoreCardArray.at(0)} />}
       <rect {...SCORELINE_ATTRIBUTES}>
         {<PlayerScoreStats playerScoreCardArray={playerScoreCardArray} />}
       </rect>
